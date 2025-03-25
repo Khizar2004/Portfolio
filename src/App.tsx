@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import LoadingScreen from './components/ui/LoadingScreen';
 import MainScene from './scenes/MainScene';
 import MusicButton from './components/ui/MusicButton';
-import ThemeToggle from './components/ui/ThemeToggle';
 
 const AppContainer = styled.div`
   width: 100vw;
@@ -42,7 +41,6 @@ function App() {
         {!isLoading && (
           <>
             <MusicButton />
-            <ThemeToggle />
           </>
         )}
       </Router>

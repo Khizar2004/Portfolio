@@ -16,6 +16,11 @@ import MonitorStand from './objects/MonitorStand';
 import HeadphoneStand from './objects/HeadphoneStand';
 import Window from './objects/Window';
 import InteractiveObjects from './InteractiveObjects';
+// Import new components
+import Chair from './objects/Chair';
+import WallClock from './objects/WallClock';
+import BookcaseShelf from './objects/BookcaseShelf';
+import Rug from './objects/Rug';
 
 interface WorkspaceEnvironmentProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
@@ -53,6 +58,12 @@ const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({
       <MonitorStand isDarkMode={isDarkMode} />
       <HeadphoneStand isDarkMode={isDarkMode} />
       <Window isDarkMode={isDarkMode} />
+      
+      {/* New furniture and decor elements */}
+      <Chair isDarkMode={isDarkMode} />
+      <WallClock isDarkMode={isDarkMode} />
+      <BookcaseShelf isDarkMode={isDarkMode} />
+      <Rug isDarkMode={isDarkMode} />
       
       {/* Ambient text */}
       <Text

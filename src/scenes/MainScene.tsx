@@ -42,33 +42,6 @@ const EmergencyBackButton = styled.button<{ $visible: boolean }>`
   }
 `;
 
-// Define the loading indicator
-const LoadingIndicator = styled.div<{ $progress: number }>`
-  position: fixed;
-  bottom: 1rem;
-  left: 1rem;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-  background: rgba(0, 0, 0, 0.5);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  z-index: 1000;
-  
-  &::before {
-    content: '';
-    display: block;
-    width: ${props => props.$progress}%;
-    height: 4px;
-    background: linear-gradient(90deg, #00c6ff, #0072ff);
-    border-radius: 2px;
-    margin-right: 10px;
-    min-width: 20px;
-    max-width: 100px;
-  }
-`;
-
 interface MainSceneProps {
   onLoadComplete?: () => void;
 }
@@ -378,25 +351,16 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
         ←
       </EmergencyBackButton>
       
-      {/* Show loading progress */}
-      {progress < 100 && (
-        <LoadingIndicator $progress={progress}>
-          Loading... {Math.round(progress)}%
-        </LoadingIndicator>
-      )}
-      
       {/* Welcome tooltip with instructions */}
-      <Tooltip
-        text={isFirstVisit 
-          ? "Welcome to my 3D Portfolio! Click on objects around the workspace to discover more about my work and skills."
-          : "Welcome back! Click on objects to interact with them."
-        }
-        buttonText="Got it"
-        onButtonClick={handleCloseTooltip}
-        active={showTooltip && progress === 100}
-        autoCloseDelay={isFirstVisit ? 0 : 5000}
-        onClose={handleCloseTooltip}
-      />
+      {showTooltip && (
+        <Tooltip
+          text="Welcome to my interactive portfolio! Click on objects in the room to explore my work."
+          buttonText="Got it!"
+          onButtonClick={handleCloseTooltip}
+          active={showTooltip}
+          onClose={handleCloseTooltip}
+        />
+      )}
     </CanvasContainer>
   );
 };
