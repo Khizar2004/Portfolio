@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -69,17 +69,17 @@ const ProjectTabs = styled.div`
   padding: 0 4px;
 `;
 
-const ProjectTab = styled.button<{ active: boolean }>`
+const ProjectTab = styled.button<{ $active: boolean }>`
   padding: 8px 12px;
   border-radius: 4px 4px 0 0;
-  background-color: ${({ active, theme }) => active ? theme.primary : 'transparent'};
-  color: ${({ active, theme }) => active ? 'white' : theme.text};
+  background-color: ${({ $active, theme }) => $active ? theme.primary : 'transparent'};
+  color: ${({ $active, theme }) => $active ? 'white' : theme.text};
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
   
   &:hover {
-    background-color: ${({ active, theme }) => active ? theme.primary : 'rgba(255, 255, 255, 0.05)'};
+    background-color: ${({ $active, theme }) => $active ? theme.primary : 'rgba(255, 255, 255, 0.05)'};
   }
 `;
 
@@ -234,6 +234,7 @@ const ProjectDisplay: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ProjectCategory>('all');
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
   const { theme } = useTheme();
+  const containerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     if (activeTab === 'all') {
@@ -243,21 +244,58 @@ const ProjectDisplay: React.FC = () => {
     }
   }, [activeTab]);
   
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    
+    const handleCapture = (e: Event) => {
+      e.stopPropagation();
+    };
+    
+    container.addEventListener('click', handleCapture, true);
+    container.addEventListener('pointerdown', handleCapture, true);
+    container.addEventListener('pointerup', handleCapture, true);
+    
+    return () => {
+      container.removeEventListener('click', handleCapture, true);
+      container.removeEventListener('pointerdown', handleCapture, true);
+      container.removeEventListener('pointerup', handleCapture, true);
+    };
+  }, []);
+  
   const handleTabChange = (tab: ProjectCategory) => {
     setActiveTab(tab);
   };
   
-  const handleProjectClick = (url?: string) => {
+  const handleProjectClick = (e: React.MouseEvent, url?: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     if (url) {
-      window.open(url, '_blank');
+      setTimeout(() => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }, 0);
+    }
+  };
+
+  const handleLinkClick = (e: React.MouseEvent, url?: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (url) {
+      setTimeout(() => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }, 0);
     }
   };
   
   return (
     <ProjectContainer 
+      ref={containerRef}
+      onClick={(e) => e.stopPropagation()}
       style={{ 
         position: 'relative', 
-        zIndex: 1 
+        zIndex: 100 
       }}
     >
       <WindowBar>
@@ -269,29 +307,41 @@ const ProjectDisplay: React.FC = () => {
         <WindowTitle>My Projects</WindowTitle>
       </WindowBar>
       
-      <ProjectContent>
+      <ProjectContent onClick={(e) => e.stopPropagation()}>
         <ProjectTabs>
           <ProjectTab 
-            active={activeTab === 'all'} 
-            onClick={() => handleTabChange('all')}
+            $active={activeTab === 'all'} 
+            onClick={(e) => {
+              e.stopPropagation();
+              handleTabChange('all');
+            }}
           >
             All
           </ProjectTab>
           <ProjectTab 
-            active={activeTab === 'web'} 
-            onClick={() => handleTabChange('web')}
+            $active={activeTab === 'web'} 
+            onClick={(e) => {
+              e.stopPropagation();
+              handleTabChange('web');
+            }}
           >
             Web
           </ProjectTab>
           <ProjectTab 
-            active={activeTab === 'mobile'} 
-            onClick={() => handleTabChange('mobile')}
+            $active={activeTab === 'mobile'} 
+            onClick={(e) => {
+              e.stopPropagation();
+              handleTabChange('mobile');
+            }}
           >
             Mobile
           </ProjectTab>
           <ProjectTab 
-            active={activeTab === 'design'} 
-            onClick={() => handleTabChange('design')}
+            $active={activeTab === 'design'} 
+            onClick={(e) => {
+              e.stopPropagation();
+              handleTabChange('design');
+            }}
           >
             Design
           </ProjectTab>
@@ -302,7 +352,7 @@ const ProjectDisplay: React.FC = () => {
             {filteredProjects.map(project => (
               <ProjectCard 
                 key={project.id}
-                onClick={() => handleProjectClick(project.url)}
+                onClick={(e) => handleProjectClick(e, project.url)}
               >
                 <ProjectTitle>{project.title}</ProjectTitle>
                 <ProjectDescription>{project.description}</ProjectDescription>
@@ -316,6 +366,7 @@ const ProjectDisplay: React.FC = () => {
                     href={project.url} 
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => handleLinkClick(e, project.url)}
                   >
                     View Project
                   </ProjectLink>

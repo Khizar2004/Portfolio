@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../context/ThemeContext';
 import { useSoundContext } from '../../context/SoundContext';
@@ -124,20 +124,20 @@ interface ControlPanelProps {
 
 const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }) => {
   const { theme, toggleTheme } = useTheme();
-  const { isSoundEnabled, isMusicEnabled, toggleSound, toggleMusic, playClickSound } = useSoundContext();
+  const { playClickSound, isSoundEnabled, toggleSound, isMusicEnabled, toggleMusic } = useSoundContext();
   const [deviceType, setDeviceType] = useState('desktop');
-
+  
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth <= 768) {
         setDeviceType('mobile');
-      } else if (window.innerWidth < 1024) {
+      } else if (window.innerWidth <= 1024) {
         setDeviceType('tablet');
       } else {
         setDeviceType('desktop');
       }
     };
-
+    
     // Initial check
     handleResize();
     
@@ -148,18 +148,23 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   
-  // Add direct handler for back button 
-  useEffect(() => {
-    // Create a direct DOM event handler to ensure the back button always works
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && activeObject) {
-        resetCamera();
-      }
-    };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+  // Use ref callback for stable escape key handler
+  const handleEscapeKey = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape' && activeObject) {
+      resetCamera();
+    }
   }, [activeObject, resetCamera]);
+  
+  // Add direct handler for back button with proper cleanup
+  useEffect(() => {
+    // Add event listener with the callback reference
+    window.addEventListener('keydown', handleEscapeKey);
+    
+    // Clean up properly
+    return () => {
+      window.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [handleEscapeKey]); // Only re-run if handleEscapeKey changes
 
   const handleButtonClick = (action: () => void) => {
     playClickSound();
@@ -190,7 +195,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
       <ControlPanelContainer>
         {activeObject && (
           <BackButton 
-            onClick={() => resetCamera()}
+            onClick={() => handleButtonClick(resetCamera)}
             aria-label="Back to overview"
             style={{ cursor: 'pointer !important' }}
           >
