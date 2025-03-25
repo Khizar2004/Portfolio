@@ -1,46 +1,84 @@
-# Getting Started with Create React App
+# 3D Interactive Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An immersive 3D portfolio website built with React and Three.js, featuring interactive objects and smooth camera animations.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Interactive 3D workspace environment
+- Object-based navigation and interaction
+- Project showcase with tabs and cards
+- About me section with skills and timeline
+- Contact form with social links
+- Theme toggling (light/dark mode)
+- Sound effects and background music options
+- Responsive design with mobile fallbacks
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React with TypeScript
+- Three.js via React Three Fiber
+- @react-three/drei for Three.js helpers
+- React Spring for animations
+- Styled Components for styling
+- React Router for navigation
+- use-sound for audio handling
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js (v14+ recommended)
+- npm or yarn
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/3d-portfolio.git
+cd 3d-portfolio
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Start the development server
+```bash
+npm start
+# or
+yarn start
+```
 
-### `npm run eject`
+4. Open your browser and navigate to `http://localhost:3000`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Customization
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Replace placeholder 3D objects with your own models
+- Update project information in `ProjectDisplay.tsx`
+- Modify personal information in `AboutMe.tsx`
+- Update contact details in `Contact.tsx`
+- Add your own sound effects in the `assets/sounds` directory
+- Customize the theme colors in `ThemeContext.tsx`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Deployment
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+This project can be built and deployed to any static hosting service:
 
-## Learn More
+```bash
+npm run build
+# or
+yarn build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## License
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+MIT
+
+## Acknowledgments
+
+- [React Three Fiber](https://github.com/pmndrs/react-three-fiber)
+- [Drei](https://github.com/pmndrs/drei)
+- [Styled Components](https://styled-components.com/)
