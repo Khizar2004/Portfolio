@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, useProgress, Stars, PerformanceMonitor, PerformanceMonitorApi } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, PerspectiveCamera, Stars, PerformanceMonitor, type PerformanceMonitorApi } from '@react-three/drei';
 import styled from 'styled-components';
 import * as THREE from 'three';
 import { useTheme } from '../context/ThemeContext';
@@ -48,35 +48,18 @@ interface MainSceneProps {
 
 const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
   const { theme } = useTheme();
-  const { isSoundEnabled, isMusicEnabled, playClickSound } = useSoundContext();
+  const { playClickSound } = useSoundContext();
   const [activeObject, setActiveObject] = useState<string | null>(null);
   const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(0, 0, 0));
-  const [cameraPosition, setCameraPosition] = useState(new THREE.Vector3(4, 3, 4));
   const controlsRef = useRef<any>(null);
   const [showTooltip, setShowTooltip] = useState(true);
-  const [isFirstVisit, setIsFirstVisit] = useState(true);
-  
-  // For tracking loading progress
-  const { progress, loaded, total } = useProgress();
-  
   const [dpr, setDpr] = useState(1.5);
   
   // Add a state for tracking if controls are enabled
   const [controlsEnabled, setControlsEnabled] = useState(true);
   
   useEffect(() => {
-    // Check if user has visited before
-    const hasVisited = localStorage.getItem('hasVisitedPortfolio');
-    if (hasVisited) {
-      setIsFirstVisit(false);
-      setShowTooltip(false);
-    } else {
-      localStorage.setItem('hasVisitedPortfolio', 'true');
-    }
-  }, []);
-  
-  useEffect(() => {
-    if (loaded === total && total > 0 && onLoadComplete) {
+    if (onLoadComplete) {
       // Add a small delay to ensure everything is fully rendered
       const timeout = setTimeout(() => {
         onLoadComplete();
@@ -84,7 +67,7 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
       
       return () => clearTimeout(timeout);
     }
-  }, [loaded, total, onLoadComplete]);
+  }, [onLoadComplete]);
 
   const handleObjectClick = useCallback((objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => {
     // Make sure to update the controls enabled state
@@ -92,7 +75,6 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     playClickSound();
     setActiveObject(objectName);
     setCameraTarget(position);
-    setCameraPosition(cameraPos);
     
     // Animate camera to new position with GSAP-like smoothness
     if (controlsRef.current) {

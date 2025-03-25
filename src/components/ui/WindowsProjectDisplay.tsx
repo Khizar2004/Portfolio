@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
+import { useSoundContext } from '../../context/SoundContext';
+import { useTheme } from '../../context/ThemeContext';
 
 // Define ThemeMode type locally
 type ThemeMode = 'light' | 'dark';
@@ -297,7 +299,11 @@ interface Project {
 }
 
 interface WindowsProjectDisplayProps {
-  currentTheme?: ThemeMode;
+  projects: Array<{
+    title: string;
+    description: string;
+    link: string;
+  }>;
 }
 
 // Create mock sound functions
@@ -306,106 +312,36 @@ const dummySoundFunction = () => {
 };
 
 // Main component
-const WindowsProjectDisplay: React.FC<WindowsProjectDisplayProps> = ({ currentTheme = 'dark' }) => {
-  // Use the prop directly with a default value
-  const theme = currentTheme;
-  
-  // Mock sound functions
-  const playStartupSound = dummySoundFunction;
-  const playShutdownSound = dummySoundFunction;
-  const playClickSound = dummySoundFunction;
-  
-  const [loading, setLoading] = useState(false); // Set to false to disable loading screen
-  const [currentTime, setCurrentTime] = useState(moment());
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  
-  // Initialize and set up projects data
+const WindowsProjectDisplay: React.FC<WindowsProjectDisplayProps> = ({ projects }) => {
+  const { playClickSound } = useSoundContext();
+  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [currentTime, setCurrentTime] = useState(moment().format('h:mm A'));
+
   useEffect(() => {
-    // Set up projects data
-    const demoProjects: Project[] = [
-      {
-        id: 1,
-        title: '3D Interactive Portfolio',
-        description: 'A 3D interactive portfolio website with ThreeJS and React, featuring custom animations and object interactions.',
-        tags: ['React', 'Three.js', 'TypeScript'],
-        category: ['web', 'design'],
-        url: 'https://github.com/example/portfolio'
-      },
-      {
-        id: 2,
-        title: 'E-Commerce Platform',
-        description: 'A full-stack e-commerce platform with user authentication, payment processing, and inventory management.',
-        tags: ['Next.js', 'Node.js', 'MongoDB'],
-        category: ['web'],
-        url: 'https://github.com/example/ecommerce'
-      },
-      {
-        id: 3,
-        title: 'AI Content Generator',
-        description: 'An AI-powered content generation tool that creates custom marketing copy based on user prompts.',
-        tags: ['Python', 'TensorFlow', 'NLP'],
-        category: ['web', 'design'],
-        url: 'https://github.com/example/ai-content'
-      },
-      {
-        id: 4,
-        title: 'iOS Fitness Tracker',
-        description: 'A native iOS app for tracking workouts, nutrition, and sleep patterns with Apple Health integration.',
-        tags: ['Swift', 'UIKit', 'HealthKit'],
-        category: ['mobile'],
-        url: 'https://github.com/example/fitness'
-      },
-      {
-        id: 5,
-        title: 'Mobile Game',
-        description: 'A cross-platform mobile game built with Unity, featuring 3D graphics and multiplayer functionality.',
-        tags: ['Unity', 'C#', '3D'],
-        category: ['mobile', 'design'],
-        url: 'https://github.com/example/game'
-      },
-      {
-        id: 6,
-        title: 'UI Component Library',
-        description: 'A reusable component library built with React and Styled Components, with comprehensive documentation.',
-        tags: ['React', 'Styled Components', 'Storybook'],
-        category: ['web', 'design'],
-        url: 'https://github.com/example/components'
-      }
-    ];
-    
-    setProjects(demoProjects);
-    
-    // Set up clock update
-    const intervalId = setInterval(() => {
-      setCurrentTime(moment());
+    const timer = setInterval(() => {
+      setCurrentTime(moment().format('h:mm A'));
     }, 1000);
-    
-    return () => {
-      clearInterval(intervalId);
-      playShutdownSound();
-    };
-  }, [playShutdownSound]);
-  
-  // Open a project modal
-  const openProjectModal = (project: Project) => {
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleProjectClick = (index: number) => {
     playClickSound();
-    setSelectedProject(project);
+    setSelectedProject(index);
   };
-  
-  // Close the project modal
-  const closeProjectModal = () => {
+
+  const handleCloseModal = () => {
     playClickSound();
     setSelectedProject(null);
   };
-  
+
   return (
     <WindowsContainer>
       <DesktopArea>
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <ProjectFolder 
-            key={project.id}
-            onClick={() => openProjectModal(project)}
+            key={index}
+            onClick={() => handleProjectClick(index)}
           >
             <FolderIcon />
             <FolderName>{project.title}</FolderName>
@@ -413,28 +349,28 @@ const WindowsProjectDisplay: React.FC<WindowsProjectDisplayProps> = ({ currentTh
         ))}
         
         <ProjectModal $visible={selectedProject !== null}>
-          {selectedProject && (
+          {selectedProject !== null && (
             <>
               <ModalTitleBar>
-                <span>{selectedProject.title}</span>
-                <CloseButton onClick={closeProjectModal}>✕</CloseButton>
+                <span>{projects[selectedProject].title}</span>
+                <CloseButton onClick={handleCloseModal}>✕</CloseButton>
               </ModalTitleBar>
               <ModalContent>
-                <ProjectTitle>{selectedProject.title}</ProjectTitle>
-                <ProjectDescription>{selectedProject.description}</ProjectDescription>
+                <ProjectTitle>{projects[selectedProject].title}</ProjectTitle>
+                <ProjectDescription>{projects[selectedProject].description}</ProjectDescription>
                 <ProjectTags>
-                  {selectedProject.tags.map((tag, index) => (
+                  {projects[selectedProject].tags.map((tag, index) => (
                     <ProjectTag key={index}>{tag}</ProjectTag>
                   ))}
                 </ProjectTags>
-                {selectedProject.url && (
+                {projects[selectedProject].link && (
                   <ProjectLink 
-                    href={selectedProject.url}
+                    href={projects[selectedProject].link}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => {
                       e.stopPropagation();
-                      playClickSound();
+                      handleCloseModal();
                     }}
                   >
                     View Project
@@ -453,7 +389,7 @@ const WindowsProjectDisplay: React.FC<WindowsProjectDisplayProps> = ({ currentTh
         </StartButton>
         <TaskBand />
         <TaskClock>
-          {currentTime.format('h:mm A')}
+          {currentTime}
         </TaskClock>
       </TaskBar>
     </WindowsContainer>
