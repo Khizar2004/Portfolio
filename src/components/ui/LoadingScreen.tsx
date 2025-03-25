@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import * as THREE from 'three';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -25,6 +28,12 @@ const LoadingContainer = styled.div`
   background-color: ${({ theme }) => theme.background};
   z-index: 1000;
   animation: ${fadeIn} 0.5s ease-in-out;
+`;
+
+const CanvasContainer = styled.div`
+  width: 100px;
+  height: 100px;
+  margin-bottom: 2rem;
 `;
 
 const LogoContainer = styled.div`
@@ -54,6 +63,30 @@ const LoadingText = styled.div`
   color: ${({ theme }) => theme.text};
   opacity: 0.8;
 `;
+
+// Animated 3D cube for the loading screen
+const AnimatedCube = () => {
+  const cubeRef = useRef<THREE.Mesh>(null);
+  
+  useEffect(() => {
+    if (cubeRef.current) {
+      cubeRef.current.rotation.x = 0.5;
+      cubeRef.current.rotation.y = 0.5;
+    }
+  }, []);
+  
+  return (
+    <Canvas>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} />
+      <mesh ref={cubeRef}>
+        <boxGeometry args={[2, 2, 2]} />
+        <meshStandardMaterial color="#4cc9f0" wireframe />
+      </mesh>
+      <OrbitControls autoRotate autoRotateSpeed={5} enableZoom={false} enablePan={false} />
+    </Canvas>
+  );
+};
 
 interface LoadingScreenProps {
   progress?: number;
@@ -94,8 +127,10 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ progress = 0 }) => {
 
   return (
     <LoadingContainer>
+      <CanvasContainer>
+        <AnimatedCube />
+      </CanvasContainer>
       <LogoContainer>
-        {/* You can add your logo here */}
         <h1>My 3D Portfolio</h1>
       </LogoContainer>
       <ProgressBarContainer>

@@ -1,10 +1,10 @@
-import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useCallback, useEffect } from 'react';
 import useSound from 'use-sound';
 
-// Note: These are placeholder imports - you'll need to add actual sound files to your assets folder
-// import clickSound from '../assets/sounds/click.mp3';
-// import hoverSound from '../assets/sounds/hover.mp3';
-// import ambientSound from '../assets/sounds/ambient.mp3';
+// Using placeholder sounds - in a real project you would replace these with actual sound files
+const clickSoundUrl = '/sounds/placeholder.txt';
+const hoverSoundUrl = '/sounds/placeholder.txt';
+const ambientSoundUrl = '/sounds/placeholder.txt';
 
 interface SoundContextType {
   isSoundEnabled: boolean;
@@ -33,32 +33,59 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
   const [isSoundEnabled, setIsSoundEnabled] = useState(true);
   const [isMusicEnabled, setIsMusicEnabled] = useState(false);
   
-  // Once you have actual sound files, uncomment these
-  // const [playClick] = useSound(clickSound, { volume: 0.5, soundEnabled: isSoundEnabled });
-  // const [playHover] = useSound(hoverSound, { volume: 0.2, soundEnabled: isSoundEnabled });
-  // const [playAmbient, { stop: stopAmbient }] = useSound(ambientSound, { 
-  //   volume: 0.3, 
-  //   soundEnabled: isMusicEnabled,
-  //   loop: true
-  // });
+  // For development, we'll use empty functions since we don't have actual sound files yet
+  // In a production environment, you would uncomment these lines and use real sound files
+  /*
+  const [playClick] = useSound(clickSoundUrl, { 
+    volume: 0.5, 
+    soundEnabled: isSoundEnabled 
+  });
   
-  // For now we'll use empty functions as placeholders
-  const playClick = useCallback(() => {}, []);
-  const playHover = useCallback(() => {}, []);
+  const [playHover] = useSound(hoverSoundUrl, { 
+    volume: 0.2, 
+    soundEnabled: isSoundEnabled 
+  });
+  
+  const [playAmbient, { stop: stopAmbient }] = useSound(ambientSoundUrl, { 
+    volume: 0.3, 
+    soundEnabled: isMusicEnabled,
+    loop: true
+  });
+  */
+  
+  // For now we'll use empty functions as placeholders that just log to console
+  const playClick = useCallback(() => {
+    if (isSoundEnabled) {
+      console.log('Click sound played');
+    }
+  }, [isSoundEnabled]);
+  
+  const playHover = useCallback(() => {
+    if (isSoundEnabled) {
+      console.log('Hover sound played');
+    }
+  }, [isSoundEnabled]);
+  
+  // Handle background music toggle
+  useEffect(() => {
+    if (isMusicEnabled) {
+      console.log('Background music started');
+      // In production: playAmbient()
+      return () => {
+        console.log('Background music stopped');
+        // In production: stopAmbient()
+      };
+    }
+  }, [isMusicEnabled]);
 
   const toggleSound = () => {
     setIsSoundEnabled(prev => !prev);
+    console.log(`Sound effects ${!isSoundEnabled ? 'enabled' : 'disabled'}`);
   };
 
   const toggleMusic = () => {
     setIsMusicEnabled(prev => !prev);
-    
-    // Uncomment once you have the actual sound files
-    // if (!isMusicEnabled) {
-    //   playAmbient();
-    // } else {
-    //   stopAmbient();
-    // }
+    console.log(`Background music ${!isMusicEnabled ? 'enabled' : 'disabled'}`);
   };
 
   const value: SoundContextType = {
