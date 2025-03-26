@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import WindowsProjectDisplay from '../../ui/WindowsProjectDisplay';
 import { useSoundContext } from '../../../context/SoundContext';
 import { useTheme } from '../../../context/ThemeContext';
+import HtmlContextWrapper from '../../ui/HtmlContextWrapper';
 
 interface ComputerProps {
   handleClick?: (name: string) => void;
@@ -134,21 +135,23 @@ const Computer: React.FC<ComputerProps> = ({ handleClick, isActive = false }) =>
         {isScreenOn && (
           <ErrorBoundary>
             <Suspense fallback={null}>
-              <Html
-                transform
-                distanceFactor={0.42}
-                position={[0, 0, 0.01]}
-                style={{
-                  width: '750px',
-                  height: '450px',
-                  overflow: 'hidden',
-                  pointerEvents: 'none'
-                }}
-              >
-                <div style={{ width: '100%', height: '100%' }}>
-                  <WindowsProjectDisplay currentTheme={theme} />
-                </div>
-              </Html>
+              <HtmlContextWrapper currentTheme={theme}>
+                <Html
+                  transform
+                  distanceFactor={0.42}
+                  position={[0, 0, 0.01]}
+                  style={{
+                    width: '750px',
+                    height: '450px',
+                    overflow: 'hidden',
+                    pointerEvents: 'none'
+                  }}
+                >
+                  <div style={{ width: '100%', height: '100%' }}>
+                    <WindowsProjectDisplay currentTheme={theme} />
+                  </div>
+                </Html>
+              </HtmlContextWrapper>
             </Suspense>
           </ErrorBoundary>
         )}

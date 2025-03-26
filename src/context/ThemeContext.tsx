@@ -28,20 +28,28 @@ const darkTheme = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+// Create a fallback for when context is missing
+const fallbackThemeContext: ThemeContextType = {
+  theme: 'dark',
+  toggleTheme: () => console.warn('Theme context not available')
+};
+
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    console.warn('useTheme called outside of ThemeProvider. Using fallback implementation.');
+    return fallbackThemeContext;
   }
   return context;
 };
 
 interface ThemeProviderProps {
   children: ReactNode;
+  initialTheme?: ThemeMode;
 }
 
-const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState<ThemeMode>('dark');
+const ThemeProvider = ({ children, initialTheme = 'dark' }: ThemeProviderProps) => {
+  const [theme, setTheme] = useState<ThemeMode>(initialTheme);
 
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));

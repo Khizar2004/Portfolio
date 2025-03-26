@@ -5,6 +5,7 @@ import InteractiveObject from './InteractiveObject';
 import WindowsProjectDisplay from '../ui/WindowsProjectDisplay';
 import AboutMe from '../ui/AboutMe';
 import Contact from '../ui/Contact';
+import HtmlContextWrapper from '../ui/HtmlContextWrapper';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -118,9 +119,11 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
               }}
             >
               {/* Pass currentTheme prop to WindowsProjectDisplay but not to other components */}
-              {obj.name === 'computer' 
-                ? <WindowsProjectDisplay currentTheme={theme as ThemeMode} /> 
-                : React.createElement(obj.component)}
+              <HtmlContextWrapper currentTheme={theme as ThemeMode}>
+                {obj.name === 'computer' 
+                  ? <WindowsProjectDisplay currentTheme={theme as ThemeMode} /> 
+                  : React.createElement(obj.component)}
+              </HtmlContextWrapper>
             </Html>
           )}
         </InteractiveObject>

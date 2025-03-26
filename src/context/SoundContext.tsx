@@ -25,10 +25,25 @@ interface SoundContextType {
 
 const SoundContext = createContext<SoundContextType | undefined>(undefined);
 
+// Create a fallback for when context is missing
+const fallbackSoundContext: SoundContextType = {
+  isSoundEnabled: false,
+  isMusicEnabled: false,
+  toggleSound: () => console.warn('Sound context not available'),
+  toggleMusic: () => console.warn('Sound context not available'),
+  playClickSound: () => console.warn('Sound context not available'),
+  playHoverSound: () => console.warn('Sound context not available'),
+  playSwishSound: () => console.warn('Sound context not available'),
+  playSwishReverseSound: () => console.warn('Sound context not available'),
+  playStartupSound: () => console.warn('Sound context not available'),
+  playShutdownSound: () => console.warn('Sound context not available')
+};
+
 export const useSoundContext = () => {
   const context = useContext(SoundContext);
   if (!context) {
-    throw new Error('useSoundContext must be used within a SoundProvider');
+    console.warn('useSoundContext called outside of SoundProvider. Using fallback implementation.');
+    return fallbackSoundContext;
   }
   return context;
 };

@@ -100,7 +100,7 @@ const ProjectFolder = styled.div`
 const FolderIcon = styled.div`
   width: 48px;
   height: 48px;
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAACKFBMVEUAAAD/3wD/vwD/xgD/zwD/zAD/ygD/0QD/xwD/ywD/yQD/xQD/zQD/ygD/zAD/zQD/ywD/ygD/zAD/ywD/ygD/ywD/zAD/ywD/ywD/ywD/ywD/ywD/ywD/ygD/ywD/ywD/ywD/zAD/ywD/ywD/ywD/ywD/ygD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ygD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/zAD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/zAD/ywD/zAD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywAAAABHcEwtAIA+AAAAhXRSTlMAAQIEBQYHCAkKCwwNDhQVFhcYGR4fICEiIyQoKSorLC0uLzAyNTY3ODk8QkZHSElKS0xQUVJTVFVXWFldXmJjY2RlZmdobW9wc3R1d3h6e3x9fn+AgYKIiYqNjpCRkpOVlpeYmZydnp+goaKjpaanqKqrra6vsLGys7S1t7i5ury9vr/Aw6CsJvgAAAJvSURBVEjHlZWJVxJRFMZfFiIgS5aIkVqWpWVZmS2WlVbaBpW2b1S2b1Zpexbavn3/bm8YZhgGhtL3H+Z+99zfO3fOvTNAQCIECB/kIJmPSwYkxJfGIdkFYzNAtooN9mYrE5e5+GNzl0VwF0j2ZWI2cXyBgGPxOCRfC3DfLsZWOcDq2PALQrIVeX2Jy/t6kZoIMxO47KtMTQXEssBvK6ieBGsZa1XJA0sQsJVRDW9MTVV36I/bSa5ioNIm+HH1pJf+GK7mUldhQMzN39OzukCjZz9L7Q30bnLtW0d0N0X0O9x0uj+D3nbG5oNxvbfUOJ2m9x4JcKwZqOcXnbf6a4xUNy1b5dI3AvVJtOOgrz0PNJOQrItm8DPH7lXNyUVZ16f37fTbPO9XFR+Nq3mNPXeRy6aVu46WD+lH4WpEfWBnNVddCOx2eNzS/q8UZQ4m1H/HtexhJNa6OJk3R00KdJn8tnkIAa/Z/n0j3z0Q19YFQpFk1YA94FqjPDvyxLYlItg2KfBJ2Oc42fYnw4IFBHqHw3TvuH1HQKCNBNxlntjGlQJJlYTTxUiIBCQs1W0wNkNAAUKpMDZFQD5CGRj6CAnI4ygVgVQBuTBQiIBiBJQYKCYgB4ZShfxiT+y1oIj2gXRTyGnV3m0FLaXA3iLUZkRt+tLtqN/EZsKk9qnPzKX2f2lXmlUZqZZeqOVVcYHSBp3h1XR+b1KYKu+mtIs1uUKorsvQ9TKKXrSFQ0KBfMWUOtLBaFUeGpZuJYeFtKnNwNQW9N0hnSvf65FHPjcB97qJD/1Fl0UWkR9u8QVh0gAAAABJRU5ErkJggg==');
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAACKFBMVEUAAAD/3wD/vwD/xgD/zwD/zAD/ygD/0QD/xwD/ywD/yQD/xQD/zQD/ygD/zAD/zQD/ywD/ygD/zAD/ywD/ygD/ywD/zAD/ywD/ywD/ywD/ywD/ywD/ywD/ygD/ywD/ywD/ywD/zAD/ywD/ywD/ywD/ywD/ygD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ygD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/zAD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/zAD/ywD/zAD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywD/ywAAAABHcEwtAIA+AAAAhXRSTlMAAQIEBQYHCAkKCwwNDhQVFhcYGR4fICEiIyQoKSorLC0uLzAyNTY3ODk8QkZHSElKS0xQUVJTVFVXWFldXmJjY2RlZmdobW9wc3R1d3h6e3x9fn+AgYKIiYqNjpCRkpOVlpeYmZydnp+goaKjpaanqKqrra6vsLGys7S1t7i5ury9vr/Aw6CsJvgAAAJvSURBVEjHlZWJVxJRFMZfFiIgS5aIkVqWpWVZmS2WlVbaBpW2b1S2b1Zpexbavn3/bm8YZhgGhtL3H+Z+99zfO3fOvTNAQCIECB/kIJmPSwYkxJfGIdkFYzNAtooN9mYrE5e5+GNzl0VwF0j2ZWI2cXyBgGPxOCRfC3DfLsZWOcDq2PALQrIVeX2Jy/t6kZoIMxO47KtMTQXEssBvK6ieBGsZa1XJA0sQsJVRDW9MTVV36I/bSa5ioNIm+HH1pJf+GK7mUldhQMzN39OzukCjZz9L7Q30bnLtW0d0N0X0O9x0uj+D3nbG5oNxvbfUOJ2m9x4JcKwZqOcXnbf6a4xUNy1b5dI3AvVJtOOgrz0PNJOQrItm8DPH7lXNyUVZ16f37fTbPO9XFR+Nq3mNPXeRy6aVu46WD+lH4WpEfWBnNVddCOx2eNzS/q8UZQ4m1H/HtexhJNa6OJk3R00KdJn8tnkIAa/Z/n0j3z0Q19YFQpFk1YA94FqjPDvyxLYlItg2KfBJ2Oc42fYnw4IFBHqHw3TvuH1HQKCNBNxlntjGlQJJlYTTxUiIBCQs1W0wNkNAAUKpMDZFQD5CGRj6CAnI4ygVgVQBuTBQiIBiBJQYKCYgB4ZShfxiT+y1oIj2gXRTyGnV3m0FLaXA3iLUZkRt+tLtqN/EZsKk9qnPzKX2f2lXmlUZqZZeqOVVcYHSBp3h1XR+b1KYKu+mtIs1uUKorsvQ9TKKXrSFQ0KBfMWUOtLBaFUeGpZuJYeFtKnNwNQW9N0hnSvf65FHPjcB97qJD/1Fl0UWkR9u8QVh0gAAAABJRU5ErkJggg==');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -299,21 +299,25 @@ interface Project {
 }
 
 interface WindowsProjectDisplayProps {
-  projects: Array<{
+  projects?: Array<{
     title: string;
     description: string;
-    link: string;
+    link?: string;
+    tags?: string[];
   }>;
+  currentTheme?: ThemeMode;
 }
 
-// Create mock sound functions
-const dummySoundFunction = () => {
-  console.log('Sound effect would play here (mock)');
-};
-
 // Main component
-const WindowsProjectDisplay: React.FC<WindowsProjectDisplayProps> = ({ projects }) => {
-  const { playClickSound } = useSoundContext();
+const WindowsProjectDisplay: React.FC<WindowsProjectDisplayProps> = ({ 
+  projects = [], 
+  currentTheme 
+}) => {
+  // Call hooks unconditionally (React hooks rule)
+  const soundContext = useSoundContext();
+  const themeContext = useTheme();
+  
+  const { playClickSound } = soundContext;
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [currentTime, setCurrentTime] = useState(moment().format('h:mm A'));
 
@@ -358,11 +362,13 @@ const WindowsProjectDisplay: React.FC<WindowsProjectDisplayProps> = ({ projects 
               <ModalContent>
                 <ProjectTitle>{projects[selectedProject].title}</ProjectTitle>
                 <ProjectDescription>{projects[selectedProject].description}</ProjectDescription>
-                <ProjectTags>
-                  {projects[selectedProject].tags.map((tag, index) => (
-                    <ProjectTag key={index}>{tag}</ProjectTag>
-                  ))}
-                </ProjectTags>
+                {projects[selectedProject].tags && (
+                  <ProjectTags>
+                    {projects[selectedProject].tags?.map((tag, index) => (
+                      <ProjectTag key={index}>{tag}</ProjectTag>
+                    ))}
+                  </ProjectTags>
+                )}
                 {projects[selectedProject].link && (
                   <ProjectLink 
                     href={projects[selectedProject].link}
