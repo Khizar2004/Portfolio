@@ -53,6 +53,7 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
   const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(0, 0, 0));
   const controlsRef = useRef<any>(null);
   const [showTooltip, setShowTooltip] = useState(true);
+  const [showDarkModeTooltip, setShowDarkModeTooltip] = useState(false);
   const [dpr, setDpr] = useState(1.5);
   
   // Add a state for tracking if controls are enabled
@@ -68,6 +69,18 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
       return () => clearTimeout(timeout);
     }
   }, [onLoadComplete]);
+
+  // Show dark mode tooltip when theme changes to dark
+  useEffect(() => {
+    if (theme === 'dark' && !showTooltip) {
+      setShowDarkModeTooltip(true);
+      // Hide the tooltip after 5 seconds
+      const timeout = setTimeout(() => {
+        setShowDarkModeTooltip(false);
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [theme, showTooltip]);
 
   const handleObjectClick = useCallback((objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => {
     // Make sure to update the controls enabled state
@@ -241,12 +254,13 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
           />
           
           {/* Enhanced lighting setup */}
-          <ambientLight intensity={theme === 'dark' ? 0.3 : 0.4} />
+          <ambientLight intensity={theme === 'dark' ? 0.35 : 0.45} color={theme === 'dark' ? '#2c2c2c' : '#fff5e6'} />
           
           {/* Main directional light */}
           <directionalLight 
             intensity={theme === 'dark' ? 0.8 : 1.2} 
             position={[5, 8, 5]} 
+            color={theme === 'dark' ? '#a0a0ff' : '#fffaed'}
             castShadow
             shadow-mapSize={[2048, 2048]}
             shadow-bias={-0.0001}
@@ -262,22 +276,38 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
           <directionalLight
             intensity={theme === 'dark' ? 0.2 : 0.4}
             position={[-3, 5, -3]}
-            color={theme === 'dark' ? '#5a87d0' : '#fffcea'}
+            color={theme === 'dark' ? '#5a87d0' : '#ffe0c0'}
           />
           
           {/* Ground bounce light */}
           <directionalLight
             intensity={theme === 'dark' ? 0.1 : 0.2}
             position={[0, -1, 0]}
-            color={theme === 'dark' ? '#4c4c4c' : '#f5f5f5'}
+            color={theme === 'dark' ? '#4c4c4c' : '#fff0e0'}
           />
           
-          {/* Rim light */}
+          {/* Rim light for warm accent */}
           <pointLight
-            intensity={theme === 'dark' ? 0.15 : 0.3}
+            intensity={theme === 'dark' ? 0.2 : 0.4}
             position={[-3, 2, -3]}
-            color={theme === 'dark' ? '#9ca9c9' : '#fcf4e8'}
+            color={theme === 'dark' ? '#ffa060' : '#ffcc80'}
             distance={12}
+          />
+          
+          {/* Extra cozy point light */}
+          <pointLight
+            intensity={theme === 'dark' ? 0.3 : 0.2}
+            position={[4, 1, 2]}
+            color={theme === 'dark' ? '#ff9e5e' : '#ffe0b0'}
+            distance={8}
+            decay={2}
+          />
+          
+          {/* Atmospheric hemispheric light */}
+          <hemisphereLight
+            intensity={theme === 'dark' ? 0.1 : 0.15}
+            color={theme === 'dark' ? '#2a3a60' : '#fff8e0'}
+            groundColor={theme === 'dark' ? '#211a10' : '#ffe0b0'}
           />
 
           {/* Stars in dark mode - subtle effect */}
@@ -308,8 +338,8 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
             enableRotate={controlsEnabled}
             minPolarAngle={Math.PI / 6}
             maxPolarAngle={Math.PI / 2.2}
-            minDistance={2}
-            maxDistance={8}
+            minDistance={1.5}
+            maxDistance={12}
             enableDamping={true}
             dampingFactor={0.05}
             rotateSpeed={0.5}
@@ -341,6 +371,17 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
           onButtonClick={handleCloseTooltip}
           active={showTooltip}
           onClose={handleCloseTooltip}
+        />
+      )}
+
+      {/* Dark mode desk lamp tooltip */}
+      {showDarkModeTooltip && (
+        <Tooltip
+          text="Tip: Click the desk lamp or ceiling light to brighten up different areas of the room!"
+          buttonText="OK"
+          onButtonClick={() => setShowDarkModeTooltip(false)}
+          active={showDarkModeTooltip}
+          onClose={() => setShowDarkModeTooltip(false)}
         />
       )}
     </CanvasContainer>

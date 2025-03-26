@@ -26,7 +26,7 @@ const BookcaseShelf: React.FC<BookcaseShelfProps> = ({ isDarkMode }) => {
   const shelfBooks = Array.from({ length: 12 }, (_, i) => generateBookDimensions(i));
   
   return (
-    <group position={[-4.71, 0.5, -0.7]} rotation={[0, Math.PI / 2, 0]}>
+    <group position={[-4.71, 0.5, 1.5]} rotation={[0, Math.PI / 2, 0]}>
       {/* Bookshelf structure */}
       <mesh position={[0, 0, -0.15]} castShadow receiveShadow>
         <boxGeometry args={[1, 1.2, 0.02]} />

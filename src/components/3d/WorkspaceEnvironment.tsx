@@ -22,6 +22,10 @@ import WallClock from './objects/WallClock';
 import BookcaseShelf from './objects/BookcaseShelf';
 import Rug from './objects/Rug';
 import Couch from './objects/Couch';
+// Import our new cozy components
+import CoffeeTable from './objects/CoffeeTable';
+import WallDecor from './objects/WallDecor';
+import CeilingLight from './objects/CeilingLight';
 
 interface WorkspaceEnvironmentProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
@@ -60,12 +64,18 @@ const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({
       <HeadphoneStand isDarkMode={isDarkMode} />
       <Window isDarkMode={isDarkMode} />
       
-      {/* New furniture and decor elements */}
+      {/* Existing furniture and decor elements */}
       <Chair isDarkMode={isDarkMode} />
       <WallClock isDarkMode={isDarkMode} />
       <BookcaseShelf isDarkMode={isDarkMode} />
       <Rug isDarkMode={isDarkMode} />
-      <Couch isDarkMode={isDarkMode} /> 
+      <Couch isDarkMode={isDarkMode} />
+      
+      {/* New cozy elements we've added */}
+      <CoffeeTable isDarkMode={isDarkMode} />
+      <WallDecor isDarkMode={isDarkMode} />
+      <CeilingLight isDarkMode={isDarkMode} />
+      
       {/* Ambient text */}
       <Text
         position={[0, 1.5, -1.4]}

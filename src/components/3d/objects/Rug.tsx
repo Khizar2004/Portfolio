@@ -6,151 +6,121 @@ interface RugProps {
 }
 
 const Rug: React.FC<RugProps> = ({ isDarkMode }) => {
+  // Warm colors for the rug
+  const rugBaseColor = isDarkMode ? "#3c2a2a" : "#d9a066";
+  const rugPatternColor = isDarkMode ? "#302222" : "#b58451";
+  const rugHighlightColor = isDarkMode ? "#483333" : "#e6c9a8";
+  
+  // Create a more sophisticated texture for the rug
+  const createRugTexture = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    
+    if (ctx) {
+      // Base color
+      ctx.fillStyle = rugBaseColor;
+      ctx.fillRect(0, 0, 512, 512);
+      
+      // Border pattern
+      ctx.strokeStyle = rugPatternColor;
+      ctx.lineWidth = 15;
+      ctx.strokeRect(20, 20, 472, 472);
+      
+      // Inner border
+      ctx.strokeStyle = rugHighlightColor;
+      ctx.lineWidth = 3;
+      ctx.strokeRect(45, 45, 422, 422);
+      
+      // Create a Persian-inspired pattern
+      const drawPattern = (x: number, y: number, size: number) => {
+        // Outer diamond
+        ctx.beginPath();
+        ctx.moveTo(x, y - size/2);
+        ctx.lineTo(x + size/2, y);
+        ctx.lineTo(x, y + size/2);
+        ctx.lineTo(x - size/2, y);
+        ctx.closePath();
+        ctx.fillStyle = rugPatternColor;
+        ctx.fill();
+        
+        // Inner diamond
+        ctx.beginPath();
+        ctx.moveTo(x, y - size/3);
+        ctx.lineTo(x + size/3, y);
+        ctx.lineTo(x, y + size/3);
+        ctx.lineTo(x - size/3, y);
+        ctx.closePath();
+        ctx.fillStyle = rugHighlightColor;
+        ctx.fill();
+        
+        // Center
+        ctx.beginPath();
+        ctx.arc(x, y, size/8, 0, Math.PI * 2);
+        ctx.fillStyle = rugBaseColor;
+        ctx.fill();
+      };
+      
+      // Draw a grid of patterns
+      const patternSize = 70;
+      for (let x = 80; x < 450; x += patternSize) {
+        for (let y = 80; y < 450; y += patternSize) {
+          drawPattern(x, y, patternSize * 0.7);
+        }
+      }
+      
+      // Add subtle texture
+      ctx.globalAlpha = 0.1;
+      for (let i = 0; i < 512; i += 4) {
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(512, i);
+        ctx.strokeStyle = "#000000";
+        ctx.stroke();
+      }
+      
+      // Connect patterns with subtle lines
+      ctx.globalAlpha = 0.3;
+      ctx.lineWidth = 1;
+      for (let x = 80; x < 450; x += patternSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 80);
+        ctx.lineTo(x, 430);
+        ctx.strokeStyle = rugHighlightColor;
+        ctx.stroke();
+      }
+      
+      for (let y = 80; y < 450; y += patternSize) {
+        ctx.beginPath();
+        ctx.moveTo(80, y);
+        ctx.lineTo(430, y);
+        ctx.strokeStyle = rugHighlightColor;
+        ctx.stroke();
+      }
+    }
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    return texture;
+  };
+  
   return (
-    <group position={[0, -0.98, 0.3]}>
-      {/* Main rug body */}
-      <mesh rotation={[Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[2.8, 1.8]} />
-        <meshStandardMaterial 
-          color={isDarkMode ? "#2c3e50" : "#34495e"} 
-          roughness={0.9} 
-          metalness={0}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      
-      {/* Rug pattern - border */}
-      <mesh position={[0, 0.002, 0]} rotation={[Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[2.6, 1.6]} />
-        <meshStandardMaterial 
-          color={isDarkMode ? "#34495e" : "#ecf0f1"} 
-          roughness={0.9} 
-          metalness={0}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      
-      {/* Rug pattern - inner border */}
-      <mesh position={[0, 0.004, 0]} rotation={[Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[2.4, 1.4]} />
-        <meshStandardMaterial 
-          color={isDarkMode ? "#2c3e50" : "#bdc3c7"} 
-          roughness={0.9} 
-          metalness={0}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      
-      {/* Rug pattern - center */}
-      <mesh position={[0, 0.006, 0]} rotation={[Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[1.8, 1]} />
-        <meshStandardMaterial 
-          color={isDarkMode ? "#34495e" : "#95a5a6"} 
-          roughness={0.9} 
-          metalness={0}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      
-      {/* Rug pattern - decorative elements */}
-      {[[-0.6, 0, 0], [0.6, 0, 0]].map((pos, idx) => (
-        <mesh 
-          key={`decoration-${idx}`}
-          position={[pos[0], 0.008, pos[2]]} 
-          rotation={[Math.PI / 2, 0, 0]} 
-          receiveShadow
-        >
-          <planeGeometry args={[0.4, 0.4]} />
-          <meshStandardMaterial 
-            color={isDarkMode ? "#7f8c8d" : "#e74c3c"} 
-            roughness={0.9} 
-            metalness={0}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-      ))}
-      
-      {/* Rug tassels */}
-      {/* Front edge tassels */}
-      {Array.from({ length: 15 }).map((_, idx) => {
-        const position = -1.3 + idx * 0.2;
-        return (
-          <mesh 
-            key={`front-tassel-${idx}`}
-            position={[position, 0, 0.9]} 
-            rotation={[Math.PI / 4, 0, 0]} 
-            castShadow
-          >
-            <boxGeometry args={[0.01, 0.06, 0.01]} />
-            <meshStandardMaterial 
-              color={isDarkMode ? "#95a5a6" : "#ecf0f1"} 
-              roughness={0.9} 
-              metalness={0}
-            />
-          </mesh>
-        );
-      })}
-      
-      {/* Back edge tassels */}
-      {Array.from({ length: 15 }).map((_, idx) => {
-        const position = -1.3 + idx * 0.2;
-        return (
-          <mesh 
-            key={`back-tassel-${idx}`}
-            position={[position, 0, -0.9]} 
-            rotation={[-Math.PI / 4, 0, 0]} 
-            castShadow
-          >
-            <boxGeometry args={[0.01, 0.06, 0.01]} />
-            <meshStandardMaterial 
-              color={isDarkMode ? "#95a5a6" : "#ecf0f1"} 
-              roughness={0.9} 
-              metalness={0}
-            />
-          </mesh>
-        );
-      })}
-      
-      {/* Left edge tassels */}
-      {Array.from({ length: 10 }).map((_, idx) => {
-        const position = -0.8 + idx * 0.2;
-        return (
-          <mesh 
-            key={`left-tassel-${idx}`}
-            position={[-1.4, 0, position]} 
-            rotation={[Math.PI / 4, Math.PI / 2, 0]} 
-            castShadow
-          >
-            <boxGeometry args={[0.01, 0.06, 0.01]} />
-            <meshStandardMaterial 
-              color={isDarkMode ? "#95a5a6" : "#ecf0f1"} 
-              roughness={0.9} 
-              metalness={0}
-            />
-          </mesh>
-        );
-      })}
-      
-      {/* Right edge tassels */}
-      {Array.from({ length: 10 }).map((_, idx) => {
-        const position = -0.8 + idx * 0.2;
-        return (
-          <mesh 
-            key={`right-tassel-${idx}`}
-            position={[1.4, 0, position]} 
-            rotation={[Math.PI / 4, -Math.PI / 2, 0]} 
-            castShadow
-          >
-            <boxGeometry args={[0.01, 0.06, 0.01]} />
-            <meshStandardMaterial 
-              color={isDarkMode ? "#95a5a6" : "#ecf0f1"} 
-              roughness={0.9} 
-              metalness={0}
-            />
-          </mesh>
-        );
-      })}
-    </group>
+    <mesh
+      position={[0, -1.09, 0]}
+      rotation={[-Math.PI / 2, 0, 0]}
+      receiveShadow
+    >
+      <planeGeometry args={[6, 4]} />
+      <meshStandardMaterial
+        color={rugBaseColor}
+        roughness={0.9}
+        metalness={0.1}
+        map={createRugTexture()}
+        bumpScale={0.01}
+      />
+    </mesh>
   );
 };
 
