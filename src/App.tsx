@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import LoadingScreen from './components/ui/LoadingScreen';
 import MainScene from './scenes/MainScene';
-import MusicButton from './components/ui/MusicButton';
 
 const AppContainer = styled.div`
   width: 100vw;
@@ -36,13 +35,7 @@ function App() {
           <Routes>
             <Route path="/" element={<MainScene onLoadComplete={handleLoadComplete} />} />
           </Routes>
-        </Suspense>
-        {/* Only display these UI elements when not loading */}
-        {!isLoading && (
-          <>
-            <MusicButton />
-          </>
-        )}
+        </Suspense>        
       </Router>
     </AppContainer>
   );
