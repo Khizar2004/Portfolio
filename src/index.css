@@ -8,6 +8,8 @@ body {
   overflow: hidden;
 }
 
+/* Only keeping unique styles that aren't in GlobalStyles */
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

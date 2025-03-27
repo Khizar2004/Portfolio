@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentType, Suspense } from 'react';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import InteractiveObject from './InteractiveObject';
@@ -6,8 +6,7 @@ import WindowsProjectDisplay from '../ui/WindowsProjectDisplay';
 import AboutMe from '../ui/AboutMe';
 import Contact from '../ui/Contact';
 import HtmlContextWrapper from '../ui/HtmlContextWrapper';
-
-type ThemeMode = 'light' | 'dark';
+import { ThemeMode } from '../../context/ThemeContext';
 
 interface InteractiveObjectsProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
@@ -15,9 +14,6 @@ interface InteractiveObjectsProps {
   isMobile: boolean;
   theme: string;
 }
-
-// Create a type for our component that can accept props
-type ComponentType = React.ComponentType<any>;
 
 const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({ 
   onObjectClick, 
@@ -93,38 +89,38 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
         >
           {/* When an object is active and has a component, render its content */}
           {activeObject === obj.name && obj.component && (
-            <Html
-              position={[0, isMobile ? 1 : 1.2, 0]}
-              style={{
-                width: isMobile ? '320px' : '640px',
-                height: isMobile ? '240px' : '480px',
-                padding: '0px',
-                background: 'transparent',
-                borderRadius: '0px',
-                boxShadow: 'none',
-                transform: 'scale(0.8)',
-                transformOrigin: 'center center',
-                overflow: 'hidden'
-              }}
-              distanceFactor={1.5}
-              transform
-              wrapperClass="html-content-wrapper"
-              onClick={(e) => {
-                console.log('[InteractiveObjects] HTML content clicked');
-                e.stopPropagation();
-              }}
-              onPointerDown={(e) => {
-                console.log('[InteractiveObjects] HTML pointer down');
-                e.stopPropagation();
-              }}
-            >
-              {/* Pass currentTheme prop to WindowsProjectDisplay but not to other components */}
-              <HtmlContextWrapper currentTheme={theme as ThemeMode}>
-                {obj.name === 'computer' 
-                  ? <WindowsProjectDisplay currentTheme={theme as ThemeMode} /> 
-                  : React.createElement(obj.component)}
-              </HtmlContextWrapper>
-            </Html>
+            <Suspense fallback={null}>
+              <Html
+                position={[0, isMobile ? 1 : 1.2, 0]}
+                style={{
+                  width: isMobile ? '320px' : '640px',
+                  height: isMobile ? '240px' : '480px',
+                  padding: '0px',
+                  background: 'transparent',
+                  borderRadius: '0px',
+                  boxShadow: 'none',
+                  transform: 'scale(0.8)',
+                  transformOrigin: 'center center',
+                  overflow: 'hidden'
+                }}
+                distanceFactor={1.5}
+                transform
+                wrapperClass="html-content-wrapper"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                {/* Pass currentTheme prop to WindowsProjectDisplay but not to other components */}
+                <HtmlContextWrapper currentTheme={theme as ThemeMode}>
+                  {obj.name === 'computer' 
+                    ? <WindowsProjectDisplay currentTheme={theme as ThemeMode} /> 
+                    : React.createElement(obj.component)}
+                </HtmlContextWrapper>
+              </Html>
+            </Suspense>
           )}
         </InteractiveObject>
       ))}

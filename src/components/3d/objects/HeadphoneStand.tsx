@@ -6,7 +6,7 @@ interface HeadphoneStandProps {
 
 const HeadphoneStand: React.FC<HeadphoneStandProps> = ({ isDarkMode }) => {
   return (
-    <group position={[-0.6, 0, -0.3]}>
+    <group position={[-1.6, 0.3, -0.5]}>
       {/* Base */}
       <mesh position={[0, 0.05, 0]} castShadow>
         <cylinderGeometry args={[0.08, 0.1, 0.1, 16]} />

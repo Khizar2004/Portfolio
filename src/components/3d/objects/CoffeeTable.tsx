@@ -1,48 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useGLTF, type GLTFResult } from '@react-three/drei';
 import * as THREE from 'three';
-import Coffee from '../models/Coffee';
+import Coffee from './Coffee';
 
 interface CoffeeTableProps {
   isDarkMode: boolean;
 }
 
 const CoffeeTable: React.FC<CoffeeTableProps> = ({ isDarkMode }) => {
-  // Color palette based on theme
-  const woodColor = isDarkMode ? "#2c2317" : "#8b5a2b";
-  const legColor = isDarkMode ? "#232323" : "#3c2915";
-  
+  const { scene, materials } = useGLTF('/models/Table.glb') as GLTFResult;
+
+  useEffect(() => {
+    if (materials) {
+      Object.values(materials).forEach((material) => {
+        if (material instanceof THREE.MeshStandardMaterial) {
+          // Adjust material colors based on dark mode
+          if (material.name.toLowerCase().includes('wood')) {
+            material.color.setHex(isDarkMode ? 0x2c2317 : 0x8b5a2b);
+            material.roughness = 0.8;
+          } else if (material.name.toLowerCase().includes('metal')) {
+            material.color.setHex(isDarkMode ? 0x232323 : 0x3c2915);
+            material.roughness = 0.7;
+            material.metalness = 0.3;
+          }
+        }
+      });
+    }
+  }, [isDarkMode, materials]);
+
   return (
-    <group position={[3.8, -0.8, 1.6]} rotation={[0, 0, 0]}>
-      {/* Table top */}
-      <mesh position={[0, 0.3, 0]} castShadow receiveShadow>
-        <boxGeometry args={[1.2, 0.08, 0.8]} />
-        <meshStandardMaterial 
-          color={woodColor} 
-          roughness={0.8} 
-          metalness={0.2}
-        />
-      </mesh>
-      
-      {/* Table legs */}
-      {[[-0.5, 0, -0.3], [0.5, 0, -0.3], [-0.5, 0, 0.3], [0.5, 0, 0.3]].map((pos, idx) => (
-        <mesh 
-          key={idx} 
-          position={[pos[0], 0.0, pos[2]]} 
-          castShadow 
-          receiveShadow
-        >
-          <boxGeometry args={[0.08, 0.6, 0.08]} />
-          <meshStandardMaterial 
-            color={legColor} 
-            roughness={0.7} 
-            metalness={0.3}
-          />
-        </mesh>
-      ))}
+    <group position={[3.8, -0.8, 3.7]} rotation={[0, 0, 0]}>
+      <primitive object={scene} scale={0.8} />
       
       {/* Coffee mug */}
       <group position={[0.2, 0.35, 0]}>
-        <Coffee />
+        <Coffee isDarkMode={isDarkMode} />
       </group>
       
       {/* Coaster for coffee */}
@@ -70,4 +62,5 @@ const CoffeeTable: React.FC<CoffeeTableProps> = ({ isDarkMode }) => {
   );
 };
 
+useGLTF.preload('/models/Table.glb');
 export default CoffeeTable; 

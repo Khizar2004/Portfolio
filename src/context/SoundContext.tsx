@@ -31,12 +31,12 @@ const fallbackSoundContext: SoundContextType = {
   isMusicEnabled: false,
   toggleSound: () => console.warn('Sound context not available'),
   toggleMusic: () => console.warn('Sound context not available'),
-  playClickSound: () => console.warn('Sound context not available'),
-  playHoverSound: () => console.warn('Sound context not available'),
-  playSwishSound: () => console.warn('Sound context not available'),
-  playSwishReverseSound: () => console.warn('Sound context not available'),
-  playStartupSound: () => console.warn('Sound context not available'),
-  playShutdownSound: () => console.warn('Sound context not available')
+  playClickSound: () => {},
+  playHoverSound: () => {},
+  playSwishSound: () => {},
+  playSwishReverseSound: () => {},
+  playStartupSound: () => {},
+  playShutdownSound: () => {}
 };
 
 export const useSoundContext = () => {
@@ -92,7 +92,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     if (isSoundEnabled) {
       try {
         playClick();
-        console.log('Click sound played');
       } catch (error) {
         console.error('Error playing click sound:', error);
       }
@@ -103,7 +102,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     if (isSoundEnabled) {
       try {
         playHover();
-        console.log('Hover sound played');
       } catch (error) {
         console.error('Error playing hover sound:', error);
       }
@@ -114,7 +112,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     if (isSoundEnabled) {
       try {
         playSwish();
-        console.log('Swish sound played');
       } catch (error) {
         console.error('Error playing swish sound:', error);
       }
@@ -125,7 +122,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     if (isSoundEnabled) {
       try {
         playSwishReverse();
-        console.log('Swish reverse sound played');
       } catch (error) {
         console.error('Error playing swish reverse sound:', error);
       }
@@ -136,7 +132,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     if (isSoundEnabled) {
       try {
         playStartup();
-        console.log('Startup sound played');
       } catch (error) {
         console.error('Error playing startup sound:', error);
       }
@@ -147,7 +142,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     if (isSoundEnabled) {
       try {
         playShutdown();
-        console.log('Shutdown sound played');
       } catch (error) {
         console.error('Error playing shutdown sound:', error);
       }
@@ -156,12 +150,10 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
 
   const toggleSound = () => {
     setIsSoundEnabled(prev => !prev);
-    console.log(`Sound effects ${!isSoundEnabled ? 'enabled' : 'disabled'}`);
   };
 
   const toggleMusic = () => {
     setIsMusicEnabled(prev => !prev);
-    console.log(`Background music ${!isMusicEnabled ? 'enabled' : 'disabled'}`);
   };
 
   const value: SoundContextType = {

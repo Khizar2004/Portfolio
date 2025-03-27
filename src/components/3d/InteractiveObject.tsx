@@ -3,14 +3,14 @@ import { ThreeEvent } from '@react-three/fiber';
 import { useSpring, animated } from '@react-spring/three';
 import * as THREE from 'three';
 import { useSoundContext } from '../../context/SoundContext';
-import Computer from './models/Computer';
-import Book from './models/Book';
-import Phone from './models/Phone';
-import Coffee from './models/Coffee';
-import Plant from './models/Plant';
-import Keyboard from './models/Keyboard';
-import Mouse from './models/Mouse';
-import Headphones from './models/Headphones';
+import { useTheme } from '../../context/ThemeContext';
+import Book from './objects/Book';
+import Phone from './objects/Phone';
+import Coffee from './objects/Coffee';
+import Plant from './objects/Plant';
+import Keyboard from './objects/Keyboard';
+import Mouse from './objects/Mouse';
+import Headphones from './objects/Headphones';
 
 interface InteractiveObjectProps {
   name: string;
@@ -21,21 +21,6 @@ interface InteractiveObjectProps {
   children?: ReactNode;
 }
 
-// Get the correct model based on name
-const getObjectModel = (name: string, handleClick?: (name: string) => void, isActive?: boolean) => {
-  switch (name) {
-    case 'computer': return <Computer handleClick={handleClick} isActive={isActive} />;
-    case 'book': return <Book />;
-    case 'phone': return <Phone />;
-    case 'coffee': return <Coffee />;
-    case 'plant': return <Plant />;
-    case 'keyboard': return <Keyboard />;
-    case 'mouse': return <Mouse />;
-    case 'headphones': return <Headphones />;
-    default: return <sphereGeometry args={[0.5, 32, 32]} />;
-  }
-};
-
 const InteractiveObject: React.FC<InteractiveObjectProps> = ({
   name,
   position,
@@ -45,6 +30,8 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
   children
 }) => {
   const { playClickSound, playHoverSound } = useSoundContext();
+  const { theme } = useTheme();
+  const isDarkMode = theme === 'dark';
   const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
   const clickedRef = useRef(false);
@@ -95,28 +82,22 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
   
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    console.log(`[InteractiveObject] Object ${name} clicked`);
     
     // For computer object, prevent accidental double-clicks
     if (name === 'computer') {
       if (clickedRef.current) {
-        console.log(`[InteractiveObject] Computer double-click prevented, clickedRef=${clickedRef.current}`);
         return;
       }
       clickedRef.current = true;
-      console.log(`[InteractiveObject] Computer clickedRef set to true`);
       
       // Add a small delay before enabling clicking again
       if (!isActive) {
-        console.log(`[InteractiveObject] Setting timeout for computer click reset`);
         setTimeout(() => {
           clickedRef.current = false;
-          console.log(`[InteractiveObject] Computer clickedRef reset to false`);
         }, 1500);
       }
     }
     
-    console.log(`[InteractiveObject] Playing click sound and calling onObjectClick for ${name}`);
     playClickSound();
     onObjectClick();
   };
@@ -125,7 +106,20 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
   const handleObjectInternalClick = (objectName: string) => {
     // This is for internal clicks within the computer (like screen, power button)
     // We don't need to trigger the parent onObjectClick here, as that would cause camera movement
-    console.log(`[InteractiveObject] Internal click on ${objectName} in ${name} object`);
+  };
+
+  // Get the correct model based on name
+  const getObjectModel = (name: string, handleClick?: (name: string) => void, isActive?: boolean) => {
+    switch (name) {
+      case 'book': return <Book isDarkMode={isDarkMode} />;
+      case 'phone': return <Phone isDarkMode={isDarkMode} />;
+      case 'coffee': return <Coffee isDarkMode={isDarkMode} />;
+      case 'plant': return <Plant isDarkMode={isDarkMode} />;
+      case 'keyboard': return <Keyboard isDarkMode={isDarkMode} />;
+      case 'mouse': return <Mouse isDarkMode={isDarkMode} />;
+      case 'headphones': return <Headphones isDarkMode={isDarkMode} />;
+      default: return <sphereGeometry args={[0.5, 32, 32]} />;
+    }
   };
 
   return (

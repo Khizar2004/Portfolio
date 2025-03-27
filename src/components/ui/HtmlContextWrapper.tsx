@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 import { SoundProvider } from '../../context/SoundContext';
-import ThemeProvider from '../../context/ThemeContext';
+import ThemeProvider, { ThemeMode } from '../../context/ThemeContext';
 
 interface HtmlContextWrapperProps {
   children: ReactNode;
-  currentTheme?: 'light' | 'dark';
+  currentTheme?: ThemeMode;
 }
 
 const HtmlContextWrapper: React.FC<HtmlContextWrapperProps> = ({ children, currentTheme = 'dark' }) => {

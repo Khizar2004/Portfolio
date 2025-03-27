@@ -14,11 +14,11 @@ const AppContainer = styled.div`
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   
-  // Force loading to end after a reasonable timeout (10s) for better user experience
+  // Force loading to end after a reasonable timeout (5s) for better user experience
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 10000);
+    }, 5000);
     
     return () => clearTimeout(timeout);
   }, []);

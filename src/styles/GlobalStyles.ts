@@ -15,8 +15,6 @@ const GlobalStyles = createGlobalStyle`
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #0f0f0f;
-    color: #ffffff;
   }
 
   canvas {

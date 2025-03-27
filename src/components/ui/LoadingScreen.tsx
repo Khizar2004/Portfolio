@@ -163,7 +163,6 @@ const AnimatedModel = () => {
         color={darkMode ? "#ffffff" : "#333333"}
         anchorX="center"
         anchorY="middle"
-        font="/fonts/Inter-Bold.woff"
       >
         Loading...
       </Text>

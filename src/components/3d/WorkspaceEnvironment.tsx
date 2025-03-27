@@ -1,30 +1,24 @@
 import React, { useRef } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useThree } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTheme } from '../../context/ThemeContext';
 
 // Import individual components
 import Desk from './objects/Desk';
-import Floor from './objects/Floor';
 import Walls from './objects/Walls';
 import DeskLamp from './objects/DeskLamp';
-import WallPicture from './objects/WallPicture';
 import Shelf from './objects/Shelf';
 import KeyboardMat from './objects/KeyboardMat';
-import MonitorStand from './objects/MonitorStand';
 import HeadphoneStand from './objects/HeadphoneStand';
-import Window from './objects/Window';
 import InteractiveObjects from './InteractiveObjects';
-// Import new components
+import Monitor from './objects/Monitor';
+// Import furniture components
 import Chair from './objects/Chair';
 import WallClock from './objects/WallClock';
-import BookcaseShelf from './objects/BookcaseShelf';
 import Rug from './objects/Rug';
 import Couch from './objects/Couch';
-// Import our new cozy components
 import CoffeeTable from './objects/CoffeeTable';
-import WallDecor from './objects/WallDecor';
 import CeilingLight from './objects/CeilingLight';
 
 interface WorkspaceEnvironmentProps {
@@ -32,65 +26,35 @@ interface WorkspaceEnvironmentProps {
   activeObject: string | null;
 }
 
-const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({ 
-  onObjectClick,
-  activeObject
-}) => {
+const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({ onObjectClick, activeObject }) => {
   const { theme } = useTheme();
   const { size } = useThree();
-  const groupRef = useRef<THREE.Group>(null);
   const isDarkMode = theme === 'dark';
   const isMobile = size.width < 768;
-  
-  // Very subtle breathing effect
-  useFrame(({ clock }) => {
-    if (groupRef.current) {
-      const t = clock.getElapsedTime();
-      groupRef.current.position.y = Math.sin(t * 0.3) * 0.01;
-    }
-  });
 
   return (
-    <group ref={groupRef}>
-      {/* Fixed environment elements */}
-      <Desk isDarkMode={isDarkMode} />
-      <Floor isDarkMode={isDarkMode} />
+    <group>
+      {/* Static Environment */}
       <Walls isDarkMode={isDarkMode} />
-      <DeskLamp isDarkMode={isDarkMode} />
-      <WallPicture isDarkMode={isDarkMode} />
-      <Shelf isDarkMode={isDarkMode} />
-      <KeyboardMat isDarkMode={isDarkMode} />
-      <MonitorStand isDarkMode={isDarkMode} />
-      <HeadphoneStand isDarkMode={isDarkMode} />
-      <Window isDarkMode={isDarkMode} />
-      
-      {/* Existing furniture and decor elements */}
+      <Desk isDarkMode={isDarkMode} />
       <Chair isDarkMode={isDarkMode} />
       <WallClock isDarkMode={isDarkMode} />
-      <BookcaseShelf isDarkMode={isDarkMode} />
       <Rug isDarkMode={isDarkMode} />
-      <Couch isDarkMode={isDarkMode} />
-      
-      {/* New cozy elements we've added */}
-      <CoffeeTable isDarkMode={isDarkMode} />
-      <WallDecor isDarkMode={isDarkMode} />
       <CeilingLight isDarkMode={isDarkMode} />
       
-      {/* Ambient text */}
-      <Text
-        position={[0, 1.5, -1.4]}
-        fontSize={0.2}
-        color={isDarkMode ? "#ffffff" : "#333333"}
-        anchorX="center"
-        anchorY="middle"
-        font="/fonts/Inter-Bold.woff"
-      >
-        PORTFOLIO
-      </Text>
+      {/* Desk Setup */}
+      <DeskLamp isDarkMode={isDarkMode} />
+      <KeyboardMat isDarkMode={isDarkMode} />
+      <HeadphoneStand isDarkMode={isDarkMode} />
+      <Monitor isDarkMode={isDarkMode} />
       
-      {/* Interactive objects */}
+      {/* Lounge Area */}
+      <Couch isDarkMode={isDarkMode} />
+      <CoffeeTable isDarkMode={isDarkMode} />
+      
+      {/* Interactive Objects */}
       <InteractiveObjects 
-        onObjectClick={onObjectClick} 
+        onObjectClick={onObjectClick}
         activeObject={activeObject}
         isMobile={isMobile}
         theme={theme}

@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useSoundContext } from '../../context/SoundContext';
-import { useTheme } from '../../context/ThemeContext';
-
-// Define ThemeMode type locally
-type ThemeMode = 'light' | 'dark';
+import { useTheme, ThemeMode } from '../../context/ThemeContext';
 
 // Windows XP styled components
 const WindowsContainer = styled.div`

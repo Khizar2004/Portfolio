@@ -89,9 +89,9 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     setActiveObject(objectName);
     setCameraTarget(position);
     
-    // Animate camera to new position with GSAP-like smoothness
+    // Animate camera to new position with improved smoothness
     if (controlsRef.current) {
-      const duration = 1000; // ms
+      const duration = 800; // ms - slightly shorter for better UX
       const startPosition = controlsRef.current.object.position.clone();
       const startTarget = controlsRef.current.target.clone();
       
@@ -104,14 +104,13 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
         // Cubic ease out for smooth motion
         const easeProgress = 1 - Math.pow(1 - progress, 3);
         
-        // Update position
+        // Update position and target
         controlsRef.current.object.position.lerpVectors(
           startPosition,
           cameraPos,
           easeProgress
         );
         
-        // Update target
         controlsRef.current.target.lerpVectors(
           startTarget,
           position,
@@ -144,7 +143,7 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     
     // Animate camera back to default
     if (controlsRef.current) {
-      const duration = 1000; // ms
+      const duration = 800; // ms - slightly shorter for better UX
       const startPosition = controlsRef.current.object.position.clone();
       const startTarget = controlsRef.current.target.clone();
       const defaultPosition = new THREE.Vector3(4, 3, 4);
@@ -159,14 +158,13 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
         // Cubic ease out
         const easeProgress = 1 - Math.pow(1 - progress, 3);
         
-        // Update position
+        // Update position and target in one operation
         controlsRef.current.object.position.lerpVectors(
           startPosition,
           defaultPosition,
           easeProgress
         );
         
-        // Update target
         controlsRef.current.target.lerpVectors(
           startTarget,
           defaultTarget,

@@ -9,6 +9,7 @@ const Walls: React.FC<WallsProps> = ({ isDarkMode }) => {
   // Warmer wall colors
   const backWallColor = isDarkMode ? "#1e1912" : "#f0e6d2";
   const sideWallColor = isDarkMode ? "#1a1510" : "#e8dcc0";
+  const floorColor = isDarkMode ? 0x333333 : 0xBBBBBB;
   
   // Create a subtle texture for the walls
   const createWallTexture = () => {
@@ -46,6 +47,20 @@ const Walls: React.FC<WallsProps> = ({ isDarkMode }) => {
   
   return (
     <group>
+      {/* Floor */}
+      <mesh 
+        position={[0, -1, 0]} 
+        rotation={[-Math.PI / 2, 0, 0]} 
+        receiveShadow
+      >
+        <planeGeometry args={[20, 20]} />
+        <meshStandardMaterial 
+          color={new THREE.Color(floorColor)} 
+          roughness={0.9} 
+          metalness={0.1}
+        />
+      </mesh>
+      
       {/* Back Wall */}
       <mesh position={[0, 1, -1.5]} receiveShadow>
         <boxGeometry args={[10, 5, 0.1]} />
