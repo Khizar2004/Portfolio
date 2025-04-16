@@ -1,0 +1,47 @@
+import React, { useRef, useEffect } from 'react';
+import { useGLTF } from '@react-three/drei';
+import * as THREE from 'three';
+
+interface ModelRugProps {
+  isDarkMode: boolean;
+}
+
+const ModelRug: React.FC<ModelRugProps> = ({ isDarkMode }) => {
+  const modelRef = useRef<THREE.Group>(null);
+  const { scene } = useGLTF('/models/Rug.glb');
+  
+  const rugModel = scene.clone();
+  
+  // Apply any material adjustments based on theme if needed
+  useEffect(() => {
+    if (rugModel) {
+      rugModel.traverse((child) => {
+        if (child instanceof THREE.Mesh && child.material) {
+          // Slightly adjust material properties based on theme
+          if (child.material instanceof THREE.MeshStandardMaterial) {
+            child.material.roughness = isDarkMode ? 0.85 : 0.7;
+            child.material.metalness = isDarkMode ? 0.1 : 0.05;
+            // Don't change the color as the model already has its own texture/color
+          }
+        }
+      });
+    }
+  }, [isDarkMode, rugModel]);
+  
+  return (
+    <group 
+      position={[-0.6, -1, 1]} // Positioned exactly at floor level
+      rotation={[0, 0, 0]} 
+      ref={modelRef}
+    >
+      <primitive 
+        object={rugModel} 
+        scale={4} // Scale adjusted to fit the room floor area
+      />
+    </group>
+  );
+};
+
+useGLTF.preload('/models/Rug.glb');
+
+export default ModelRug; 

@@ -1,105 +1,148 @@
 import React, { useState, useRef, useEffect, ReactNode } from 'react';
-import { useFrame, ThreeEvent } from '@react-three/fiber';
+import { ThreeEvent } from '@react-three/fiber';
 import { useSpring, animated } from '@react-spring/three';
 import * as THREE from 'three';
 import { useSoundContext } from '../../context/SoundContext';
+import { useTheme } from '../../context/ThemeContext';
+import Book from './objects/Book';
+import Phone from './objects/Phone';
+import Coffee from './objects/Coffee';
+import Keyboard from './objects/Keyboard';
+import Mouse from './objects/Mouse';
 
 interface InteractiveObjectProps {
   name: string;
   position: THREE.Vector3;
+  rotation?: THREE.Euler;
   onObjectClick: () => void;
   isActive: boolean;
   children?: ReactNode;
 }
 
-// Placeholder objects until you create or import your own 3D models
-const getObjectGeometry = (name: string) => {
-  switch (name) {
-    case 'computer':
-      return <boxGeometry args={[1, 0.6, 0.8]} />;
-    case 'book':
-      return <boxGeometry args={[0.6, 0.1, 0.8]} />;
-    case 'phone':
-      return <boxGeometry args={[0.2, 0.02, 0.4]} />;
-    default:
-      return <sphereGeometry args={[0.5, 32, 32]} />;
-  }
-};
-
-const getObjectMaterial = (name: string, isHovered: boolean, isActive: boolean) => {
-  const baseColor = {
-    computer: '#2a2a2a',
-    book: '#7e57c2',
-    phone: '#212121',
-  }[name] || '#4cc9f0';
-  
-  const hoverColor = isHovered ? '#4cc9f0' : baseColor;
-  const color = isActive ? '#f72585' : hoverColor;
-  
-  return <meshStandardMaterial color={color} roughness={0.7} metalness={0.3} />;
-};
-
 const InteractiveObject: React.FC<InteractiveObjectProps> = ({
   name,
   position,
+  rotation,
   onObjectClick,
   isActive,
   children
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const { playClickSound, playHoverSound } = useSoundContext();
+  const { theme } = useTheme();
+  const isDarkMode = theme === 'dark';
   const meshRef = useRef<THREE.Mesh>(null);
-  const { playHoverSound, playClickSound } = useSoundContext();
+  const [hovered, setHovered] = useState(false);
+  const clickedRef = useRef(false);
   
-  // Animation properties using react-spring
-  const { scale, rotation, positionY } = useSpring({
-    scale: isHovered || isActive ? 1.1 : 1,
-    rotation: isActive ? [0, Math.PI * 2, 0] : [0, 0, 0],
-    positionY: isActive ? position.y + 0.2 : position.y,
-    config: { mass: 1, tension: 170, friction: 26 },
-  });
-
-  // Floating animation
-  useFrame((state) => {
-    if (meshRef.current && !isActive) {
-      meshRef.current.rotation.y += 0.005;
-      meshRef.current.position.y = position.y + Math.sin(state.clock.elapsedTime) * 0.05;
+  // Reset clicked state when active state changes
+  useEffect(() => {
+    if (!isActive) {
+      clickedRef.current = false;
+    }
+  }, [isActive]);
+  
+  // Minimal animation values
+  const { scale, y } = useSpring({
+    scale: hovered ? 1.03 : 1,
+    y: hovered ? position.y + 0.03 : position.y,
+    config: {
+      mass: 2,
+      tension: 400,
+      friction: 30,
+      precision: 0.001
     }
   });
   
+  useEffect(() => {
+    if (hovered && !isActive) {
+      document.body.style.cursor = 'pointer';
+      playHoverSound();
+    } else {
+      document.body.style.cursor = 'auto';
+    }
+    
+    return () => {
+      document.body.style.cursor = 'auto';
+    };
+  }, [hovered, playHoverSound, isActive]);
+  
   const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
-    setIsHovered(true);
-    playHoverSound();
+    if (!isActive) {
+      setHovered(true);
+    }
   };
   
   const handlePointerOut = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
-    setIsHovered(false);
+    setHovered(false);
   };
   
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
+    
+    // For computer object, prevent accidental double-clicks
+    if (name === 'computer') {
+      if (clickedRef.current) {
+        return;
+      }
+      clickedRef.current = true;
+      
+      // Add a small delay before enabling clicking again
+      if (!isActive) {
+        setTimeout(() => {
+          clickedRef.current = false;
+        }, 1500);
+      }
+    }
+    
     playClickSound();
     onObjectClick();
+  };
+  
+  // Custom click handler to pass to the Computer component
+  const handleObjectInternalClick = (objectName: string) => {
+    // This is for internal clicks within the computer (like screen, power button)
+    // We don't need to trigger the parent onObjectClick here, as that would cause camera movement
+  };
+
+  // Get the correct model based on name
+  const getObjectModel = (name: string, handleClick?: (name: string) => void, isActive?: boolean) => {
+    switch (name) {
+      case 'book': return <Book isDarkMode={isDarkMode} />;
+      case 'phone': return <Phone isDarkMode={isDarkMode} />;
+      case 'coffee': return <Coffee isDarkMode={isDarkMode} />;
+      case 'keyboard': return <Keyboard isDarkMode={isDarkMode} />;
+      case 'mouse': return <Mouse isDarkMode={isDarkMode} />;
+      default: return <sphereGeometry args={[0.5, 32, 32]} />;
+    }
   };
 
   return (
     <animated.group
-      position={[position.x, positionY, position.z]}
+      position-x={position.x}
+      position-y={y}
+      position-z={position.z}
       scale={scale}
       rotation={rotation}
     >
-      <mesh
-        ref={meshRef}
-        castShadow
-        receiveShadow
-        onClick={handleClick}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
-      >
-        {getObjectGeometry(name)}
-        {getObjectMaterial(name, isHovered, isActive)}
-      </mesh>
+      {name === 'computer' ? (
+        // For computer, we render it directly without the mesh wrapper
+        // to allow its internal components to handle clicks
+        getObjectModel(name, handleObjectInternalClick, isActive)
+      ) : (
+        // For other objects, we use the mesh wrapper with event handlers
+        <mesh
+          ref={meshRef}
+          castShadow
+          receiveShadow
+          onClick={handleClick}
+          onPointerOver={handlePointerOver}
+          onPointerOut={handlePointerOut}
+        >
+          {getObjectModel(name)}
+        </mesh>
+      )}
       
       {children}
     </animated.group>

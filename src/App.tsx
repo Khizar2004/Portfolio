@@ -3,9 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import LoadingScreen from './components/ui/LoadingScreen';
 import MainScene from './scenes/MainScene';
-import GlobalStyles from './styles/GlobalStyles';
-import ThemeProvider from './context/ThemeContext';
-import { SoundProvider } from './context/SoundContext';
 
 const AppContainer = styled.div`
   width: 100vw;
@@ -17,11 +14,11 @@ const AppContainer = styled.div`
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   
-  // Force loading to end after 10 seconds regardless, for debugging
+  // Force loading to end after a reasonable timeout (5s) for better user experience
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 10000);
+    }, 5000);
     
     return () => clearTimeout(timeout);
   }, []);
@@ -31,21 +28,16 @@ function App() {
   };
 
   return (
-    <ThemeProvider>
-      <SoundProvider>
-        <GlobalStyles />
-        <AppContainer>
-          <Router>
-            {isLoading && <LoadingScreen />}
-            <Suspense fallback={<LoadingScreen />}>
-              <Routes>
-                <Route path="/" element={<MainScene onLoadComplete={handleLoadComplete} />} />
-              </Routes>
-            </Suspense>
-          </Router>
-        </AppContainer>
-      </SoundProvider>
-    </ThemeProvider>
+    <AppContainer>
+      <Router>
+        {isLoading && <LoadingScreen />}
+        <Suspense fallback={<LoadingScreen />}>
+          <Routes>
+            <Route path="/" element={<MainScene onLoadComplete={handleLoadComplete} />} />
+          </Routes>
+        </Suspense>        
+      </Router>
+    </AppContainer>
   );
 }
 

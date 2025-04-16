@@ -1,11 +1,15 @@
 import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
 import useSound from 'use-sound';
 
-// Note: These are placeholder imports - you'll need to add actual sound files to your assets folder
-// import clickSound from '../assets/sounds/click.mp3';
-// import hoverSound from '../assets/sounds/hover.mp3';
-// import ambientSound from '../assets/sounds/ambient.mp3';
+// Sound file paths
+const clickSoundUrl = '/sounds/switch-on.mp3';
+const hoverSoundUrl = '/sounds/rising-pops.mp3';
+const swishSoundUrl = '/sounds/swish.wav';
+const swishReverseSoundUrl = '/sounds/swish-rev.wav';
+const startupSoundUrl = '/sounds/windows-xp-startup.mp3';
+const shutdownSoundUrl = '/sounds/windows-xp-shutdown.mp3';
 
+// Define what our sound context provides
 interface SoundContextType {
   isSoundEnabled: boolean;
   isMusicEnabled: boolean;
@@ -13,14 +17,33 @@ interface SoundContextType {
   toggleMusic: () => void;
   playClickSound: () => void;
   playHoverSound: () => void;
+  playSwishSound: () => void;
+  playSwishReverseSound: () => void;
+  playStartupSound: () => void;
+  playShutdownSound: () => void;
 }
 
 const SoundContext = createContext<SoundContextType | undefined>(undefined);
 
+// Create a fallback for when context is missing
+const fallbackSoundContext: SoundContextType = {
+  isSoundEnabled: false,
+  isMusicEnabled: false,
+  toggleSound: () => console.warn('Sound context not available'),
+  toggleMusic: () => console.warn('Sound context not available'),
+  playClickSound: () => {},
+  playHoverSound: () => {},
+  playSwishSound: () => {},
+  playSwishReverseSound: () => {},
+  playStartupSound: () => {},
+  playShutdownSound: () => {}
+};
+
 export const useSoundContext = () => {
   const context = useContext(SoundContext);
   if (!context) {
-    throw new Error('useSoundContext must be used within a SoundProvider');
+    console.warn('useSoundContext called outside of SoundProvider. Using fallback implementation.');
+    return fallbackSoundContext;
   }
   return context;
 };
@@ -33,18 +56,97 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
   const [isSoundEnabled, setIsSoundEnabled] = useState(true);
   const [isMusicEnabled, setIsMusicEnabled] = useState(false);
   
-  // Once you have actual sound files, uncomment these
-  // const [playClick] = useSound(clickSound, { volume: 0.5, soundEnabled: isSoundEnabled });
-  // const [playHover] = useSound(hoverSound, { volume: 0.2, soundEnabled: isSoundEnabled });
-  // const [playAmbient, { stop: stopAmbient }] = useSound(ambientSound, { 
-  //   volume: 0.3, 
-  //   soundEnabled: isMusicEnabled,
-  //   loop: true
-  // });
+  // Initialize all sound effects with useSound
+  const [playClick] = useSound(clickSoundUrl, { 
+    volume: 0.3, 
+    soundEnabled: isSoundEnabled 
+  });
   
-  // For now we'll use empty functions as placeholders
-  const playClick = useCallback(() => {}, []);
-  const playHover = useCallback(() => {}, []);
+  const [playHover] = useSound(hoverSoundUrl, { 
+    volume: 0.2, 
+    soundEnabled: isSoundEnabled 
+  });
+  
+  const [playSwish] = useSound(swishSoundUrl, { 
+    volume: 0.3, 
+    soundEnabled: isSoundEnabled 
+  });
+  
+  const [playSwishReverse] = useSound(swishReverseSoundUrl, { 
+    volume: 0.3, 
+    soundEnabled: isSoundEnabled 
+  });
+  
+  const [playStartup] = useSound(startupSoundUrl, { 
+    volume: 0.5, 
+    soundEnabled: isSoundEnabled 
+  });
+  
+  const [playShutdown] = useSound(shutdownSoundUrl, { 
+    volume: 0.5, 
+    soundEnabled: isSoundEnabled 
+  });
+  
+  // Create safe wrapper functions for all sounds
+  const playClickSound = useCallback(() => {
+    if (isSoundEnabled) {
+      try {
+        playClick();
+      } catch (error) {
+        console.error('Error playing click sound:', error);
+      }
+    }
+  }, [isSoundEnabled, playClick]);
+  
+  const playHoverSound = useCallback(() => {
+    if (isSoundEnabled) {
+      try {
+        playHover();
+      } catch (error) {
+        console.error('Error playing hover sound:', error);
+      }
+    }
+  }, [isSoundEnabled, playHover]);
+  
+  const playSwishSound = useCallback(() => {
+    if (isSoundEnabled) {
+      try {
+        playSwish();
+      } catch (error) {
+        console.error('Error playing swish sound:', error);
+      }
+    }
+  }, [isSoundEnabled, playSwish]);
+  
+  const playSwishReverseSound = useCallback(() => {
+    if (isSoundEnabled) {
+      try {
+        playSwishReverse();
+      } catch (error) {
+        console.error('Error playing swish reverse sound:', error);
+      }
+    }
+  }, [isSoundEnabled, playSwishReverse]);
+  
+  const playStartupSound = useCallback(() => {
+    if (isSoundEnabled) {
+      try {
+        playStartup();
+      } catch (error) {
+        console.error('Error playing startup sound:', error);
+      }
+    }
+  }, [isSoundEnabled, playStartup]);
+  
+  const playShutdownSound = useCallback(() => {
+    if (isSoundEnabled) {
+      try {
+        playShutdown();
+      } catch (error) {
+        console.error('Error playing shutdown sound:', error);
+      }
+    }
+  }, [isSoundEnabled, playShutdown]);
 
   const toggleSound = () => {
     setIsSoundEnabled(prev => !prev);
@@ -52,13 +154,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
 
   const toggleMusic = () => {
     setIsMusicEnabled(prev => !prev);
-    
-    // Uncomment once you have the actual sound files
-    // if (!isMusicEnabled) {
-    //   playAmbient();
-    // } else {
-    //   stopAmbient();
-    // }
   };
 
   const value: SoundContextType = {
@@ -66,8 +161,12 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     isMusicEnabled,
     toggleSound,
     toggleMusic,
-    playClickSound: playClick,
-    playHoverSound: playHover
+    playClickSound,
+    playHoverSound,
+    playSwishSound,
+    playSwishReverseSound,
+    playStartupSound,
+    playShutdownSound
   };
 
   return (

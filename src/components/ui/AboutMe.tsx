@@ -175,7 +175,7 @@ const TimelineSubtitle = styled.p`
 
 const AboutMe: React.FC = () => {
   return (
-    <AboutContainer>
+    <AboutContainer onClick={(e) => e.stopPropagation()}>
       <AboutHeader>About Me</AboutHeader>
       
       <AboutContent>

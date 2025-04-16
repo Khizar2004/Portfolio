@@ -5,9 +5,35 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
+
+/* Only keeping unique styles that aren't in GlobalStyles */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Ensure control buttons are always on top of all other elements */
+button[aria-label="Back to overview"] {
+  position: fixed !important;
+  bottom: 2rem !important;
+  right: 2rem !important;
+  z-index: 99999 !important;
+  pointer-events: all !important;
+  /* Make sure it's highly visible */
+  background-color: #3f51b5 !important;
+  color: white !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Make HTML wrapper allow interaction with content */
+.html-content-wrapper {
+  pointer-events: all !important;
+}
+
+/* Handle pointer events for project content */
+[class*="ProjectContainer"] {
+  pointer-events: all !important;
 }

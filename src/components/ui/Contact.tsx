@@ -149,7 +149,7 @@ const Contact: React.FC = () => {
   };
   
   return (
-    <ContactContainer>
+    <ContactContainer onClick={(e) => e.stopPropagation()}>
       <ContactHeader>Contact Me</ContactHeader>
       
       <ContactContent>

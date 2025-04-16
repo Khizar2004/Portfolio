@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../context/ThemeContext';
 import { useSoundContext } from '../../context/SoundContext';
@@ -10,7 +10,8 @@ const ControlPanelContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  z-index: 100;
+  z-index: 9999;
+  pointer-events: all;
 `;
 
 const ControlButton = styled.button`
@@ -22,9 +23,11 @@ const ControlButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: 2px solid ${({ theme }) => theme.primary};
   transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
   cursor: pointer;
+  font-size: 1.2rem;
   
   &:hover {
     transform: scale(1.1);
@@ -33,21 +36,29 @@ const ControlButton = styled.button`
   }
 `;
 
-const InfoPanel = styled.div<{ isVisible: boolean }>`
+const InfoPanel = styled.div<{ $isVisible: boolean }>`
   position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  background-color: ${({ theme }) => theme.surface};
-  padding: 1.5rem;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: ${({ theme }) => theme.backgroundSecondary};
+  border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  color: ${({ theme }) => theme.text};
-  max-width: 350px;
-  transform: ${({ isVisible }) => isVisible ? 'translateY(0)' : 'translateY(20px)'};
-  opacity: ${({ isVisible }) => isVisible ? 1 : 0};
-  visibility: ${({ isVisible }) => isVisible ? 'visible' : 'hidden'};
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-  z-index: 100;
+  padding: 10px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: ${({ $isVisible }) => $isVisible ? 'translateY(0)' : 'translateY(20px)'};
+  opacity: ${({ $isVisible }) => $isVisible ? 1 : 0};
+  visibility: ${({ $isVisible }) => $isVisible ? 'visible' : 'hidden'};
+  max-width: 400px;
+  width: 100%;
+  
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 8px 15px;
+    font-size: 14px;
+  }
 `;
 
 const InfoTitle = styled.h3`
@@ -59,6 +70,28 @@ const InfoDescription = styled.p`
   margin: 0 0 1rem 0;
   font-size: 0.9rem;
   line-height: 1.5;
+`;
+
+const DeviceIndicator = styled.div`
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background-color: ${({ theme }) => theme.surface};
+  color: ${({ theme }) => theme.text};
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  opacity: 0.7;
+  z-index: 100;
+`;
+
+const BackButton = styled(ControlButton)`
+  background-color: ${({ theme }) => theme.primary};
+  color: white;
+  font-size: 1.4rem;
+  font-weight: bold;
+  position: relative;
+  z-index: 9999;
 `;
 
 interface ObjectInfo {
@@ -81,6 +114,10 @@ const objectInfoData: ObjectInfo = {
     title: 'Contact',
     description: 'Want to get in touch? Here\'s how you can reach me for collaborations, job opportunities, or just to say hello!',
   },
+  coffee: {
+    title: 'Coffee Break',
+    description: 'Even developers need a break sometimes! This represents my love for coffee and taking moments to recharge.',
+  },
   // Add more objects as needed
 };
 
@@ -91,20 +128,66 @@ interface ControlPanelProps {
 
 const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }) => {
   const { theme, toggleTheme } = useTheme();
-  const { isSoundEnabled, isMusicEnabled, toggleSound, toggleMusic, playClickSound } = useSoundContext();
+  const { playClickSound, isSoundEnabled, toggleSound, isMusicEnabled, toggleMusic } = useSoundContext();
+  const [deviceType, setDeviceType] = useState('desktop');
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setDeviceType('mobile');
+      } else if (window.innerWidth <= 1024) {
+        setDeviceType('tablet');
+      } else {
+        setDeviceType('desktop');
+      }
+    };
+    
+    // Initial check
+    handleResize();
+    
+    // Add resize listener
+    window.addEventListener('resize', handleResize);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  // Use ref callback for stable escape key handler
+  const handleEscapeKey = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape' && activeObject) {
+      resetCamera();
+    }
+  }, [activeObject, resetCamera]);
+  
+  // Add direct handler for back button with proper cleanup
+  useEffect(() => {
+    // Add event listener with the callback reference
+    window.addEventListener('keydown', handleEscapeKey);
+    
+    // Clean up properly
+    return () => {
+      window.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [handleEscapeKey]); // Only re-run if handleEscapeKey changes
 
   const handleButtonClick = (action: () => void) => {
     playClickSound();
+    // Call action directly - don't use setTimeout
     action();
   };
 
   return (
     <>
-      <InfoPanel isVisible={!!activeObject}>
+      <DeviceIndicator>
+        {deviceType.toUpperCase()} MODE
+      </DeviceIndicator>
+
+      <InfoPanel $isVisible={!!activeObject}>
         {activeObject && objectInfoData[activeObject] ? (
           <>
             <InfoTitle>{objectInfoData[activeObject].title}</InfoTitle>
             <InfoDescription>{objectInfoData[activeObject].description}</InfoDescription>
+            <InfoDescription>Press ESC key to return to overview.</InfoDescription>
           </>
         ) : (
           <InfoDescription>
@@ -115,12 +198,13 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
 
       <ControlPanelContainer>
         {activeObject && (
-          <ControlButton 
+          <BackButton 
             onClick={() => handleButtonClick(resetCamera)}
             aria-label="Back to overview"
+            style={{ cursor: 'pointer !important' }}
           >
             ←
-          </ControlButton>
+          </BackButton>
         )}
         
         <ControlButton 
