@@ -61,19 +61,6 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
       cameraPosition: new THREE.Vector3(1.5, 0.8, 0.8),
       component: null
     },
-    { 
-      name: 'plant', 
-      position: new THREE.Vector3(-1.2, 1.03, -1.3),
-      cameraPosition: new THREE.Vector3(-1.2, 1.2, -0.2),
-      component: null
-    },
-    { 
-      name: 'headphones', 
-      position: new THREE.Vector3(-0.6, 0.2, -0.3),
-      rotation: new THREE.Euler(0, Math.PI * 0.3, 0),
-      cameraPosition: new THREE.Vector3(-0.8, 0.8, 0.5),
-      component: null 
-    },
   ];
 
   return (

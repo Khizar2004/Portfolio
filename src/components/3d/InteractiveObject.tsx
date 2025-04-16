@@ -7,10 +7,8 @@ import { useTheme } from '../../context/ThemeContext';
 import Book from './objects/Book';
 import Phone from './objects/Phone';
 import Coffee from './objects/Coffee';
-import Plant from './objects/Plant';
 import Keyboard from './objects/Keyboard';
 import Mouse from './objects/Mouse';
-import Headphones from './objects/Headphones';
 
 interface InteractiveObjectProps {
   name: string;
@@ -114,10 +112,8 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
       case 'book': return <Book isDarkMode={isDarkMode} />;
       case 'phone': return <Phone isDarkMode={isDarkMode} />;
       case 'coffee': return <Coffee isDarkMode={isDarkMode} />;
-      case 'plant': return <Plant isDarkMode={isDarkMode} />;
       case 'keyboard': return <Keyboard isDarkMode={isDarkMode} />;
       case 'mouse': return <Mouse isDarkMode={isDarkMode} />;
-      case 'headphones': return <Headphones isDarkMode={isDarkMode} />;
       default: return <sphereGeometry args={[0.5, 32, 32]} />;
     }
   };

@@ -375,7 +375,7 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
       {/* Dark mode desk lamp tooltip */}
       {showDarkModeTooltip && (
         <Tooltip
-          text="Tip: Click the desk lamp or ceiling light to brighten up different areas of the room!"
+          text="Tip: Click the desk lamp to brighten up the room!"
           buttonText="OK"
           onButtonClick={() => setShowDarkModeTooltip(false)}
           active={showDarkModeTooltip}

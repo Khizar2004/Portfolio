@@ -1,6 +1,5 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useThree } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -8,18 +7,24 @@ import { useTheme } from '../../context/ThemeContext';
 import Desk from './objects/Desk';
 import Walls from './objects/Walls';
 import DeskLamp from './objects/DeskLamp';
-import Shelf from './objects/Shelf';
 import KeyboardMat from './objects/KeyboardMat';
-import HeadphoneStand from './objects/HeadphoneStand';
+import Speaker from './objects/Speaker';
 import InteractiveObjects from './InteractiveObjects';
 import Monitor from './objects/Monitor';
 // Import furniture components
 import Chair from './objects/Chair';
 import WallClock from './objects/WallClock';
-import Rug from './objects/Rug';
+import ModelRug from './objects/ModelRug';
 import Couch from './objects/Couch';
 import CoffeeTable from './objects/CoffeeTable';
-import CeilingLight from './objects/CeilingLight';
+// Import new components
+import Bookcase from './objects/Bookcase';
+import Cubecubby from './objects/Cubecubby';
+import PictureFrame from './objects/PictureFrame';
+import Pinboard from './objects/Pinboard';
+import Window from './objects/Window';
+import Trashcan from './objects/Trashcan';
+import DebrisPapers from './objects/DebrisPapers';
 
 interface WorkspaceEnvironmentProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
@@ -36,21 +41,29 @@ const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({ onObjectCli
     <group>
       {/* Static Environment */}
       <Walls isDarkMode={isDarkMode} />
+      <Window isDarkMode={isDarkMode} />
       <Desk isDarkMode={isDarkMode} />
       <Chair isDarkMode={isDarkMode} />
       <WallClock isDarkMode={isDarkMode} />
-      <Rug isDarkMode={isDarkMode} />
-      <CeilingLight isDarkMode={isDarkMode} />
+      <ModelRug isDarkMode={isDarkMode} />
       
       {/* Desk Setup */}
       <DeskLamp isDarkMode={isDarkMode} />
       <KeyboardMat isDarkMode={isDarkMode} />
-      <HeadphoneStand isDarkMode={isDarkMode} />
+      <Speaker isDarkMode={isDarkMode} />
       <Monitor isDarkMode={isDarkMode} />
       
-      {/* Lounge Area */}
+      {/* Wall Decorations */}
+      <PictureFrame isDarkMode={isDarkMode} />
+      <Pinboard isDarkMode={isDarkMode} />
+      
+      {/* Room Furniture */}
+      <Bookcase isDarkMode={isDarkMode} />
+      <Cubecubby isDarkMode={isDarkMode} />
       <Couch isDarkMode={isDarkMode} />
       <CoffeeTable isDarkMode={isDarkMode} />
+      <Trashcan isDarkMode={isDarkMode} />
+      <DebrisPapers isDarkMode={isDarkMode} />
       
       {/* Interactive Objects */}
       <InteractiveObjects 

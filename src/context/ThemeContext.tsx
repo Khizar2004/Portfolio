@@ -30,7 +30,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 // Create a fallback for when context is missing
 const fallbackThemeContext: ThemeContextType = {
-  theme: 'dark',
+  theme: 'light',
   toggleTheme: () => console.warn('Theme context not available')
 };
 
@@ -48,7 +48,7 @@ interface ThemeProviderProps {
   initialTheme?: ThemeMode;
 }
 
-const ThemeProvider = ({ children, initialTheme = 'dark' }: ThemeProviderProps) => {
+const ThemeProvider = ({ children, initialTheme = 'light' }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<ThemeMode>(initialTheme);
 
   const toggleTheme = () => {

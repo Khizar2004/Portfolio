@@ -36,21 +36,29 @@ const ControlButton = styled.button`
   }
 `;
 
-const InfoPanel = styled.div<{ isVisible: boolean }>`
+const InfoPanel = styled.div<{ $isVisible: boolean }>`
   position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  background-color: ${({ theme }) => theme.surface};
-  padding: 1.5rem;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: ${({ theme }) => theme.backgroundSecondary};
+  border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  color: ${({ theme }) => theme.text};
-  max-width: 350px;
-  transform: ${({ isVisible }) => isVisible ? 'translateY(0)' : 'translateY(20px)'};
-  opacity: ${({ isVisible }) => isVisible ? 1 : 0};
-  visibility: ${({ isVisible }) => isVisible ? 'visible' : 'hidden'};
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  padding: 10px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: ${({ $isVisible }) => $isVisible ? 'translateY(0)' : 'translateY(20px)'};
+  opacity: ${({ $isVisible }) => $isVisible ? 1 : 0};
+  visibility: ${({ $isVisible }) => $isVisible ? 'visible' : 'hidden'};
+  max-width: 400px;
+  width: 100%;
+  
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 8px 15px;
+    font-size: 14px;
+  }
 `;
 
 const InfoTitle = styled.h3`
@@ -109,10 +117,6 @@ const objectInfoData: ObjectInfo = {
   coffee: {
     title: 'Coffee Break',
     description: 'Even developers need a break sometimes! This represents my love for coffee and taking moments to recharge.',
-  },
-  plant: {
-    title: 'Growth Mindset',
-    description: 'This plant represents my commitment to continuous learning and growth as a developer and designer.',
   },
   // Add more objects as needed
 };
@@ -178,7 +182,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
         {deviceType.toUpperCase()} MODE
       </DeviceIndicator>
 
-      <InfoPanel isVisible={!!activeObject}>
+      <InfoPanel $isVisible={!!activeObject}>
         {activeObject && objectInfoData[activeObject] ? (
           <>
             <InfoTitle>{objectInfoData[activeObject].title}</InfoTitle>
