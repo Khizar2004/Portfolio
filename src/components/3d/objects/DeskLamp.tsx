@@ -27,7 +27,7 @@ const DeskLamp: React.FC<DeskLampProps> = ({ isDarkMode = false }) => {
 
   return (
     <group>
-      <primitive object={scene} scale={0.65} position={[-0.8, 0.3, 0]} rotation={[0, 0.5, 0]}/>
+      <primitive object={scene} scale={0.8} position={[-1, 0.3, 0]} rotation={[0, 0.5, 0]}/>
     </group>
   );
 };
