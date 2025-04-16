@@ -73,8 +73,8 @@ const Walls: React.FC<WallsProps> = ({ isDarkMode }) => {
       </mesh>
       
       {/* Side Wall */}
-      <mesh position={[-5, 1, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
-        <boxGeometry args={[5, 5, 0.1]} />
+      <mesh position={[-5, 1, 1.5]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
+        <boxGeometry args={[6, 5, 0.1]} />
         <meshStandardMaterial 
           color={sideWallColor} 
           roughness={0.9} 
@@ -84,8 +84,8 @@ const Walls: React.FC<WallsProps> = ({ isDarkMode }) => {
       </mesh>
       
       {/* Ceiling */}
-      <mesh position={[0, 3.5, 0]} rotation={[Math.PI / 2, 0, 0]} receiveShadow>
-        <boxGeometry args={[10, 5, 0.1]} />
+      <mesh position={[0, 3.5, 1.5]} rotation={[Math.PI / 2, 0, 0]} receiveShadow>
+        <boxGeometry args={[10, 6, 0.1]} />
         <meshStandardMaterial 
           color={isDarkMode ? "#191510" : "#f5ebd7"} 
           roughness={0.9} 
@@ -104,8 +104,8 @@ const Walls: React.FC<WallsProps> = ({ isDarkMode }) => {
       </mesh>
       
       {/* Baseboard for side wall */}
-      <mesh position={[-4.95, -0.9, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
-        <boxGeometry args={[5, 0.2, 0.05]} />
+      <mesh position={[-4.95, -0.9, 1.5]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
+        <boxGeometry args={[6, 0.2, 0.05]} />
         <meshStandardMaterial 
           color={isDarkMode ? "#0e0e0e" : "#b09878"} 
           roughness={0.8} 
@@ -123,8 +123,8 @@ const Walls: React.FC<WallsProps> = ({ isDarkMode }) => {
         />
       </mesh>
       
-      <mesh position={[-4.95, 3.4, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
-        <boxGeometry args={[5, 0.1, 0.05]} />
+      <mesh position={[-4.95, 3.4, 1.5]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
+        <boxGeometry args={[6, 0.1, 0.05]} />
         <meshStandardMaterial 
           color={isDarkMode ? "#0e0e0e" : "#c5b093"} 
           roughness={0.8} 

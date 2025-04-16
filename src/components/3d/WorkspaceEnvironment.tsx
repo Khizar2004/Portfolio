@@ -25,7 +25,10 @@ import Pinboard from './objects/Pinboard';
 import Window from './objects/Window';
 import Trashcan from './objects/Trashcan';
 import DebrisPapers from './objects/DebrisPapers';
+// Import appliances and lighting
 import Fridge from './objects/Fridge';
+import CeilingLight from './objects/CeilingLight';
+import Candle from './objects/Candle';
 
 interface WorkspaceEnvironmentProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
@@ -48,8 +51,12 @@ const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({ onObjectCli
       <WallClock isDarkMode={isDarkMode} />
       <ModelRug isDarkMode={isDarkMode} />
       
-      {/* Desk Setup */}
+      {/* Lighting */}
+      <CeilingLight isDarkMode={isDarkMode} />
       <DeskLamp isDarkMode={isDarkMode} />
+      <Candle isDarkMode={isDarkMode} />
+      
+      {/* Desk Setup */}
       <KeyboardMat isDarkMode={isDarkMode} />
       <Speaker isDarkMode={isDarkMode} />
       <Monitor isDarkMode={isDarkMode} />
@@ -66,7 +73,7 @@ const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({ onObjectCli
       <Trashcan isDarkMode={isDarkMode} />
       <DebrisPapers isDarkMode={isDarkMode} />
       
-      {/* New Appliances */}
+      {/* Appliances */}
       <Fridge isDarkMode={isDarkMode} />
       
       {/* Interactive Objects */}
