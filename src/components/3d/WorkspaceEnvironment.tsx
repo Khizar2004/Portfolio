@@ -25,6 +25,7 @@ import Pinboard from './objects/Pinboard';
 import Window from './objects/Window';
 import Trashcan from './objects/Trashcan';
 import DebrisPapers from './objects/DebrisPapers';
+import Fridge from './objects/Fridge';
 
 interface WorkspaceEnvironmentProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
@@ -64,6 +65,9 @@ const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({ onObjectCli
       <CoffeeTable isDarkMode={isDarkMode} />
       <Trashcan isDarkMode={isDarkMode} />
       <DebrisPapers isDarkMode={isDarkMode} />
+      
+      {/* New Appliances */}
+      <Fridge isDarkMode={isDarkMode} />
       
       {/* Interactive Objects */}
       <InteractiveObjects 
