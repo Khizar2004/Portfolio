@@ -25,7 +25,7 @@ const Phone: React.FC<PhoneProps> = ({ isDarkMode = false }) => {
 
   return (
     <group>
-      <primitive object={scene} scale={0.3} position={[0, 0.3, 0]} rotation={[-Math.PI / 2, Math.PI, 0]} />
+      <primitive object={scene} scale={2} position={[0, 0.3, 0]} rotation={[-Math.PI / 2, Math.PI, 0]} />
     </group>
   );
 };
