@@ -26,7 +26,7 @@ const Keyboard: React.FC<KeyboardProps> = ({ isDarkMode = false }) => {
 
   return (
     <group>
-      <primitive object={scene} scale={0.4} position={[-0.1, 0.3, 0.3]} />
+      <primitive object={scene} scale={0.4} position={[-0.1, 0.34, 0.3]} />
     </group>
   );
 };
