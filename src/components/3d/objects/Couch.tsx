@@ -29,8 +29,8 @@ const Couch: React.FC<CouchProps> = ({ isDarkMode }) => {
   }, [isDarkMode, materials]);
 
   return (
-    <group position={[3.8, -0.8, 0.8]} rotation={[0, -Math.PI/2, 0]}>
-      <primitive object={scene} scale={0.8} />
+    <group position={[3.8, -0.8, 0.8]} rotation={[0, 0, 0]}>
+      <primitive object={scene} scale={1.4} />
     </group>
   );
 };
