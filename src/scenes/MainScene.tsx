@@ -16,31 +16,7 @@ const CanvasContainer = styled.div`
   position: absolute;
 `;
 
-// Create an emergency back button that's always accessible
-const EmergencyBackButton = styled.button<{ $visible: boolean }>`
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #f44336;
-  color: white;
-  display: ${({ $visible }) => $visible ? 'flex' : 'none'};
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5rem;
-  border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  z-index: 99999;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  
-  &:hover {
-    background-color: #d32f2f;
-    transform: scale(1.1);
-  }
-`;
+// Emergency back button removed - ESC key functionality only
 
 interface MainSceneProps {
   onLoadComplete?: () => void;
@@ -200,14 +176,6 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     return () => window.removeEventListener('keydown', handleKeyDown, { capture: true });
   }, [activeObject, resetCamera]);
 
-  // Force a handler for the emergency back button to be more reliable
-  const handleEmergencyBack = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    playClickSound();
-    resetCamera();
-  }, [playClickSound, resetCamera]);
-
   const handleCloseTooltip = useCallback(() => {
     playClickSound();
     setShowTooltip(false);
@@ -351,15 +319,6 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
         activeObject={activeObject} 
         resetCamera={resetCamera} 
       />
-      
-      {/* Emergency back button */}
-      <EmergencyBackButton 
-        onClick={handleEmergencyBack}
-        $visible={!!activeObject}
-        aria-label="Back to overview"
-      >
-        ←
-      </EmergencyBackButton>
       
       {/* Welcome tooltip with instructions */}
       {showTooltip && (

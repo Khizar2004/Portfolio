@@ -5,8 +5,12 @@ import InteractiveObject from './InteractiveObject';
 import WindowsProjectDisplay from '../ui/WindowsProjectDisplay';
 import AboutMe from '../ui/AboutMe';
 import Contact from '../ui/Contact';
+import Resume from '../ui/Resume';
 import HtmlContextWrapper from '../ui/HtmlContextWrapper';
 import { ThemeMode } from '../../context/ThemeContext';
+import Keyboard from './objects/Keyboard';
+import Mouse from './objects/Mouse';
+import ResumePaper from './objects/ResumePaper';
 
 interface InteractiveObjectsProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
@@ -21,6 +25,8 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
   isMobile,
   theme
 }) => {
+  const isDarkMode = theme === 'dark';
+
   // Objects with intentional placement - with fixed positions
   const objects = [
     { 
@@ -30,29 +36,17 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
       component: WindowsProjectDisplay as ComponentType
     },
     { 
-      name: 'keyboard', 
-      position: new THREE.Vector3(0, 0.0, 0.25),
-      cameraPosition: new THREE.Vector3(0, 0.8, 1.2),
-      component: null
-    },
-    { 
-      name: 'mouse', 
-      position: new THREE.Vector3(0.6, 0.0, 0.2),
-      cameraPosition: new THREE.Vector3(0.8, 0.8, 1.0),
-      component: null
-    },
-    { 
       name: 'book', 
       position: new THREE.Vector3(-0.9, 0.0, 0.1),
       rotation: new THREE.Euler(0, Math.PI * 0.15, 0),
-      cameraPosition: new THREE.Vector3(-1, 1, 1.2),
+      cameraPosition: new THREE.Vector3(1.5, 2.0, 3.5),
       component: AboutMe as ComponentType
     },
     { 
       name: 'phone', 
       position: new THREE.Vector3(0.8, 0.0, 0),
       rotation: new THREE.Euler(0, -Math.PI * 0.2, 0),
-      cameraPosition: new THREE.Vector3(1, 0.8, 1),
+      cameraPosition: new THREE.Vector3(1.0, 2.5, 3.5),
       component: Contact as ComponentType
     },
     { 
@@ -61,10 +55,31 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
       cameraPosition: new THREE.Vector3(1.5, 0.8, 0.8),
       component: null
     },
+    { 
+      name: 'resume', 
+      position: new THREE.Vector3(0, 1.5, -1.398), // Position aligned with the pinboard
+      rotation: new THREE.Euler(0, 0, 0), // Aligned with pinboard rotation
+      cameraPosition: new THREE.Vector3(0, 1.5, 3.0), // Zoomed out much further
+      component: Resume as ComponentType
+    },
   ];
+
+  // Static keyboard and mouse positions
+  const keyboardPosition = new THREE.Vector3(0, 0.0, 0.25);
+  const mousePosition = new THREE.Vector3(0.6, 0.0, 0.2);
 
   return (
     <>
+      {/* Static keyboard */}
+      <group position={[keyboardPosition.x, keyboardPosition.y, keyboardPosition.z]}>
+        <Keyboard isDarkMode={isDarkMode} />
+      </group>
+
+      {/* Static mouse */}
+      <group position={[mousePosition.x, mousePosition.y, mousePosition.z]}>
+        <Mouse isDarkMode={isDarkMode} />
+      </group>
+      
       {objects.map((obj) => (
         <InteractiveObject
           key={obj.name}
@@ -78,7 +93,7 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
           {activeObject === obj.name && obj.component && (
             <Suspense fallback={null}>
               <Html
-                position={[0, isMobile ? 1 : 1.2, 0]}
+                position={[0, activeObject === 'phone' ? 0.8 : (isMobile ? 1 : 1.2), 0]}
                 style={{
                   width: isMobile ? '320px' : '640px',
                   height: isMobile ? '240px' : '480px',
@@ -86,11 +101,11 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
                   background: 'transparent',
                   borderRadius: '0px',
                   boxShadow: 'none',
-                  transform: 'scale(0.8)',
+                  transform: activeObject === 'phone' ? 'scale(0.7)' : 'scale(0.8)',
                   transformOrigin: 'center center',
                   overflow: 'hidden'
                 }}
-                distanceFactor={1.5}
+                distanceFactor={activeObject === 'phone' ? 2.0 : 1.5}
                 transform
                 wrapperClass="html-content-wrapper"
                 onClick={(e) => {

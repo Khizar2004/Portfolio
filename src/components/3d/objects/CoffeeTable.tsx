@@ -29,7 +29,7 @@ const CoffeeTable: React.FC<CoffeeTableProps> = ({ isDarkMode }) => {
   }, [isDarkMode, materials]);
 
   return (
-    <group position={[3.6, -0.8, 3.7]} rotation={[0, 0, 0]}>
+    <group position={[3.8, -0.8, 3.5]} rotation={[0, 0, 0]}>
       <primitive object={scene} scale={0.8} />
       
       {/* Coffee mug */}

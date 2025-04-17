@@ -42,10 +42,11 @@ const InfoPanel = styled.div<{ $isVisible: boolean }>`
   left: 50%;
   transform: translateX(-50%);
   background: ${({ theme }) => theme.backgroundSecondary};
-  border: 1px solid ${({ theme }) => theme.borderColor};
-  border-radius: 8px;
-  padding: 10px 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  background-color: ${({ theme }) => theme.background};
+  border: 2px solid ${({ theme }) => theme.borderColor};
+  border-radius: 10px;
+  padding: 15px 25px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
   z-index: 1000;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: ${({ $isVisible }) => $isVisible ? 'translateY(0)' : 'translateY(20px)'};
@@ -56,20 +57,25 @@ const InfoPanel = styled.div<{ $isVisible: boolean }>`
   
   @media (max-width: 768px) {
     width: 90%;
-    padding: 8px 15px;
+    padding: 10px 20px;
     font-size: 14px;
   }
 `;
 
 const InfoTitle = styled.h3`
   margin: 0 0 1rem 0;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const InfoDescription = styled.p`
   margin: 0 0 1rem 0;
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
 `;
 
 const DeviceIndicator = styled.div`
@@ -83,15 +89,6 @@ const DeviceIndicator = styled.div`
   border-radius: 4px;
   opacity: 0.7;
   z-index: 100;
-`;
-
-const BackButton = styled(ControlButton)`
-  background-color: ${({ theme }) => theme.primary};
-  color: white;
-  font-size: 1.4rem;
-  font-weight: bold;
-  position: relative;
-  z-index: 9999;
 `;
 
 interface ObjectInfo {
@@ -197,15 +194,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
       </InfoPanel>
 
       <ControlPanelContainer>
-        {activeObject && (
-          <BackButton 
-            onClick={() => handleButtonClick(resetCamera)}
-            aria-label="Back to overview"
-            style={{ cursor: 'pointer !important' }}
-          >
-            ←
-          </BackButton>
-        )}
+        {/* Back button removed - ESC key functionality is sufficient */}
         
         <ControlButton 
           onClick={() => handleButtonClick(toggleTheme)}

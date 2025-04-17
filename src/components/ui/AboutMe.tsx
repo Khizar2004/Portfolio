@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const AboutContainer = styled.div`
@@ -42,11 +42,18 @@ const ProfileSection = styled.div`
   }
 `;
 
-const ProfileImage = styled.div`
+interface ProfileImageProps {
+  hasImage: boolean;
+}
+
+const ProfileImage = styled.div<ProfileImageProps>`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: ${({ theme }) => theme.accent};
+  background-color: ${({ theme, hasImage }) => hasImage ? 'transparent' : theme.accent};
+  background-image: ${({ hasImage }) => hasImage ? 'url("/images/profile.jpg")' : 'none'};
+  background-size: cover;
+  background-position: center;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -54,6 +61,7 @@ const ProfileImage = styled.div`
   font-size: 2rem;
   color: white;
   margin: 0 auto;
+  overflow: hidden;
   
   @media (min-width: 600px) {
     margin: 0;
@@ -174,16 +182,28 @@ const TimelineSubtitle = styled.p`
 `;
 
 const AboutMe: React.FC = () => {
+  const [hasProfileImage, setHasProfileImage] = useState(false);
+  
+  useEffect(() => {
+    // Check if profile image exists
+    const img = new Image();
+    img.src = '/images/profile.jpg';
+    img.onload = () => setHasProfileImage(true);
+    img.onerror = () => setHasProfileImage(false);
+  }, []);
+  
   return (
     <AboutContainer onClick={(e) => e.stopPropagation()}>
       <AboutHeader>About Me</AboutHeader>
       
       <AboutContent>
         <ProfileSection>
-          <ProfileImage>JD</ProfileImage>
+          <ProfileImage hasImage={hasProfileImage}>
+            {!hasProfileImage && 'KA'}
+          </ProfileImage>
           
           <ProfileInfo>
-            <Name>John Developer</Name>
+            <Name>Khizar Aamir</Name>
             <Title>Full Stack Developer & 3D Enthusiast</Title>
             <Bio>
               I'm a passionate developer who loves creating immersive web experiences that combine

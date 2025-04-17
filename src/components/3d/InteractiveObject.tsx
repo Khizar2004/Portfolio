@@ -9,6 +9,7 @@ import Phone from './objects/Phone';
 import Coffee from './objects/Coffee';
 import Keyboard from './objects/Keyboard';
 import Mouse from './objects/Mouse';
+import ResumePaper from './objects/ResumePaper';
 
 interface InteractiveObjectProps {
   name: string;
@@ -114,6 +115,7 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
       case 'coffee': return <Coffee isDarkMode={isDarkMode} />;
       case 'keyboard': return <Keyboard isDarkMode={isDarkMode} />;
       case 'mouse': return <Mouse isDarkMode={isDarkMode} />;
+      case 'resume': return <ResumePaper isDarkMode={isDarkMode} />;
       default: return <sphereGeometry args={[0.5, 32, 32]} />;
     }
   };
