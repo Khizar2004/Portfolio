@@ -123,20 +123,16 @@ const Contact: React.FC = () => {
         </Description>
         
         <SocialLinksContainer>
-          <SocialLink href="https://github.com" target="_blank" aria-label="GitHub">
+          <SocialLink href="https://github.com/Khizar2004" target="_blank" aria-label="GitHub">
             <GitHubIcon />
           </SocialLink>
-          <SocialLink href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+          <SocialLink href="https://www.linkedin.com/in/khizar-aamir-680484292/" target="_blank" aria-label="LinkedIn">
             <LinkedInIcon />
           </SocialLink>
-          <SocialLink href="mailto:your.email@example.com" aria-label="Email">
+          <SocialLink href="mailto:kaamir01@student.ubc.ca" aria-label="Email">
             <EmailIcon />
           </SocialLink>
         </SocialLinksContainer>
-        
-        <EmailContainer>
-          <EmailLink href="mailto:your.email@example.com">your.email@example.com</EmailLink>
-        </EmailContainer>
       </ContactContent>
     </ContactContainer>
   );
