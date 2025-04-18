@@ -14,7 +14,7 @@ const Window: React.FC<WindowProps> = ({ isDarkMode }) => {
   
   return (
     <group position={[-4.87, 1.5, 0]} rotation={[0, Math.PI * 1.5, 0]} ref={modelRef}>
-      <primitive object={windowModel} scale={1.2} />
+      <primitive object={windowModel} scale={1.5} />
     </group>
   );
 };
