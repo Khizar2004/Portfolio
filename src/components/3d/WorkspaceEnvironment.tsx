@@ -31,6 +31,7 @@ import CeilingLight from './objects/CeilingLight';
 import Candle from './objects/Candle';
 import PC from './objects/PC';
 import MonkeyToy from './objects/MonkeyToy';
+import Plant from './objects/Plant';
 
 interface WorkspaceEnvironmentProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
@@ -76,6 +77,7 @@ const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({ onObjectCli
       <CoffeeTable isDarkMode={isDarkMode} />
       <Trashcan isDarkMode={isDarkMode} />
       <DebrisPapers isDarkMode={isDarkMode} />
+      <Plant isDarkMode={isDarkMode} />
       
       {/* Appliances */}
       <Fridge isDarkMode={isDarkMode} />

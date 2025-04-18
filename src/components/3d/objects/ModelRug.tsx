@@ -30,7 +30,7 @@ const ModelRug: React.FC<ModelRugProps> = ({ isDarkMode }) => {
   
   return (
     <group 
-      position={[-0.6, -1, 1.3]} // Positioned exactly at floor level
+      position={[-0.2, -1, 1.3]} // Positioned exactly at floor level
       rotation={[0, 0, 0]} 
       ref={modelRef}
     >
