@@ -1,13 +1,12 @@
-import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useCallback, useEffect, useRef } from 'react';
 import useSound from 'use-sound';
 
 // Sound file paths
-const clickSoundUrl = '/sounds/switch-on.mp3';
-const hoverSoundUrl = '/sounds/rising-pops.mp3';
-const swishSoundUrl = '/sounds/swish.wav';
-const swishReverseSoundUrl = '/sounds/swish-rev.wav';
-const startupSoundUrl = '/sounds/windows-xp-startup.mp3';
-const shutdownSoundUrl = '/sounds/windows-xp-shutdown.mp3';
+const clickSoundUrl = '/sounds/clicksound.mp3';
+const hoverSoundUrl = '/sounds/hoversound.mp3';
+const startupSoundUrl = '/sounds/monitor_startup.mp3';
+const shutdownSoundUrl = '/sounds/monitor_shutdown.mp3';
+const backgroundMusicUrl = '/sounds/background.mp3';
 
 // Define what our sound context provides
 interface SoundContextType {
@@ -54,7 +53,48 @@ interface SoundProviderProps {
 
 export const SoundProvider = ({ children }: SoundProviderProps) => {
   const [isSoundEnabled, setIsSoundEnabled] = useState(true);
-  const [isMusicEnabled, setIsMusicEnabled] = useState(false);
+  const [isMusicEnabled, setIsMusicEnabled] = useState(true);
+  const backgroundMusicRef = useRef<HTMLAudioElement | null>(null);
+  
+  // Initialize audio element for background music
+  useEffect(() => {
+    backgroundMusicRef.current = new Audio(backgroundMusicUrl);
+    backgroundMusicRef.current.loop = true;
+    backgroundMusicRef.current.volume = 0.3;
+    
+    // Try to play music immediately (may fail due to browser autoplay restrictions)
+    if (isMusicEnabled) {
+      const playPromise = backgroundMusicRef.current.play();
+      
+      // Handle autoplay restrictions
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.warn("Autoplay prevented due to browser restrictions. User interaction required:", error);
+          // Don't disable music so it can play when user interacts
+        });
+      }
+    }
+    
+    return () => {
+      if (backgroundMusicRef.current) {
+        backgroundMusicRef.current.pause();
+        backgroundMusicRef.current = null;
+      }
+    };
+  }, []);
+  
+  // Control background music playback based on isMusicEnabled state
+  useEffect(() => {
+    if (backgroundMusicRef.current) {
+      if (isMusicEnabled) {
+        backgroundMusicRef.current.play().catch(e => 
+          console.error("Error playing background music:", e)
+        );
+      } else {
+        backgroundMusicRef.current.pause();
+      }
+    }
+  }, [isMusicEnabled]);
   
   // Initialize all sound effects with useSound
   const [playClick] = useSound(clickSoundUrl, { 
@@ -64,16 +104,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
   
   const [playHover] = useSound(hoverSoundUrl, { 
     volume: 0.2, 
-    soundEnabled: isSoundEnabled 
-  });
-  
-  const [playSwish] = useSound(swishSoundUrl, { 
-    volume: 0.3, 
-    soundEnabled: isSoundEnabled 
-  });
-  
-  const [playSwishReverse] = useSound(swishReverseSoundUrl, { 
-    volume: 0.3, 
     soundEnabled: isSoundEnabled 
   });
   
@@ -108,25 +138,14 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     }
   }, [isSoundEnabled, playHover]);
   
+  // Empty functions for swish sounds since files are removed
   const playSwishSound = useCallback(() => {
-    if (isSoundEnabled) {
-      try {
-        playSwish();
-      } catch (error) {
-        console.error('Error playing swish sound:', error);
-      }
-    }
-  }, [isSoundEnabled, playSwish]);
+    // Sound removed, this is a no-op function
+  }, []);
   
   const playSwishReverseSound = useCallback(() => {
-    if (isSoundEnabled) {
-      try {
-        playSwishReverse();
-      } catch (error) {
-        console.error('Error playing swish reverse sound:', error);
-      }
-    }
-  }, [isSoundEnabled, playSwishReverse]);
+    // Sound removed, this is a no-op function
+  }, []);
   
   const playStartupSound = useCallback(() => {
     if (isSoundEnabled) {
