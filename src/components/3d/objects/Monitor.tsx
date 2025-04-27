@@ -86,8 +86,8 @@ const Monitor: React.FC<MonitorProps> = ({ isDarkMode = false }) => {
   const [isBooting, setIsBooting] = useState(false);
   const [isShuttingDown, setIsShuttingDown] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
-  const [bootSound] = useState(() => new Audio('/sounds/windows-xp-startup.mp3'));
-  const [shutdownSound] = useState(() => new Audio('/sounds/windows-xp-shutdown.mp3'));
+  const [bootSound] = useState(() => new Audio('/sounds/monitor_startup.mp3'));
+  const [shutdownSound] = useState(() => new Audio('/sounds/monitor_shutdown.mp3'));
 
   // Optionally adjust materials based on dark mode
   useEffect(() => {
