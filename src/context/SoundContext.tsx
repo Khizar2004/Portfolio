@@ -54,6 +54,7 @@ interface SoundProviderProps {
 export const SoundProvider = ({ children }: SoundProviderProps) => {
   const [isSoundEnabled, setIsSoundEnabled] = useState(true);
   const [isMusicEnabled, setIsMusicEnabled] = useState(true);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const backgroundMusicRef = useRef<HTMLAudioElement | null>(null);
   
   // Initialize audio element for background music
@@ -62,39 +63,45 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     backgroundMusicRef.current.loop = true;
     backgroundMusicRef.current.volume = 0.3;
     
-    // Try to play music immediately (may fail due to browser autoplay restrictions)
-    if (isMusicEnabled) {
-      const playPromise = backgroundMusicRef.current.play();
-      
-      // Handle autoplay restrictions
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.warn("Autoplay prevented due to browser restrictions. User interaction required:", error);
-          // Don't disable music so it can play when user interacts
-        });
-      }
-    }
+    // Set up interaction listener for the entire document
+    const startMusicOnInteraction = () => {
+      setHasInteracted(true);
+      // Remove listeners after first interaction
+      document.removeEventListener('click', startMusicOnInteraction);
+      document.removeEventListener('keydown', startMusicOnInteraction);
+      document.removeEventListener('touchstart', startMusicOnInteraction);
+    };
+    
+    document.addEventListener('click', startMusicOnInteraction);
+    document.addEventListener('keydown', startMusicOnInteraction);
+    document.addEventListener('touchstart', startMusicOnInteraction);
     
     return () => {
       if (backgroundMusicRef.current) {
         backgroundMusicRef.current.pause();
         backgroundMusicRef.current = null;
       }
+      document.removeEventListener('click', startMusicOnInteraction);
+      document.removeEventListener('keydown', startMusicOnInteraction);
+      document.removeEventListener('touchstart', startMusicOnInteraction);
     };
   }, []);
   
-  // Control background music playback based on isMusicEnabled state
+  // Play music when user has interacted and music is enabled
   useEffect(() => {
-    if (backgroundMusicRef.current) {
+    if (hasInteracted && backgroundMusicRef.current) {
       if (isMusicEnabled) {
-        backgroundMusicRef.current.play().catch(e => 
-          console.error("Error playing background music:", e)
-        );
+        const playPromise = backgroundMusicRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.error("Error playing background music:", error);
+          });
+        }
       } else {
         backgroundMusicRef.current.pause();
       }
     }
-  }, [isMusicEnabled]);
+  }, [isMusicEnabled, hasInteracted]);
   
   // Initialize all sound effects with useSound
   const [playClick] = useSound(clickSoundUrl, { 
