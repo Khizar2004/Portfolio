@@ -129,8 +129,8 @@ const Contact: React.FC = () => {
           <SocialLink href="https://www.linkedin.com/in/khizar-aamir-680484292/" target="_blank" aria-label="LinkedIn">
             <LinkedInIcon />
           </SocialLink>
-          <SocialLink href="mailto:kaamir01@student.ubc.ca" aria-label="Email">
-            <EmailIcon />
+          <SocialLink href="mailto:khizaraamir2004@gmail.com" aria-label="Email">
+          <EmailIcon />
           </SocialLink>
         </SocialLinksContainer>
       </ContactContent>
