@@ -31,11 +31,10 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
   const [showTooltip, setShowTooltip] = useState(true);
   const [showDarkModeTooltip, setShowDarkModeTooltip] = useState(false);
   const [dpr, setDpr] = useState(1.5);
+  const [deviceType, setDeviceType] = useState('desktop');
   
   // Add a state for tracking if controls are enabled
   const [controlsEnabled, setControlsEnabled] = useState(true);
-  
-  const [deviceType, setDeviceType] = useState('desktop');
   
   useEffect(() => {
     if (onLoadComplete) {
@@ -48,6 +47,19 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     }
   }, [onLoadComplete]);
 
+  // Show dark mode tooltip when theme changes to dark
+  useEffect(() => {
+    if (theme === 'dark' && !showTooltip) {
+      setShowDarkModeTooltip(true);
+      // Hide the tooltip after 5 seconds
+      const timeout = setTimeout(() => {
+        setShowDarkModeTooltip(false);
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [theme, showTooltip]);
+
+  // Detect device type
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
@@ -68,18 +80,6 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     // Clean up
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // Show dark mode tooltip when theme changes to dark
-  useEffect(() => {
-    if (theme === 'dark' && !showTooltip) {
-      setShowDarkModeTooltip(true);
-      // Hide the tooltip after 5 seconds
-      const timeout = setTimeout(() => {
-        setShowDarkModeTooltip(false);
-      }, 5000);
-      return () => clearTimeout(timeout);
-    }
-  }, [theme, showTooltip]);
 
   const handleObjectClick = useCallback((objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => {
     // Make sure to update the controls enabled state
@@ -209,8 +209,18 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     setDpr(Math.max(1, Math.min(1.5, api.factor * 2)));
   }, []);
 
+  // Handle background click to exit object view on mobile
+  const handleBackgroundClick = useCallback((e: React.MouseEvent) => {
+    if (deviceType === 'mobile' && activeObject) {
+      // Only reset if clicking directly on the canvas container (not on UI elements)
+      if (e.target === e.currentTarget) {
+        resetCamera();
+      }
+    }
+  }, [deviceType, activeObject, resetCamera]);
+
   return (
-    <CanvasContainer>
+    <CanvasContainer onClick={handleBackgroundClick}>
       <Canvas
         gl={{ 
           antialias: true,
@@ -227,6 +237,15 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
             : 'radial-gradient(circle at center, #f8f8f8 0%, #e0e0e0 100%)'
         }}
         dpr={dpr}
+        onClick={(e) => {
+          // Handle background clicks on the canvas for mobile
+          if (deviceType === 'mobile' && activeObject) {
+            // Only reset if there was no direct interaction with a 3D object
+            if (!e.object) {
+              resetCamera();
+            }
+          }
+        }}
       >
         <PerformanceMonitor onDecline={handlePerformanceChange}>
           <fog 
@@ -346,10 +365,7 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
       {/* Welcome tooltip with instructions */}
       {showTooltip && (
         <Tooltip
-          text={deviceType === 'desktop' 
-            ? "Welcome to my interactive portfolio! Click on objects in the room to explore my work. Press ESC to exit any view."
-            : "Welcome to my interactive portfolio! Tap on objects in the room to explore my work. Use the back button to return."
-          }
+          text="Welcome to my interactive portfolio! Click on objects in the room to explore my work."
           buttonText="Got it!"
           onButtonClick={handleCloseTooltip}
           active={showTooltip}
