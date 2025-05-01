@@ -31,10 +31,11 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
   const [showTooltip, setShowTooltip] = useState(true);
   const [showDarkModeTooltip, setShowDarkModeTooltip] = useState(false);
   const [dpr, setDpr] = useState(1.5);
-  const [deviceType, setDeviceType] = useState('desktop');
   
   // Add a state for tracking if controls are enabled
   const [controlsEnabled, setControlsEnabled] = useState(true);
+  
+  const [deviceType, setDeviceType] = useState('desktop');
   
   useEffect(() => {
     if (onLoadComplete) {
@@ -46,6 +47,27 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
       return () => clearTimeout(timeout);
     }
   }, [onLoadComplete]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setDeviceType('mobile');
+      } else if (window.innerWidth <= 1024) {
+        setDeviceType('tablet');
+      } else {
+        setDeviceType('desktop');
+      }
+    };
+    
+    // Initial check
+    handleResize();
+    
+    // Add resize listener
+    window.addEventListener('resize', handleResize);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Show dark mode tooltip when theme changes to dark
   useEffect(() => {
@@ -187,41 +209,8 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     setDpr(Math.max(1, Math.min(1.5, api.factor * 2)));
   }, []);
 
-  // Handle background click for mobile devices
-  const handleBackgroundClick = useCallback((e: any) => {
-    // Only handle background clicks on mobile
-    if (deviceType === 'mobile' && activeObject) {
-      // Check if the click is on the canvas background (not on an interactive object)
-      const isBackgroundClick = e.target.tagName === 'CANVAS';
-      if (isBackgroundClick) {
-        resetCamera();
-      }
-    }
-  }, [deviceType, activeObject, resetCamera]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setDeviceType('mobile');
-      } else if (window.innerWidth <= 1024) {
-        setDeviceType('tablet');
-      } else {
-        setDeviceType('desktop');
-      }
-    };
-    
-    // Initial check
-    handleResize();
-    
-    // Add resize listener
-    window.addEventListener('resize', handleResize);
-    
-    // Clean up
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return (
-    <CanvasContainer onClick={handleBackgroundClick}>
+    <CanvasContainer>
       <Canvas
         gl={{ 
           antialias: true,
@@ -357,7 +346,10 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
       {/* Welcome tooltip with instructions */}
       {showTooltip && (
         <Tooltip
-          text="Welcome to my interactive portfolio! Click on objects in the room to explore my work."
+          text={deviceType === 'desktop' 
+            ? "Welcome to my interactive portfolio! Click on objects in the room to explore my work. Press ESC to exit any view."
+            : "Welcome to my interactive portfolio! Tap on objects in the room to explore my work. Use the back button to return."
+          }
           buttonText="Got it!"
           onButtonClick={handleCloseTooltip}
           active={showTooltip}

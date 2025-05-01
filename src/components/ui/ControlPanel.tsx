@@ -49,7 +49,7 @@ const InfoPanel = styled.div<{ $isVisible: boolean }>`
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
   z-index: 1000;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: ${({ $isVisible }) => $isVisible ? 'translateY(0)' : 'translateY(20px)'};
+  transform: ${({ $isVisible }) => $isVisible ? 'translateY(0) translateX(-50%)' : 'translateY(20px) translateX(-50%)'};
   opacity: ${({ $isVisible }) => $isVisible ? 1 : 0};
   visibility: ${({ $isVisible }) => $isVisible ? 'visible' : 'hidden'};
   max-width: 400px;
@@ -76,6 +76,29 @@ const InfoDescription = styled.p`
   line-height: 1.6;
   font-weight: 500;
   color: ${({ theme }) => theme.text};
+`;
+
+const BackButton = styled.button`
+  background-color: ${({ theme }) => theme.primary};
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 10px;
+  
+  &:hover {
+    background-color: ${({ theme }) => theme.primaryDark || theme.primary};
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 `;
 
 const DeviceIndicator = styled.div`
@@ -185,10 +208,15 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
             <InfoTitle>{objectInfoData[activeObject].title}</InfoTitle>
             <InfoDescription>{objectInfoData[activeObject].description}</InfoDescription>
             <InfoDescription>
-              {deviceType === 'mobile' 
-                ? 'Tap anywhere outside to return to overview.'
-                : 'Press ESC key to return to overview.'}
+              {deviceType === 'desktop' 
+                ? 'Press ESC key to return to overview.' 
+                : 'Use the back button below to return.'}
             </InfoDescription>
+            {(deviceType === 'mobile' || deviceType === 'tablet') && (
+              <BackButton onClick={() => handleButtonClick(resetCamera)}>
+                Back to Overview
+              </BackButton>
+            )}
           </>
         ) : (
           <InfoDescription>
@@ -198,7 +226,14 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
       </InfoPanel>
 
       <ControlPanelContainer>
-        {/* Back button removed - ESC key functionality is sufficient */}
+        {activeObject && (deviceType === 'mobile' || deviceType === 'tablet') && (
+          <ControlButton 
+            onClick={() => handleButtonClick(resetCamera)}
+            aria-label="Return to overview"
+          >
+            ↩️
+          </ControlButton>
+        )}
         
         <ControlButton 
           onClick={() => handleButtonClick(toggleTheme)}

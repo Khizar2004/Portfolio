@@ -34,12 +34,22 @@ const TooltipContainer = styled.div<{ $isDarkMode: boolean; $active: boolean }>`
   opacity: ${props => props.$active ? 1 : 0};
   pointer-events: ${props => props.$active ? 'auto' : 'none'};
   transition: opacity 0.3s ease;
+  
+  @media (max-width: 768px) {
+    max-width: 85%;
+    padding: 12px 20px;
+    top: 40%;
+  }
 `;
 
 const TooltipText = styled.p`
   font-size: 16px;
   line-height: 1.5;
   margin: 0;
+  
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const ActionButton = styled.button<{ $isDarkMode: boolean }>`
@@ -58,6 +68,13 @@ const ActionButton = styled.button<{ $isDarkMode: boolean }>`
   &:hover {
     transform: scale(1.05);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 10px 18px;
+    margin-top: 15px;
+    font-size: 16px;
+    width: 100%;
   }
 `;
 
