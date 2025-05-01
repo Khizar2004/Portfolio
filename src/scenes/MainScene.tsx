@@ -237,11 +237,12 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
             : 'radial-gradient(circle at center, #f8f8f8 0%, #e0e0e0 100%)'
         }}
         dpr={dpr}
-        onClick={(e) => {
+        onClick={(e: any) => {
           // Handle background clicks on the canvas for mobile
           if (deviceType === 'mobile' && activeObject) {
-            // Only reset if there was no direct interaction with a 3D object
-            if (!e.object) {
+            // Check if we have an intersection with a 3D object
+            const hasHit = e.intersections && e.intersections.length > 0;
+            if (!hasHit) {
               resetCamera();
             }
           }
