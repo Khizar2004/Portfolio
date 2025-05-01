@@ -31,6 +31,7 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
   const [showTooltip, setShowTooltip] = useState(true);
   const [showDarkModeTooltip, setShowDarkModeTooltip] = useState(false);
   const [dpr, setDpr] = useState(1.5);
+  const [deviceType, setDeviceType] = useState('desktop');
   
   // Add a state for tracking if controls are enabled
   const [controlsEnabled, setControlsEnabled] = useState(true);
@@ -186,8 +187,41 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     setDpr(Math.max(1, Math.min(1.5, api.factor * 2)));
   }, []);
 
+  // Handle background click for mobile devices
+  const handleBackgroundClick = useCallback((e: any) => {
+    // Only handle background clicks on mobile
+    if (deviceType === 'mobile' && activeObject) {
+      // Check if the click is on the canvas background (not on an interactive object)
+      const isBackgroundClick = e.target.tagName === 'CANVAS';
+      if (isBackgroundClick) {
+        resetCamera();
+      }
+    }
+  }, [deviceType, activeObject, resetCamera]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setDeviceType('mobile');
+      } else if (window.innerWidth <= 1024) {
+        setDeviceType('tablet');
+      } else {
+        setDeviceType('desktop');
+      }
+    };
+    
+    // Initial check
+    handleResize();
+    
+    // Add resize listener
+    window.addEventListener('resize', handleResize);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <CanvasContainer>
+    <CanvasContainer onClick={handleBackgroundClick}>
       <Canvas
         gl={{ 
           antialias: true,

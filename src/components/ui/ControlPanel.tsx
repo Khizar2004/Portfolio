@@ -184,7 +184,11 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
           <>
             <InfoTitle>{objectInfoData[activeObject].title}</InfoTitle>
             <InfoDescription>{objectInfoData[activeObject].description}</InfoDescription>
-            <InfoDescription>Press ESC key to return to overview.</InfoDescription>
+            <InfoDescription>
+              {deviceType === 'mobile' 
+                ? 'Tap anywhere outside to return to overview.'
+                : 'Press ESC key to return to overview.'}
+            </InfoDescription>
           </>
         ) : (
           <InfoDescription>
