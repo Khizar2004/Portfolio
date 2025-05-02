@@ -1,6 +1,7 @@
-import React, { ComponentType, Suspense } from 'react';
+import React, { ComponentType, Suspense, useCallback } from 'react';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
+import { ThreeEvent } from '@react-three/fiber';
 import InteractiveObject from './InteractiveObject';
 import WindowsProjectDisplay from '../ui/WindowsProjectDisplay';
 import AboutMe from '../ui/AboutMe';
@@ -68,6 +69,14 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
   const keyboardPosition = new THREE.Vector3(0, 0.0, 0.25);
   const mousePosition = new THREE.Vector3(0.6, 0.0, 0.2);
 
+  // This handler prevents clicks on HTML content from blocking other events
+  // but still prevents interaction with 3D objects beneath
+  const handleHtmlClick = useCallback((e: ThreeEvent<MouseEvent>) => {
+    // Stop propagation to prevent interaction with 3D objects
+    // but don't prevent the button event bubbling in the DOM
+    e.stopPropagation();
+  }, []);
+
   return (
     <>
       {/* Static keyboard */}
@@ -103,17 +112,14 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
                   boxShadow: 'none',
                   transform: activeObject === 'phone' ? 'scale(0.7)' : 'scale(0.8)',
                   transformOrigin: 'center center',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  pointerEvents: 'auto' // Ensure pointer events are enabled
                 }}
                 distanceFactor={activeObject === 'phone' ? 2.0 : 1.5}
                 transform
                 wrapperClass="html-content-wrapper"
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                onPointerDown={(e) => {
-                  e.stopPropagation();
-                }}
+                onClick={handleHtmlClick}
+                // Don't block pointer events on the HTML element to allow back button to work
               >
                 {/* Pass currentTheme prop to WindowsProjectDisplay but not to other components */}
                 <HtmlContextWrapper currentTheme={theme as ThemeMode}>

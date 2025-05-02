@@ -71,7 +71,7 @@ const Resume: React.FC = () => {
   const resumePath = '/documents/Updated Resume.pdf';
   
   return (
-    <ResumeContainer onClick={(e) => e.stopPropagation()}>
+    <ResumeContainer>
       <ResumeHeader>My Resume</ResumeHeader>
       
       <ResumeContent>

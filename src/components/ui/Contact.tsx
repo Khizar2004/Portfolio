@@ -111,8 +111,14 @@ const EmailIcon = () => (
 );
 
 const Contact: React.FC = () => {
+  // Handle link clicks to prevent propagation which could trigger global listeners
+  const handleSocialLinkClick = (e: React.MouseEvent) => {
+    // Prevent the event from bubbling up to document listeners
+    e.stopPropagation();
+  };
+
   return (
-    <ContactContainer onClick={(e) => e.stopPropagation()}>
+    <ContactContainer>
       <ContactHeader>Contact Me</ContactHeader>
       
       <ContactContent>
@@ -123,14 +129,28 @@ const Contact: React.FC = () => {
         </Description>
         
         <SocialLinksContainer>
-          <SocialLink href="https://github.com/Khizar2004" target="_blank" aria-label="GitHub">
+          <SocialLink 
+            href="https://github.com/Khizar2004" 
+            target="_blank" 
+            aria-label="GitHub"
+            onClick={handleSocialLinkClick}
+          >
             <GitHubIcon />
           </SocialLink>
-          <SocialLink href="https://www.linkedin.com/in/khizar-aamir-680484292/" target="_blank" aria-label="LinkedIn">
+          <SocialLink 
+            href="https://www.linkedin.com/in/khizar-aamir-680484292/" 
+            target="_blank" 
+            aria-label="LinkedIn"
+            onClick={handleSocialLinkClick}
+          >
             <LinkedInIcon />
           </SocialLink>
-          <SocialLink href="mailto:khizaraamir2004@gmail.com" aria-label="Email">
-          <EmailIcon />
+          <SocialLink 
+            href="mailto:khizaraamir2004@gmail.com" 
+            aria-label="Email"
+            onClick={handleSocialLinkClick}
+          >
+            <EmailIcon />
           </SocialLink>
         </SocialLinksContainer>
       </ContactContent>

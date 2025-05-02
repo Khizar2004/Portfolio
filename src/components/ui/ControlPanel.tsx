@@ -56,9 +56,14 @@ const InfoPanel = styled.div<{ $isVisible: boolean }>`
   width: 100%;
   
   @media (max-width: 768px) {
-    width: 90%;
-    padding: 10px 20px;
+    width: 70%;
+    padding: 12px 16px;
     font-size: 14px;
+    bottom: 80px;
+    max-height: 30vh;
+    overflow-y: auto;
+    left: 40%;
+    transform: translateX(-40%);
   }
 `;
 
@@ -114,6 +119,10 @@ const objectInfoData: ObjectInfo = {
   coffee: {
     title: 'Coffee Break',
     description: 'Even developers need a break sometimes! This represents my love for coffee and taking moments to recharge.',
+  },
+  resume: {
+    title: 'My Resume',
+    description: 'View my professional experience, education, and skills. You can also download a PDF copy for your reference.',
   },
   // Add more objects as needed
 };
@@ -173,6 +182,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
     action();
   };
 
+  const isMobile = deviceType === 'mobile';
+
   return (
     <>
       <DeviceIndicator>
@@ -184,7 +195,9 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
           <>
             <InfoTitle>{objectInfoData[activeObject].title}</InfoTitle>
             <InfoDescription>{objectInfoData[activeObject].description}</InfoDescription>
-            <InfoDescription>Press ESC key to return to overview.</InfoDescription>
+            {!isMobile && (
+              <InfoDescription>Press ESC key to return to overview.</InfoDescription>
+            )}
           </>
         ) : (
           <InfoDescription>
@@ -194,7 +207,14 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
       </InfoPanel>
 
       <ControlPanelContainer>
-        {/* Back button removed - ESC key functionality is sufficient */}
+        {isMobile && activeObject && (
+          <ControlButton 
+            onClick={() => handleButtonClick(resetCamera)}
+            aria-label="Back to overview"
+          >
+            ↩️
+          </ControlButton>
+        )}
         
         <ControlButton 
           onClick={() => handleButtonClick(toggleTheme)}

@@ -31,9 +31,30 @@ button[aria-label="Back to overview"] {
 /* Make HTML wrapper allow interaction with content */
 .html-content-wrapper {
   pointer-events: all !important;
+  z-index: 10 !important; /* ensure it's below UI overlays (which use z-index:1000+ and 9999) */
 }
 
 /* Handle pointer events for project content */
 [class*="ProjectContainer"] {
   pointer-events: all !important;
+}
+
+/* Mobile tooltip positioning */
+@media (max-width: 768px) {
+  [class*="TooltipContainer"] {
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: 280px !important;
+    /* Ensure it's centered in view */
+    margin: 0 auto !important;
+  }
+  
+  /* Info panel positioning fix */
+  [class*="InfoPanel"] {
+    left: 40% !important;
+    transform: translateX(-40%) !important;
+    width: 70% !important;
+    right: auto !important;
+    max-width: 320px !important;
+  }
 }

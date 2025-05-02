@@ -43,15 +43,15 @@ const ProfileSection = styled.div`
 `;
 
 interface ProfileImageProps {
-  hasImage: boolean;
+  $hasImage: boolean;
 }
 
 const ProfileImage = styled.div<ProfileImageProps>`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: ${({ theme, hasImage }) => hasImage ? 'transparent' : theme.accent};
-  background-image: ${({ hasImage }) => hasImage ? 'url("/images/profile.jpg")' : 'none'};
+  background-color: ${({ theme, $hasImage }) => $hasImage ? 'transparent' : theme.accent};
+  background-image: ${({ $hasImage }) => $hasImage ? 'url("/images/profile.jpg")' : 'none'};
   background-size: cover;
   background-position: center;
   flex-shrink: 0;
@@ -193,12 +193,12 @@ const AboutMe: React.FC = () => {
   }, []);
   
   return (
-    <AboutContainer onClick={(e) => e.stopPropagation()}>
+    <AboutContainer>
       <AboutHeader>About Me</AboutHeader>
       
       <AboutContent>
         <ProfileSection>
-          <ProfileImage hasImage={hasProfileImage}>
+          <ProfileImage $hasImage={hasProfileImage}>
             {!hasProfileImage && 'KA'}
           </ProfileImage>
           
