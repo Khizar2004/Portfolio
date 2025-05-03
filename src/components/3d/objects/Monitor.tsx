@@ -147,9 +147,9 @@ const Monitor: React.FC<MonitorProps> = ({ isDarkMode = false, isMobile = false 
       {/* Screen Content */}
       {isActive && (
         <Html
-          position={[0, isMobile ? 0.75 : 0.85, 0.04]}
+          position={[0, isMobile ? 0.83 : 0.85, 0.04]}
           transform
-          scale={isMobile ? 0.06 : 0.1}
+          scale={isMobile ? 0.09 : 0.1}
           occlude
         >
           <div style={{ width: '530px', height: '250px', position: 'relative', overflow: 'hidden' }}>
