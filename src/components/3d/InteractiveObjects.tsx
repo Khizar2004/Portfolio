@@ -77,18 +77,6 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
     e.stopPropagation();
   }, []);
 
-  // Calculate HTML position based on object type and device
-  const getHtmlPosition = (objectName: string): [number, number, number] => {
-    if (objectName === 'computer') {
-      // For computer, we need it centered in the monitor
-      return [0, isMobile ? 0.6 : 1.2, 0];
-    } else if (objectName === 'phone') {
-      return [0, 0.8, 0];
-    } else {
-      return [0, isMobile ? 1 : 1.2, 0];
-    }
-  };
-
   return (
     <>
       {/* Static keyboard */}
@@ -114,7 +102,7 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
           {activeObject === obj.name && obj.component && (
             <Suspense fallback={null}>
               <Html
-                position={getHtmlPosition(obj.name)}
+                position={[0, activeObject === 'phone' ? 0.8 : (isMobile ? 2 : 1.2), 0]}
                 style={{
                   width: isMobile ? '320px' : '640px',
                   height: isMobile ? '240px' : '480px',

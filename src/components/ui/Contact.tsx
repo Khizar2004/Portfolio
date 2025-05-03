@@ -150,7 +150,7 @@ const Contact: React.FC = () => {
             aria-label="Email"
             onClick={handleSocialLinkClick}
           >
-            <EmailIcon />
+          <EmailIcon />
           </SocialLink>
         </SocialLinksContainer>
       </ContactContent>
