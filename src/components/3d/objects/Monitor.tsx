@@ -49,6 +49,7 @@ const ShutdownOverlay = styled.div<{ $isShuttingDown: boolean }>`
 
 interface MonitorProps {
   isDarkMode?: boolean;
+  isMobile?: boolean;
 }
 
 // Define your real projects here
@@ -80,7 +81,7 @@ const myProjects = [
   }
 ];
 
-const Monitor: React.FC<MonitorProps> = ({ isDarkMode = false }) => {
+const Monitor: React.FC<MonitorProps> = ({ isDarkMode = false, isMobile = false }) => {
   const { scene, materials } = useGLTF('/models/Monitor.glb') as GLTFResult;
   const [isActive, setIsActive] = useState(false);
   const [isBooting, setIsBooting] = useState(false);
@@ -146,9 +147,9 @@ const Monitor: React.FC<MonitorProps> = ({ isDarkMode = false }) => {
       {/* Screen Content */}
       {isActive && (
         <Html
-          position={[0, 0.85, 0.04]}
+          position={[0, isMobile ? 0.75 : 0.85, 0.04]}
           transform
-          scale={0.1}
+          scale={isMobile ? 0.06 : 0.1}
           occlude
         >
           <div style={{ width: '530px', height: '250px', position: 'relative', overflow: 'hidden' }}>

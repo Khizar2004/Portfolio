@@ -62,7 +62,7 @@ const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({ onObjectCli
       {/* Desk Setup */}
       <KeyboardMat isDarkMode={isDarkMode} />
       <Speaker isDarkMode={isDarkMode} />
-      <Monitor isDarkMode={isDarkMode} />
+      <Monitor isDarkMode={isDarkMode} isMobile={isMobile} />
       <PC isDarkMode={isDarkMode} />
       <MonkeyToy isDarkMode={isDarkMode} />
       

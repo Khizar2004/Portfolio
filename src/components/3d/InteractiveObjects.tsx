@@ -102,7 +102,7 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
           {activeObject === obj.name && obj.component && (
             <Suspense fallback={null}>
               <Html
-                position={[0, activeObject === 'phone' ? 0.8 : (isMobile ? -1 : 1.2), 0]}
+                position={[0, activeObject === 'phone' ? 0.8 : (isMobile ? 1 : 1.2), 0]}
                 style={{
                   width: isMobile ? '320px' : '640px',
                   height: isMobile ? '240px' : '480px',
