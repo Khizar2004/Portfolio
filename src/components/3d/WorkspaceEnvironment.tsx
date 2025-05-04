@@ -36,13 +36,18 @@ import Plant from './objects/Plant';
 interface WorkspaceEnvironmentProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
   activeObject: string | null;
+  isMobile?: boolean;
 }
 
-const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({ onObjectClick, activeObject }) => {
+const WorkspaceEnvironment: React.FC<WorkspaceEnvironmentProps> = ({ 
+  onObjectClick, 
+  activeObject,
+  isMobile: propIsMobile
+}) => {
   const { theme } = useTheme();
   const { size } = useThree();
   const isDarkMode = theme === 'dark';
-  const isMobile = size.width < 768;
+  const isMobile = propIsMobile !== undefined ? propIsMobile : size.width < 768;
 
   return (
     <group>

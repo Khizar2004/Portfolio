@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const ContactContainer = styled.div`
@@ -91,6 +91,15 @@ const Description = styled.p`
   line-height: 1.6;
 `;
 
+const MobileNote = styled.p`
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: ${({ theme }) => theme.primary};
+  max-width: 400px;
+`;
+
 // SVG Icons
 const GitHubIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
@@ -111,6 +120,20 @@ const EmailIcon = () => (
 );
 
 const Contact: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Detect if on mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Handle link clicks to prevent propagation which could trigger global listeners
   const handleSocialLinkClick = (e: React.MouseEvent) => {
     // Prevent the event from bubbling up to document listeners
@@ -124,35 +147,48 @@ const Contact: React.FC = () => {
       <ContactContent>
         <Title>Get In Touch</Title>
         
-        <Description>
-          I'm always open to new opportunities and collaborations. Feel free to reach out through any of the platforms below.
-        </Description>
-        
-        <SocialLinksContainer>
-          <SocialLink 
-            href="https://github.com/Khizar2004" 
-            target="_blank" 
-            aria-label="GitHub"
-            onClick={handleSocialLinkClick}
-          >
-            <GitHubIcon />
-          </SocialLink>
-          <SocialLink 
-            href="https://www.linkedin.com/in/khizar-aamir-680484292/" 
-            target="_blank" 
-            aria-label="LinkedIn"
-            onClick={handleSocialLinkClick}
-          >
-            <LinkedInIcon />
-          </SocialLink>
-          <SocialLink 
-            href="mailto:khizaraamir2004@gmail.com" 
-            aria-label="Email"
-            onClick={handleSocialLinkClick}
-          >
-          <EmailIcon />
-          </SocialLink>
-        </SocialLinksContainer>
+        {isMobile ? (
+          <>
+            <Description>
+              Want to get in touch? Here's how you can reach me for collaborations, job opportunities, or just to say hello!
+            </Description>
+            <MobileNote>
+              Find my social links in the control panel buttons at the bottom right of your screen.
+            </MobileNote>
+          </>
+        ) : (
+          <>
+            <Description>
+              I'm always open to new opportunities and collaborations. Feel free to reach out through any of the platforms below.
+            </Description>
+            
+            <SocialLinksContainer>
+              <SocialLink 
+                href="https://github.com/Khizar2004" 
+                target="_blank" 
+                aria-label="GitHub"
+                onClick={handleSocialLinkClick}
+              >
+                <GitHubIcon />
+              </SocialLink>
+              <SocialLink 
+                href="https://www.linkedin.com/in/khizar-aamir-680484292/" 
+                target="_blank" 
+                aria-label="LinkedIn"
+                onClick={handleSocialLinkClick}
+              >
+                <LinkedInIcon />
+              </SocialLink>
+              <SocialLink 
+                href="mailto:khizaraamir2004@gmail.com" 
+                aria-label="Email"
+                onClick={handleSocialLinkClick}
+              >
+              <EmailIcon />
+              </SocialLink>
+            </SocialLinksContainer>
+          </>
+        )}
       </ContactContent>
     </ContactContainer>
   );

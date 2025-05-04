@@ -104,6 +104,7 @@ interface TooltipProps {
   active: boolean;
   onClose?: () => void;
   autoCloseDelay?: number;
+  children?: React.ReactNode;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
@@ -112,7 +113,8 @@ const Tooltip: React.FC<TooltipProps> = ({
   onButtonClick,
   active,
   onClose,
-  autoCloseDelay = 0
+  autoCloseDelay = 0,
+  children
 }) => {
   const { theme } = useTheme();
   const isDarkMode = theme === 'dark';
@@ -142,7 +144,8 @@ const Tooltip: React.FC<TooltipProps> = ({
   
   return (
     <TooltipContainer $isDarkMode={isDarkMode} $active={active} $isMobile={isMobile}>
-      <TooltipText>{text}</TooltipText>
+      {text && <TooltipText>{text}</TooltipText>}
+      {children}
       {isMobile ? (
         <ButtonContainer>
           {buttonText && onButtonClick && (

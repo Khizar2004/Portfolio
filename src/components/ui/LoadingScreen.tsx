@@ -212,7 +212,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ progress = 0 }) => {
   return (
     <LoadingContainer $isDarkMode={isDarkMode}>
       <CanvasContainer>
-        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+        <Canvas camera={{ position: [0, 0, 5], fov: 50 }} dpr={Math.min(window.devicePixelRatio, 2)}>
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} intensity={1.5} />
           <spotLight 

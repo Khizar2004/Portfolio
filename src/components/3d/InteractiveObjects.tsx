@@ -125,7 +125,9 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
                 <HtmlContextWrapper currentTheme={theme as ThemeMode}>
                   {obj.name === 'computer' 
                     ? <WindowsProjectDisplay currentTheme={theme as ThemeMode} /> 
-                    : React.createElement(obj.component)}
+                    : (obj.name === 'phone' && isMobile 
+                       ? null // Don't render Contact on mobile
+                       : React.createElement(obj.component))}
                 </HtmlContextWrapper>
               </Html>
             </Suspense>

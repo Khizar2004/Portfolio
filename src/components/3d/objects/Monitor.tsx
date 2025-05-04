@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { useGLTF, type GLTFResult, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import AppleBootAnimation from '../../ui/AppleBootAnimation';
 import AppleProjectDisplay from '../../ui/AppleProjectDisplay';
 import styled from 'styled-components';
+import { MobileScreenContext } from '../../../scenes/MainScene';
 
 // Power button styling
 const PowerButton = styled.button`
@@ -55,17 +56,17 @@ interface MonitorProps {
 // Define your real projects here
 const myProjects = [
   { 
-    title: "3D Portfolio", 
+    title: "Portfolio Website", 
     repo: "https://github.com/khizaraamir/Portfolio",
     description: "Interactive 3D portfolio built with Three.js and React" 
   },
   { 
-    title: "Personal Website", 
-    repo: "https://github.com/khizaraamir/portfolio",
-    description: "Personal portfolio website" 
+    title: "TSKFLO", 
+    repo: "https://github.com/Khizar2004/TSKFLO",
+    description: "A task management system" 
   },
   { 
-    title: "Web Development", 
+    title: "Strike Den Website", 
     repo: "https://github.com/khizaraamir/web-development",
     description: "Collection of web development projects" 
   },
@@ -89,6 +90,16 @@ const Monitor: React.FC<MonitorProps> = ({ isDarkMode = false, isMobile = false 
   const [showProjects, setShowProjects] = useState(false);
   const [bootSound] = useState(() => new Audio('/sounds/monitor_startup.mp3'));
   const [shutdownSound] = useState(() => new Audio('/sounds/monitor_shutdown.mp3'));
+  
+  // Use the mobile screen context instead of managing state locally
+  const { showMobileScreen, setShowMobileScreen } = useContext(MobileScreenContext);
+
+  // Reset isActive when mobile screen is closed
+  useEffect(() => {
+    if (!showMobileScreen && isActive && isMobile) {
+      setIsActive(false);
+    }
+  }, [showMobileScreen, isActive, isMobile]);
 
   // Optionally adjust materials based on dark mode
   useEffect(() => {
@@ -109,13 +120,20 @@ const Monitor: React.FC<MonitorProps> = ({ isDarkMode = false, isMobile = false 
   const handleMonitorClick = useCallback(() => {
     if (!isActive) {
       setIsActive(true);
-      setIsBooting(true);
       
-      // Play boot sound
-      bootSound.volume = 0.3;
-      bootSound.play().catch(e => console.error("Error playing sound:", e));
+      if (isMobile) {
+        // For mobile, show the fullscreen view using the context
+        setShowMobileScreen(true);
+      } else {
+        // For desktop, show boot animation in the monitor
+        setIsBooting(true);
+        
+        // Play boot sound
+        bootSound.volume = 0.3;
+        bootSound.play().catch(e => console.error("Error playing sound:", e));
+      }
     }
-  }, [isActive, bootSound]);
+  }, [isActive, bootSound, isMobile, setShowMobileScreen]);
 
   const handleBootComplete = useCallback(() => {
     setIsBooting(false);
@@ -144,15 +162,21 @@ const Monitor: React.FC<MonitorProps> = ({ isDarkMode = false, isMobile = false 
     <group onClick={handleMonitorClick}>
       <primitive object={scene} scale={3} position={[0, 0.3, 0]} rotation={[0, 0, 0]}/>
       
-      {/* Screen Content */}
-      {isActive && (
+      {/* Screen Content - only show for desktop */}
+      {isActive && !isMobile && (
         <Html
-          position={[0, isMobile ? 3 : 0.85, 0.04]}
+          position={[0, 0.85, 0.02]}
           transform
-          scale={isMobile ? 0.09 : 0.1}
+          scale={0.1}
           occlude
+          center
         >
-          <div style={{ width: '530px', height: '250px', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ 
+            width: '530px', 
+            height: '250px', 
+            position: 'relative', 
+            overflow: 'hidden' 
+          }}>
             <AppleBootAnimation 
               isBooting={isBooting} 
               onBootComplete={handleBootComplete} 

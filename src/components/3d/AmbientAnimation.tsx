@@ -6,9 +6,10 @@ import WorkspaceEnvironment from './WorkspaceEnvironment';
 interface AmbientAnimationProps { 
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
   activeObject: string | null;
+  isMobile?: boolean;
 }
 
-const AmbientAnimation: React.FC<AmbientAnimationProps> = ({ onObjectClick, activeObject }) => {
+const AmbientAnimation: React.FC<AmbientAnimationProps> = ({ onObjectClick, activeObject, isMobile = false }) => {
   const sceneRef = useRef<THREE.Group>(null);
   
   // Very subtle animation - just enough to feel alive
@@ -25,6 +26,7 @@ const AmbientAnimation: React.FC<AmbientAnimationProps> = ({ onObjectClick, acti
       <WorkspaceEnvironment 
         onObjectClick={onObjectClick} 
         activeObject={activeObject}
+        isMobile={isMobile}
       />
     </group>
   );

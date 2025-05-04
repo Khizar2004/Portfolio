@@ -11,6 +11,11 @@ const MacOSContainer = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   position: relative;
   overflow: hidden;
+  
+  &.fullscreen-display {
+    background-size: cover;
+    background-position: center;
+  }
 `;
 
 const TopBar = styled.div`
@@ -26,6 +31,11 @@ const TopBar = styled.div`
   font-size: 13px;
   position: relative;
   z-index: 2;
+  
+  .fullscreen-display & {
+    height: 32px;
+    font-size: 16px;
+  }
 `;
 
 const AppleLogo = styled.div`
@@ -47,12 +57,21 @@ const AppleLogo = styled.div`
     mask-repeat: no-repeat;
     mask-position: center;
   }
+  
+  .fullscreen-display & {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const MenuItems = styled.div`
   display: flex;
   gap: 18px;
   margin-left: 6px;
+  
+  .fullscreen-display & {
+    gap: 24px;
+  }
 `;
 
 const MenuItem = styled.div`
@@ -69,44 +88,127 @@ const Clock = styled.div`
 
 const DesktopGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   padding: 20px;
   justify-items: center;
+  max-width: 100%;
+  margin: 0 auto;
+  padding-top: 40px;
+  
+  /* Desktop view (non-fullscreen) will have 3 columns layout */
+  @media (min-width: 769px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 10px;
+    padding-top: 10px;
+    width: 95%;
+    max-width: 1000px;
+  }
+  
+  /* Mobile view (fullscreen) stays with 2 columns */
+  .fullscreen-display & {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 40px;
+    padding-top: 60px;
+    width: 90%;
+  }
 `;
 
 const FolderIcon = styled.div`
-  width: 80px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   cursor: pointer;
   
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
+  }
+  
+  /* Desktop view (non-fullscreen) with slightly larger icons */
+  @media (min-width: 769px) {
+    width: 110px;
+    height: 90px;
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 2px;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  
+  /* Mobile view (fullscreen) */
+  .fullscreen-display & {
+    width: 150px;
+    height: 160px;
   }
 `;
 
 const IconImage = styled.div`
-  width: 60px;
-  height: 50px;
+  width: 80px;
+  height: 70px;
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjMDA5OGZjIiBkPSJNNDY1LjUgNDE2LjVIMzAwLjJDMjk0IDQxOS4xIDI4OCA0MjIgMjgyLjEgNDI0LjlDMjcwLjEgNDMwLjcgMjU2LjYgNDM2LjcgMjQyLjEgNDM2LjdDMjI3LjcgNDM2LjcgMjE0LjEgNDMwLjcgMjAyLjEgNDI0LjlDMTg2LjcgNDE3LjYgMTcwLjYgNDAyLjcgMTU0LjUgNDAyLjdINDYuNEM0NC41IDQwMi43IDQyLjYgNDAyLjIgNDAuOSA0MDEuM0MzOS4xIDQwMC40IDM3LjUgMzk5IDM2LjIgMzk3LjNDMzQuOSAzOTUuNSAzNCAxOTcuNCAzMy41IDE5NS41QzMzLjEgOTMuNiAzMyA5MS43IDMzLjQgODkuOUMzMy43IDg4LjEgMzQuNSA4Ni40IDM1LjcgODUuMUMzNi45IDgzLjggMzguNCA4Mi44IDQwLjEgODIuMUM0MS45IDgxLjUgNDMuOCA4MS4zIDQ1LjcgODEuNUgxODBDMTg2LjIgNzguOSAyMzIgNzYgMjM4IDczLjFDMjUwIDY3LjMgMjYzLjUgNjEuMyAyNzcuOSA2MS4zQzI5Mi4zIDYxLjMgMzA1LjkgNjcuMyAzMTcuOSA3My4xQzMzMy4zIDgwLjQgMzQ5LjQgOTUuMyAzNjUuNSA5NS4zSDQ2NS41QzQ2Ny40IDk1LjMgNDY5LjQgOTUuOCA0NzEuMSA5Ni43QzQ3Mi45IDk3LjYgNDc0LjUgOTkuMSA0NzUuOCAxMDAuOEM0NzcuMSAxMDIuNSA0NzggMTA0LjUgNDc4LjUgMTA2LjZDNDc4LjkgMTA4LjcgNDc5IDExMC45IDQ3OC41IDExM0w0MjMuOSAzOTkuMkM0MjMuMiA0MDEuOSA0MjEuOSA0MDQuNCA0MTkuOSA0MDYuMUM0MTcuOSA0MDcuOSA0MTUuNSA0MDkgNDEyLjkgNDA5LjNDNDEwLjQgNDA5LjYgNDA3LjggNDA5IDQwNS42IDQwNy43QzQwMy4zIDQwNi40IDQwMS41IDQwNC40IDQwMC41IDQwMnYtMjg5SDQ1MS4yTDQ2NS41IDQxNi41WiIvPjwvc3ZnPg==');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   margin-bottom: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* Desktop view (non-fullscreen) */
+  @media (min-width: 769px) {
+    width: 75px;
+    height: 65px;
+    margin-bottom: 4px;
+    margin-top: 4px;
+  }
+  
+  /* Mobile view (fullscreen) */
+  .fullscreen-display & {
+    width: 100px;
+    height: 90px;
+  }
 `;
 
 const IconText = styled.div`
   color: white;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   word-break: break-word;
-  max-width: 90px;
+  max-width: 110px;
+  width: 110px;
+  font-weight: 500;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  
+  /* Desktop view (non-fullscreen) */
+  @media (min-width: 769px) {
+    font-size: 13px;
+    max-width: 110px;
+    width: 110px;
+    padding: 3px;
+    background-color: rgba(0, 0, 0, 0.35);
+    line-height: 1.2;
+  }
+  
+  /* Mobile view (fullscreen) */
+  .fullscreen-display & {
+    font-size: 18px;
+    max-width: 140px;
+    width: 140px;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 `;
 
 const Dock = styled.div`
