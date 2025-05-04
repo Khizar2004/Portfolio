@@ -17,11 +17,9 @@ const ModelRug: React.FC<ModelRugProps> = ({ isDarkMode }) => {
     if (rugModel) {
       rugModel.traverse((child) => {
         if (child instanceof THREE.Mesh && child.material) {
-          // Slightly adjust material properties based on theme
           if (child.material instanceof THREE.MeshStandardMaterial) {
             child.material.roughness = isDarkMode ? 0.85 : 0.7;
             child.material.metalness = isDarkMode ? 0.1 : 0.05;
-            // Don't change the color as the model already has its own texture/color
           }
         }
       });
@@ -30,7 +28,7 @@ const ModelRug: React.FC<ModelRugProps> = ({ isDarkMode }) => {
   
   return (
     <group 
-      position={[-0.2, -1, 1.3]} // Positioned exactly at floor level
+      position={[-0.2, -1, 1.3]} 
       rotation={[0, 0, 0]} 
       ref={modelRef}
     >

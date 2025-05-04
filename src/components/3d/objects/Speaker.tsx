@@ -8,10 +8,8 @@ interface SpeakerProps {
 
 const Speaker: React.FC<SpeakerProps> = ({ isDarkMode }) => {
   const modelRef = useRef<THREE.Group>(null);
-  // Assuming the speaker model file is in the public/models directory
   const { scene } = useGLTF('/models/Speaker.glb');
   
-  // Create a clone of the scene to avoid modifying the cached model
   const speakerModel = scene.clone();
   
   return (

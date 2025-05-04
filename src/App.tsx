@@ -14,7 +14,6 @@ const AppContainer = styled.div`
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   
-  // Force loading to end after a reasonable timeout (5s) for better user experience
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false);

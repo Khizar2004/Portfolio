@@ -58,34 +58,6 @@ interface MobileScreenViewProps {
   projects: any[];
 }
 
-const myProjects = [
-  { 
-    title: "Personal Portfolio", 
-    repo: "https://github.com/username/portfolio",
-    description: "3D interactive portfolio website built with Three.js and React" 
-  },
-  { 
-    title: "E-Commerce App", 
-    repo: "https://github.com/username/ecommerce",
-    description: "Full-stack e-commerce application with React and Node.js" 
-  },
-  { 
-    title: "Weather Dashboard", 
-    repo: "https://github.com/username/weather-app",
-    description: "Weather forecast application using a weather API" 
-  },
-  { 
-    title: "Task Tracker", 
-    repo: "https://github.com/username/task-tracker",
-    description: "Task management application with React" 
-  },
-  { 
-    title: "Blog Platform", 
-    repo: "https://github.com/username/blog-platform",
-    description: "Content management system for blogging" 
-  }
-];
-
 const MobileScreenView: React.FC<MobileScreenViewProps> = ({ isVisible, onClose, theme, projects }) => {
   if (!isVisible) return null;
   
@@ -95,7 +67,6 @@ const MobileScreenView: React.FC<MobileScreenViewProps> = ({ isVisible, onClose,
     <FullscreenContainer $isDarkMode={isDarkMode}>
       <AppleProjectDisplay 
         isVisible={true}
-        currentTheme={theme}
         projects={projects}
         className="fullscreen-display"
       />

@@ -12,11 +12,9 @@ interface AmbientAnimationProps {
 const AmbientAnimation: React.FC<AmbientAnimationProps> = ({ onObjectClick, activeObject, isMobile = false }) => {
   const sceneRef = useRef<THREE.Group>(null);
   
-  // Very subtle animation - just enough to feel alive
   useFrame(({ clock }) => {
     if (sceneRef.current) {
       const t = clock.getElapsedTime();
-      // Reduced animation intensity for better performance
       sceneRef.current.position.y = Math.sin(t * 0.2) * 0.005;
     }
   });

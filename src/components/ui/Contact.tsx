@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import useIsMobile from '../../hooks/useIsMobile';
 
 const ContactContainer = styled.div`
   width: 100%;
@@ -120,25 +121,7 @@ const EmailIcon = () => (
 );
 
 const Contact: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  
-  // Detect if on mobile
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Handle link clicks to prevent propagation which could trigger global listeners
-  const handleSocialLinkClick = (e: React.MouseEvent) => {
-    // Prevent the event from bubbling up to document listeners
-    e.stopPropagation();
-  };
+  const isMobile = useIsMobile();
 
   return (
     <ContactContainer>
@@ -167,7 +150,7 @@ const Contact: React.FC = () => {
                 href="https://github.com/Khizar2004" 
                 target="_blank" 
                 aria-label="GitHub"
-                onClick={handleSocialLinkClick}
+                onClick={(e) => e.stopPropagation()}
               >
                 <GitHubIcon />
               </SocialLink>
@@ -175,14 +158,14 @@ const Contact: React.FC = () => {
                 href="https://www.linkedin.com/in/khizar-aamir-680484292/" 
                 target="_blank" 
                 aria-label="LinkedIn"
-                onClick={handleSocialLinkClick}
+                onClick={(e) => e.stopPropagation()}
               >
                 <LinkedInIcon />
               </SocialLink>
               <SocialLink 
                 href="mailto:khizaraamir2004@gmail.com" 
                 aria-label="Email"
-                onClick={handleSocialLinkClick}
+                onClick={(e) => e.stopPropagation()}
               >
               <EmailIcon />
               </SocialLink>

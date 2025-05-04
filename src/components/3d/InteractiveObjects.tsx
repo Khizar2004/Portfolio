@@ -3,7 +3,6 @@ import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { ThreeEvent } from '@react-three/fiber';
 import InteractiveObject from './InteractiveObject';
-import WindowsProjectDisplay from '../ui/WindowsProjectDisplay';
 import AboutMe from '../ui/AboutMe';
 import Contact from '../ui/Contact';
 import Resume from '../ui/Resume';
@@ -31,12 +30,6 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
   // Objects with intentional placement - with fixed positions
   const objects = [
     { 
-      name: 'computer', 
-      position: new THREE.Vector3(0, 0.0, -0.2),
-      cameraPosition: new THREE.Vector3(0, 1.4, 2.2),
-      component: WindowsProjectDisplay as ComponentType
-    },
-    { 
       name: 'book', 
       position: new THREE.Vector3(-0.9, 0.0, 0.1),
       rotation: new THREE.Euler(0, Math.PI * 0.15, 0),
@@ -60,7 +53,7 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
       name: 'resume', 
       position: new THREE.Vector3(0, 1.5, -1.398), // Position aligned with the pinboard
       rotation: new THREE.Euler(0, 0, 0), // Aligned with pinboard rotation
-      cameraPosition: new THREE.Vector3(0, 1.5, 3.0), // Zoomed out much further
+      cameraPosition: new THREE.Vector3(0, 1.5, 3.0), 
       component: Resume as ComponentType
     },
   ];
@@ -69,11 +62,7 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
   const keyboardPosition = new THREE.Vector3(0, 0.0, 0.25);
   const mousePosition = new THREE.Vector3(0.6, 0.0, 0.2);
 
-  // This handler prevents clicks on HTML content from blocking other events
-  // but still prevents interaction with 3D objects beneath
   const handleHtmlClick = useCallback((e: ThreeEvent<MouseEvent>) => {
-    // Stop propagation to prevent interaction with 3D objects
-    // but don't prevent the button event bubbling in the DOM
     e.stopPropagation();
   }, []);
 
@@ -119,15 +108,12 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
                 transform
                 wrapperClass="html-content-wrapper"
                 onClick={handleHtmlClick}
-                // Don't block pointer events on the HTML element to allow back button to work
               >
-                {/* Pass currentTheme prop to WindowsProjectDisplay but not to other components */}
+                {/* Pass currentTheme prop to components through wrapper */}
                 <HtmlContextWrapper currentTheme={theme as ThemeMode}>
-                  {obj.name === 'computer' 
-                    ? <WindowsProjectDisplay currentTheme={theme as ThemeMode} /> 
-                    : (obj.name === 'phone' && isMobile 
-                       ? null // Don't render Contact on mobile
-                       : React.createElement(obj.component))}
+                  {obj.name === 'phone' && isMobile 
+                    ? null // Don't render Contact on mobile
+                    : React.createElement(obj.component)}
                 </HtmlContextWrapper>
               </Html>
             </Suspense>

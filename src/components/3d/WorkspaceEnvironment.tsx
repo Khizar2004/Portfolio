@@ -2,8 +2,6 @@ import React from 'react';
 import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useTheme } from '../../context/ThemeContext';
-
-// Import individual components
 import Desk from './objects/Desk';
 import Walls from './objects/Walls';
 import DeskLamp from './objects/DeskLamp';
@@ -11,13 +9,11 @@ import KeyboardMat from './objects/KeyboardMat';
 import Speaker from './objects/Speaker';
 import InteractiveObjects from './InteractiveObjects';
 import Monitor from './objects/Monitor';
-// Import furniture components
 import Chair from './objects/Chair';
 import WallClock from './objects/WallClock';
 import ModelRug from './objects/ModelRug';
 import Couch from './objects/Couch';
 import CoffeeTable from './objects/CoffeeTable';
-// Import new components
 import Bookcase from './objects/Bookcase';
 import Cubecubby from './objects/Cubecubby';
 import PictureFrame from './objects/PictureFrame';
@@ -25,7 +21,6 @@ import Pinboard from './objects/Pinboard';
 import Window from './objects/Window';
 import Trashcan from './objects/Trashcan';
 import DebrisPapers from './objects/DebrisPapers';
-// Import appliances and lighting
 import Fridge from './objects/Fridge';
 import CeilingLight from './objects/CeilingLight';
 import Candle from './objects/Candle';

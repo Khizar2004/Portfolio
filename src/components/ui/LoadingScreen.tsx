@@ -181,7 +181,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ progress = 0 }) => {
   const isDarkMode = theme === 'dark';
 
   useEffect(() => {
-    // If no progress is provided, use a fake progress simulation
     if (progress === 0) {
       const interval = setInterval(() => {
         setLoadingProgress(prev => {
@@ -232,8 +231,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ progress = 0 }) => {
       </CanvasContainer>
       
       <LogoContainer>
-        <Title $isDarkMode={isDarkMode}>3D Portfolio</Title>
-        <SubTitle $isDarkMode={isDarkMode}>Interactive Web Experience</SubTitle>
+        <Title $isDarkMode={isDarkMode}>Khizar's Portfolio</Title>
+        <SubTitle $isDarkMode={isDarkMode}>An Interactive Web Experience</SubTitle>
       </LogoContainer>
       
       <ProgressBarContainer $isDarkMode={isDarkMode}>

@@ -1,84 +1,47 @@
-# 3D Interactive Portfolio
+# Khizar's 3D Interactive Portfolio
 
-An immersive 3D portfolio website built with React and Three.js, featuring interactive objects and smooth camera animations.
+This is my personal 3D portfolio website that showcases my work and skills through an immersive digital workspace environment. I designed this space to reflect my passion for blending technology with creative design, creating an experience that's both functional and visually engaging.
 
-## Features
+**Live Portfolio:** [https://portfolio-nine-blond-21.vercel.app/](https://portfolio-nine-blond-21.vercel.app/)
 
-- Interactive 3D workspace environment
-- Object-based navigation and interaction
-- Project showcase with tabs and cards
-- About me section with skills and timeline
-- Contact form with social links
-- Theme toggling (light/dark mode)
-- Sound effects and background music options
-- Responsive design with mobile fallbacks
+![3D Workspace with Desk Setup](/public/images/pic1.png)
+
+## About This Project
+
+I built this portfolio using React and Three.js to create an interactive 3D environment that visitors can explore. The workspace metaphor allows for natural discovery of my projects, skills, and background through interacting with various objects on the desk.
+
+![Interactive Monitor Display](/public/images/pic2.png)
+
+## Key Features
+
+- Interactive 3D workspace with realistic lighting and physics
+- Object-based exploration (monitor, book, phone, etc.)
+- Showcases my projects with detailed information
+- Personal about me section with my background and skills
+- Dark/light mode toggle to suit your preference
+- Optional sound effects and ambient music
+- Responsive design that adapts to any device
+
+![About Me Section](/public/images/pic3.png)
 
 ## Tech Stack
 
+This project demonstrates my skills with:
+
 - React with TypeScript
 - Three.js via React Three Fiber
-- @react-three/drei for Three.js helpers
-- React Spring for animations
-- Styled Components for styling
+- @react-three/drei for 3D helpers
+- React Spring for smooth animations
+- Styled Components for component styling
 - React Router for navigation
-- use-sound for audio handling
+- Custom sound management system
 
-## Getting Started
+## Personal Note
 
-### Prerequisites
+This portfolio represents both my technical abilities and my approach to design. I believe that technology should be both powerful and delightful to use, which is why I've focused on creating an experience that's engaging while still being informative.
 
-- Node.js (v14+ recommended)
-- npm or yarn
+Feel free to explore the 3D space and learn more about my work and background!
 
-### Installation
+---
 
-1. Clone the repository
-```bash
-git clone https://github.com/yourusername/3d-portfolio.git
-cd 3d-portfolio
-```
-
-2. Install dependencies
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Start the development server
-```bash
-npm start
-# or
-yarn start
-```
-
-4. Open your browser and navigate to `http://localhost:3000`
-
-## Customization
-
-- Replace placeholder 3D objects with your own models
-- Update project information in `ProjectDisplay.tsx`
-- Modify personal information in `AboutMe.tsx`
-- Update contact details in `Contact.tsx`
-- Add your own sound effects in the `assets/sounds` directory
-- Customize the theme colors in `ThemeContext.tsx`
-
-## Deployment
-
-This project can be built and deployed to any static hosting service:
-
-```bash
-npm run build
-# or
-yarn build
-```
-
-## License
-
-MIT
-
-## Acknowledgments
-
-- [React Three Fiber](https://github.com/pmndrs/react-three-fiber)
-- [Drei](https://github.com/pmndrs/drei)
-- [Styled Components](https://styled-components.com/)
+Made by Khizar Aamir

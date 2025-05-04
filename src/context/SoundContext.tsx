@@ -16,8 +16,6 @@ interface SoundContextType {
   toggleMusic: () => void;
   playClickSound: () => void;
   playHoverSound: () => void;
-  playSwishSound: () => void;
-  playSwishReverseSound: () => void;
   playStartupSound: () => void;
   playShutdownSound: () => void;
 }
@@ -32,8 +30,6 @@ const fallbackSoundContext: SoundContextType = {
   toggleMusic: () => console.warn('Sound context not available'),
   playClickSound: () => {},
   playHoverSound: () => {},
-  playSwishSound: () => {},
-  playSwishReverseSound: () => {},
   playStartupSound: () => {},
   playShutdownSound: () => {}
 };
@@ -56,6 +52,7 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
   const [isMusicEnabled, setIsMusicEnabled] = useState(true);
   const [hasInteracted, setHasInteracted] = useState(false);
   const backgroundMusicRef = useRef<HTMLAudioElement | null>(null);
+  const userDisabledMusicRef = useRef<boolean>(false);
   
   // Initialize audio element for background music
   useEffect(() => {
@@ -63,18 +60,41 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     backgroundMusicRef.current.loop = true;
     backgroundMusicRef.current.volume = 0.3;
     
+    // Check if user has already interacted
+    const hasUserInteracted = localStorage.getItem('hasInteracted') === 'true';
+    if (hasUserInteracted) {
+      setHasInteracted(true);
+    }
+    
+    // Check saved music preference
+    const savedMusicEnabled = localStorage.getItem('isMusicEnabled');
+    if (savedMusicEnabled !== null) {
+      setIsMusicEnabled(savedMusicEnabled === 'true');
+      // If user explicitly disabled music, track it
+      if (savedMusicEnabled === 'false') {
+        userDisabledMusicRef.current = true;
+      }
+    }
+    
     // Set up interaction listener for the entire document
     const startMusicOnInteraction = () => {
       setHasInteracted(true);
-      // Remove listeners after first interaction
-      document.removeEventListener('click', startMusicOnInteraction);
-      document.removeEventListener('keydown', startMusicOnInteraction);
-      document.removeEventListener('touchstart', startMusicOnInteraction);
+      localStorage.setItem('hasInteracted', 'true');
+      
+      // Only remove listeners if we're handling first interaction
+      if (!hasUserInteracted) {
+        document.removeEventListener('click', startMusicOnInteraction);
+        document.removeEventListener('keydown', startMusicOnInteraction);
+        document.removeEventListener('touchstart', startMusicOnInteraction);
+      }
     };
     
-    document.addEventListener('click', startMusicOnInteraction);
-    document.addEventListener('keydown', startMusicOnInteraction);
-    document.addEventListener('touchstart', startMusicOnInteraction);
+    // Only add listeners if user hasn't interacted yet
+    if (!hasUserInteracted) {
+      document.addEventListener('click', startMusicOnInteraction);
+      document.addEventListener('keydown', startMusicOnInteraction);
+      document.addEventListener('touchstart', startMusicOnInteraction);
+    }
     
     return () => {
       if (backgroundMusicRef.current) {
@@ -89,8 +109,13 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
   
   // Play music when user has interacted and music is enabled
   useEffect(() => {
+    // Save the music preference when it changes
+    if (hasInteracted) {
+      localStorage.setItem('isMusicEnabled', isMusicEnabled.toString());
+    }
+    
     if (hasInteracted && backgroundMusicRef.current) {
-      if (isMusicEnabled) {
+      if (isMusicEnabled && !userDisabledMusicRef.current) {
         const playPromise = backgroundMusicRef.current.play();
         if (playPromise !== undefined) {
           playPromise.catch(error => {
@@ -145,15 +170,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     }
   }, [isSoundEnabled, playHover]);
   
-  // Empty functions for swish sounds since files are removed
-  const playSwishSound = useCallback(() => {
-    // Sound removed, this is a no-op function
-  }, []);
-  
-  const playSwishReverseSound = useCallback(() => {
-    // Sound removed, this is a no-op function
-  }, []);
-  
   const playStartupSound = useCallback(() => {
     if (isSoundEnabled) {
       try {
@@ -178,9 +194,14 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     setIsSoundEnabled(prev => !prev);
   };
 
-  const toggleMusic = () => {
-    setIsMusicEnabled(prev => !prev);
-  };
+  const toggleMusic = useCallback(() => {
+    setIsMusicEnabled(prev => {
+      const newValue = !prev;
+      // Update user preference reference when manually toggling
+      userDisabledMusicRef.current = !newValue;
+      return newValue;
+    });
+  }, []);
 
   const value: SoundContextType = {
     isSoundEnabled,
@@ -189,8 +210,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     toggleMusic,
     playClickSound,
     playHoverSound,
-    playSwishSound,
-    playSwishReverseSound,
     playStartupSound,
     playShutdownSound
   };

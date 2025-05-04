@@ -21,3 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Personal files
+/resume
+/personal
+*.pdf
+/resume.docx
+/resume.doc

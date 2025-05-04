@@ -12,7 +12,6 @@ const DebrisPapers: React.FC<DebrisPapersProps> = ({ isDarkMode }) => {
   
   const papersModel = scene.clone();
   
-  // Position slightly offset from the trashcan as if papers missed the bin
   return (
     <group 
       position={[-4, -0.84, 0.5]} 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ThemeMode } from '../../context/ThemeContext';
 
 const MacOSContainer = styled.div`
   width: 100%;
@@ -211,33 +210,6 @@ const IconText = styled.div`
   }
 `;
 
-const Dock = styled.div`
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 50px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(15px);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  gap: 10px;
-`;
-
-const DockIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  background-size: cover;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
 interface Project {
   title: string;
   repo?: string;
@@ -246,43 +218,13 @@ interface Project {
 
 interface AppleProjectDisplayProps {
   isVisible: boolean;
-  currentTheme?: ThemeMode;
   projects?: Project[];
   className?: string;
 }
 
-const defaultProjects: Project[] = [
-  { 
-    title: "Personal Portfolio", 
-    repo: "https://github.com/username/portfolio",
-    description: "3D interactive portfolio website built with Three.js and React" 
-  },
-  { 
-    title: "E-Commerce App", 
-    repo: "https://github.com/username/ecommerce",
-    description: "Full-stack e-commerce application with React and Node.js" 
-  },
-  { 
-    title: "Weather Dashboard", 
-    repo: "https://github.com/username/weather-app",
-    description: "Weather forecast application using a weather API" 
-  },
-  { 
-    title: "Task Tracker", 
-    repo: "https://github.com/username/task-tracker",
-    description: "Task management application with React" 
-  },
-  { 
-    title: "Blog Platform", 
-    repo: "https://github.com/username/blog-platform",
-    description: "Content management system for blogging" 
-  }
-];
-
 const AppleProjectDisplay: React.FC<AppleProjectDisplayProps> = ({ 
   isVisible, 
-  currentTheme,
-  projects = defaultProjects,
+  projects = [],
   className
 }) => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
@@ -327,13 +269,6 @@ const AppleProjectDisplay: React.FC<AppleProjectDisplayProps> = ({
           </FolderIcon>
         ))}
       </DesktopGrid>
-      
-      <Dock style={{ display: 'none' }}>
-        <DockIcon style={{ backgroundImage: 'url("https://macpaw.com/images/uploads/wiki%20image%20pages/finder-icon/Finder_2.png")' }} />
-        <DockIcon style={{ backgroundImage: 'url("https://cdn.jim-nielsen.com/macos/512/safari-2021-10-18.png")' }} />
-        <DockIcon style={{ backgroundImage: 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Visual_Studio_Code_1.35_icon.svg/1200px-Visual_Studio_Code_1.35_icon.svg.png")' }} />
-        <DockIcon style={{ backgroundImage: 'url("https://static-00.iconduck.com/assets.00/terminal-icon-2048x2048-11a922k0.png")' }} />
-      </Dock>
     </MacOSContainer>
   );
 };

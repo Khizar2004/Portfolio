@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useTheme } from '../../context/ThemeContext';
+import useIsMobile from '../../hooks/useIsMobile';
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(10px); }
@@ -118,19 +119,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 }) => {
   const { theme } = useTheme();
   const isDarkMode = theme === 'dark';
-  const [isMobile, setIsMobile] = useState(false);
-  
-  // Detect if on mobile
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     if (active && autoCloseDelay > 0 && onClose) {

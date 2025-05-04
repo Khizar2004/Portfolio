@@ -33,16 +33,7 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
   const isDarkMode = theme === 'dark';
   const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
-  const clickedRef = useRef(false);
   
-  // Reset clicked state when active state changes
-  useEffect(() => {
-    if (!isActive) {
-      clickedRef.current = false;
-    }
-  }, [isActive]);
-  
-  // Minimal animation values
   const { scale, y } = useSpring({
     scale: hovered ? 1.03 : 1,
     y: hovered ? position.y + 0.03 : position.y,
@@ -81,34 +72,12 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
   
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    
-    // For computer object, prevent accidental double-clicks
-    if (name === 'computer') {
-      if (clickedRef.current) {
-        return;
-      }
-      clickedRef.current = true;
-      
-      // Add a small delay before enabling clicking again
-      if (!isActive) {
-        setTimeout(() => {
-          clickedRef.current = false;
-        }, 1500);
-      }
-    }
-    
     playClickSound();
     onObjectClick();
   };
   
-  // Custom click handler to pass to the Computer component
-  const handleObjectInternalClick = (objectName: string) => {
-    // This is for internal clicks within the computer (like screen, power button)
-    // We don't need to trigger the parent onObjectClick here, as that would cause camera movement
-  };
-
   // Get the correct model based on name
-  const getObjectModel = (name: string, handleClick?: (name: string) => void, isActive?: boolean) => {
+  const getObjectModel = (name: string) => {
     switch (name) {
       case 'book': return <Book isDarkMode={isDarkMode} />;
       case 'phone': return <Phone isDarkMode={isDarkMode} />;
@@ -128,23 +97,16 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
       scale={scale}
       rotation={rotation}
     >
-      {name === 'computer' ? (
-        // For computer, we render it directly without the mesh wrapper
-        // to allow its internal components to handle clicks
-        getObjectModel(name, handleObjectInternalClick, isActive)
-      ) : (
-        // For other objects, we use the mesh wrapper with event handlers
-        <mesh
-          ref={meshRef}
-          castShadow
-          receiveShadow
-          onClick={handleClick}
-          onPointerOver={handlePointerOver}
-          onPointerOut={handlePointerOut}
-        >
-          {getObjectModel(name)}
-        </mesh>
-      )}
+      <mesh
+        ref={meshRef}
+        castShadow
+        receiveShadow
+        onClick={handleClick}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+      >
+        {getObjectModel(name)}
+      </mesh>
       
       {children}
     </animated.group>

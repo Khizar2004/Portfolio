@@ -10,20 +10,13 @@ import ControlPanel from '../components/ui/ControlPanel';
 import Tooltip from '../components/ui/Tooltip';
 import AmbientAnimation from '../components/3d/AmbientAnimation';
 import MobileScreenView from '../components/ui/MobileScreenView';
+import useIsMobile from '../hooks/useIsMobile';
 
 const CanvasContainer = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
 `;
-
-// Mobile detection helper
-const isMobileDevice = () => {
-  return (
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
-    (window.innerWidth < 768)
-  );
-};
 
 // Emergency back button removed - ESC key functionality only
 
@@ -124,22 +117,11 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
   const [showTooltip, setShowTooltip] = useState(true);
   const [showDarkModeTooltip, setShowDarkModeTooltip] = useState(false);
   const [showHintTooltip, setShowHintTooltip] = useState(false);
-  const [dpr, setDpr] = useState(1.5);
-  const [isMobile, setIsMobile] = useState(isMobileDevice());
+  const isMobile = useIsMobile();
   const [showMobileScreen, setShowMobileScreen] = useState(false);
   
   // Add a state for tracking if controls are enabled
   const [controlsEnabled, setControlsEnabled] = useState(true);
-  
-  // Check for mobile on resize
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(isMobileDevice());
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
   
   useEffect(() => {
     if (onLoadComplete) {
@@ -296,11 +278,6 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     setShowHintTooltip(false);
   }, [playClickSound]);
 
-  const handlePerformanceChange = useCallback((api: PerformanceMonitorApi) => {
-    // Adjust graphics quality based on performance
-    setDpr(Math.max(1, Math.min(1.5, api.factor * 2)));
-  }, []);
-
   // Custom hint tooltip content
   const hintTooltipContent = (
     <HintContainer>
@@ -335,7 +312,7 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
           }}
           dpr={Math.min(window.devicePixelRatio, 2)}
         >
-          <PerformanceMonitor onDecline={handlePerformanceChange}>
+          <PerformanceMonitor>
             <fog 
               attach="fog" 
               args={[theme === 'dark' ? '#050505' : '#f0f0f0', 10, 20]} 
@@ -455,7 +432,7 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
         {showTooltip && (
           <Tooltip
             text={isMobile ? 
-              "Welcome to my interactive portfolio! Tap on objects to explore. On mobile, the monitor view will open in fullscreen mode. For the best experience, this site is recommended to be viewed on desktop." : 
+              "Welcome to my interactive portfolio! Tap on objects to explore. For the best experience, this site is recommended to be viewed on desktop." : 
               "Welcome to my interactive portfolio! Click on objects in the room to explore my work."}
             buttonText="Got it!"
             onButtonClick={handleCloseTooltip}

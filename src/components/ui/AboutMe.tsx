@@ -204,11 +204,12 @@ const AboutMe: React.FC = () => {
           
           <ProfileInfo>
             <Name>Khizar Aamir</Name>
-            <Title>Full Stack Developer & 3D Enthusiast</Title>
+            <Title>Computer Science Student & Creative Developer</Title>
             <Bio>
-              I'm a passionate developer who loves creating immersive web experiences that combine
-              technical excellence with creative design. With a background in both front-end and
-              back-end development, I create solutions that are not just functional, but memorable.
+              I'm a Computer Science student at UBC Okanagan with a passion for blending technology with artistry. 
+              I love creating applications that aren't just functional, but visually engaging and delightful to use. 
+              Whether it's crafting pixel-perfect UIs or building robust backend systems, I try to infuse creativity 
+              into every project I work on.
             </Bio>
           </ProfileInfo>
         </ProfileSection>
@@ -216,44 +217,67 @@ const AboutMe: React.FC = () => {
         <SectionTitle>Skills</SectionTitle>
         <SkillsContainer>
           <Skill>React</Skill>
-          <Skill>Three.js</Skill>
           <Skill>TypeScript</Skill>
           <Skill>Node.js</Skill>
-          <Skill>WebGL</Skill>
-          <Skill>UI/UX Design</Skill>
-          <Skill>3D Modeling</Skill>
-          <Skill>Animation</Skill>
-          <Skill>RESTful APIs</Skill>
+          <Skill>Python</Skill>
+          <Skill>Swift</Skill>
+          <Skill>Java</Skill>
           <Skill>MongoDB</Skill>
+          <Skill>PostgreSQL</Skill>
+          <Skill>Docker</Skill>
+          <Skill>Next.js</Skill>
+          <Skill>Three.js</Skill>
+          <Skill>SwiftUI</Skill>
         </SkillsContainer>
         
         <SectionTitle>Experience</SectionTitle>
         <TimelineContainer>
           <TimelineItem>
-            <TimelineDate>2021 - Present</TimelineDate>
-            <TimelineTitle>Senior Frontend Developer</TimelineTitle>
-            <TimelineSubtitle>Interactive Solutions Inc.</TimelineSubtitle>
+            <TimelineDate>Feb 2025 - May 2025</TimelineDate>
+            <TimelineTitle>Software Engineer (Freelance)</TimelineTitle>
+            <TimelineSubtitle>Strike Den - Built a full-stack gym management platform with JWT auth and RBAC, optimizing scheduling by 70%</TimelineSubtitle>
           </TimelineItem>
           
           <TimelineItem>
-            <TimelineDate>2018 - 2021</TimelineDate>
-            <TimelineTitle>Full Stack Developer</TimelineTitle>
-            <TimelineSubtitle>Digital Creations Co.</TimelineSubtitle>
+            <TimelineDate>Jan 2025 - May 2025</TimelineDate>
+            <TimelineTitle>Undergraduate Researcher</TimelineTitle>
+            <TimelineSubtitle>UBC Okanagan - Developed an OpenAI-driven simulation system for testing adaptive learning algorithms</TimelineSubtitle>
           </TimelineItem>
           
           <TimelineItem>
-            <TimelineDate>2016 - 2018</TimelineDate>
-            <TimelineTitle>Web Developer</TimelineTitle>
-            <TimelineSubtitle>Tech Innovators LLC</TimelineSubtitle>
+            <TimelineDate>Jan 2024 - Present</TimelineDate>
+            <TimelineTitle>Teaching Assistant</TimelineTitle>
+            <TimelineSubtitle>UBC Okanagan - Supporting 300+ students in quantitative courses and creating instructional content</TimelineSubtitle>
+          </TimelineItem>
+        </TimelineContainer>
+        
+        <SectionTitle>Projects</SectionTitle>
+        <TimelineContainer>
+          <TimelineItem>
+            <TimelineDate>Jan 2025 - Apr 2025</TimelineDate>
+            <TimelineTitle>TSKFLO</TimelineTitle>
+            <TimelineSubtitle>A full-stack task manager with real-time messaging and Dockerized microservices</TimelineSubtitle>
+          </TimelineItem>
+          
+          <TimelineItem>
+            <TimelineDate>Jan 2025 - Apr 2025</TimelineDate>
+            <TimelineTitle>Re:member</TimelineTitle>
+            <TimelineSubtitle>An artistic iOS journaling app using Metal shaders to simulate memory decay</TimelineSubtitle>
+          </TimelineItem>
+          
+          <TimelineItem>
+            <TimelineDate>Jan 2023 - May 2023</TimelineDate>
+            <TimelineTitle>Loreleaf</TimelineTitle>
+            <TimelineSubtitle>A Zettelkasten-style knowledge platform with Force Graph UI for dynamic note visualization</TimelineSubtitle>
           </TimelineItem>
         </TimelineContainer>
         
         <SectionTitle>Education</SectionTitle>
         <TimelineContainer>
           <TimelineItem>
-            <TimelineDate>2012 - 2016</TimelineDate>
-            <TimelineTitle>BSc in Computer Science</TimelineTitle>
-            <TimelineSubtitle>University of Technology</TimelineSubtitle>
+            <TimelineDate>Sep 2022 - May 2026</TimelineDate>
+            <TimelineTitle>BSc in Computer Science (Minor in Economics)</TimelineTitle>
+            <TimelineSubtitle>University of British Columbia - Dean's List (2023-2025), Deputy Vice-Chancellor Scholarship (2023,2024)</TimelineSubtitle>
           </TimelineItem>
         </TimelineContainer>
       </AboutContent>

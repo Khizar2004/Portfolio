@@ -14,11 +14,6 @@ const CeilingLight: React.FC<CeilingLightProps> = ({ isDarkMode = false }) => {
   const handleClick = useCallback((e: THREE.Event) => {
     e.stopPropagation();
     setIsOn(prev => !prev);
-    
-    // Play switch sound if desired
-    // const switchSound = new Audio('/sounds/switch.mp3');
-    // switchSound.volume = 0.2;
-    // switchSound.play().catch(e => console.error("Error playing sound:", e));
   }, []);
 
   // Optionally adjust materials based on dark mode and light state

@@ -53,7 +53,7 @@ interface MonitorProps {
   isMobile?: boolean;
 }
 
-// Define your real projects here
+// Define projects
 const myProjects = [
   { 
     title: "Portfolio Website", 
@@ -183,7 +183,6 @@ const Monitor: React.FC<MonitorProps> = ({ isDarkMode = false, isMobile = false 
             />
             <AppleProjectDisplay 
               isVisible={showProjects} 
-              currentTheme={isDarkMode ? 'dark' : 'light'}
               projects={myProjects}
               className="custom-display"
             />

@@ -219,7 +219,6 @@ const objectInfoData: ObjectInfo = {
     title: 'My Resume',
     description: 'View my professional experience, education, and skills. You can also download a PDF copy for your reference.',
   },
-  // Add more objects as needed
 };
 
 interface ControlPanelProps {
@@ -284,7 +283,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
 
   const handleButtonClick = (action: () => void) => {
     playClickSound();
-    // Call action directly - don't use setTimeout
     action();
   };
 
