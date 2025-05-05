@@ -27,9 +27,9 @@ interface MainSceneProps {
 // Define projects here to be passed to the MobileScreenView
 const myProjects = [
   { 
-    title: "3D Portfolio", 
+    title: "Portfolio Website", 
     repo: "https://github.com/khizaraamir/Portfolio",
-    description: "Interactive 3D portfolio built with Three.js and React" 
+    description: "Interactive 3D portfolio" 
   },
   { 
     title: "TSKFLO", 
@@ -39,17 +39,17 @@ const myProjects = [
   { 
     title: "Strike Den Website", 
     repo: "https://github.com/khizaraamir/web-development",
-    description: "Website for Strike Den" 
+    description: "A gym management system used by a real gym" 
   },
   { 
-    title: "Open Source", 
+    title: "Re:member", 
     repo: "https://github.com/khizaraamir",
-    description: "View all my open source contributions" 
+    description: "A fallout themed pixel art memory storage app" 
   },
   { 
-    title: "Resume", 
+    title: "Loreleaf", 
     repo: "https://github.com/khizaraamir/Portfolio/blob/main/resume.pdf",
-    description: "My professional resume" 
+    description: "A web app to form connections between ideas" 
   }
 ];
 
