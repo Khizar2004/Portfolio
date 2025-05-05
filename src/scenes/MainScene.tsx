@@ -32,14 +32,14 @@ const myProjects = [
     description: "Interactive 3D portfolio built with Three.js and React" 
   },
   { 
-    title: "Personal Website", 
-    repo: "https://github.com/khizaraamir/portfolio",
-    description: "Personal portfolio website" 
+    title: "TSKFLO", 
+    repo: "https://github.com/Khizar2004/TSKFLO",
+    description: "A task management system" 
   },
   { 
-    title: "Web Development", 
+    title: "Strike Den Website", 
     repo: "https://github.com/khizaraamir/web-development",
-    description: "Collection of web development projects" 
+    description: "Website for Strike Den" 
   },
   { 
     title: "Open Source", 
