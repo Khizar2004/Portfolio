@@ -141,35 +141,35 @@ const Contact: React.FC = () => {
           </>
         ) : (
           <>
-            <Description>
-              I'm always open to new opportunities and collaborations. Feel free to reach out through any of the platforms below.
-            </Description>
-            
-            <SocialLinksContainer>
-              <SocialLink 
-                href="https://github.com/Khizar2004" 
-                target="_blank" 
-                aria-label="GitHub"
+        <Description>
+          I'm always open to new opportunities and collaborations. Feel free to reach out through any of the platforms below.
+        </Description>
+        
+        <SocialLinksContainer>
+          <SocialLink 
+            href="https://github.com/Khizar2004" 
+            target="_blank" 
+            aria-label="GitHub"
                 onClick={(e) => e.stopPropagation()}
-              >
-                <GitHubIcon />
-              </SocialLink>
-              <SocialLink 
-                href="https://www.linkedin.com/in/khizar-aamir-680484292/" 
-                target="_blank" 
-                aria-label="LinkedIn"
+          >
+            <GitHubIcon />
+          </SocialLink>
+          <SocialLink 
+            href="https://www.linkedin.com/in/khizar-aamir-680484292/" 
+            target="_blank" 
+            aria-label="LinkedIn"
                 onClick={(e) => e.stopPropagation()}
-              >
-                <LinkedInIcon />
-              </SocialLink>
-              <SocialLink 
-                href="mailto:khizaraamir2004@gmail.com" 
-                aria-label="Email"
+          >
+            <LinkedInIcon />
+          </SocialLink>
+          <SocialLink 
+            href="mailto:khizaraamir2004@gmail.com" 
+            aria-label="Email"
                 onClick={(e) => e.stopPropagation()}
-              >
-              <EmailIcon />
-              </SocialLink>
-            </SocialLinksContainer>
+          >
+          <EmailIcon />
+          </SocialLink>
+        </SocialLinksContainer>
           </>
         )}
       </ContactContent>

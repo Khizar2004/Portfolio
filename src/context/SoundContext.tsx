@@ -83,17 +83,17 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
       
       // Only remove listeners if we're handling first interaction
       if (!hasUserInteracted) {
-        document.removeEventListener('click', startMusicOnInteraction);
-        document.removeEventListener('keydown', startMusicOnInteraction);
-        document.removeEventListener('touchstart', startMusicOnInteraction);
+      document.removeEventListener('click', startMusicOnInteraction);
+      document.removeEventListener('keydown', startMusicOnInteraction);
+      document.removeEventListener('touchstart', startMusicOnInteraction);
       }
     };
     
     // Only add listeners if user hasn't interacted yet
     if (!hasUserInteracted) {
-      document.addEventListener('click', startMusicOnInteraction);
-      document.addEventListener('keydown', startMusicOnInteraction);
-      document.addEventListener('touchstart', startMusicOnInteraction);
+    document.addEventListener('click', startMusicOnInteraction);
+    document.addEventListener('keydown', startMusicOnInteraction);
+    document.addEventListener('touchstart', startMusicOnInteraction);
     }
     
     return () => {
