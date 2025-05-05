@@ -45,5 +45,5 @@ Feel free to explore the 3D space and learn more about my work and background!
 ---
 
 <p align="center">
-  Built with ❤️ by Khizar Aamir
+  Built with ❤️ by Khizar
 </p>
