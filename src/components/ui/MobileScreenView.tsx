@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AppleProjectDisplay from './AppleProjectDisplay';
+import AppleBootAnimation from './AppleBootAnimation';
 import { ThemeMode } from '../../context/ThemeContext';
 
 interface FullscreenContainerProps {
@@ -59,14 +60,44 @@ interface MobileScreenViewProps {
 }
 
 const MobileScreenView: React.FC<MobileScreenViewProps> = ({ isVisible, onClose, theme, projects }) => {
+  const [isBooting, setIsBooting] = useState(false);
+  const [showProjects, setShowProjects] = useState(false);
+  
+  // Handle boot animation when component becomes visible
+  useEffect(() => {
+    if (isVisible) {
+      // Start boot animation
+      setIsBooting(true);
+      setShowProjects(false);
+      
+      // Optional: Play boot sound
+      const bootSound = new Audio('/sounds/monitor_startup.mp3');
+      bootSound.volume = 0.3;
+      bootSound.play().catch(e => console.error("Error playing sound:", e));
+    } else {
+      // Reset states when closed
+      setIsBooting(false);
+      setShowProjects(false);
+    }
+  }, [isVisible]);
+  
+  const handleBootComplete = () => {
+    setIsBooting(false);
+    setShowProjects(true);
+  };
+  
   if (!isVisible) return null;
   
   const isDarkMode = theme === 'dark';
   
   return (
     <FullscreenContainer $isDarkMode={isDarkMode}>
+      <AppleBootAnimation 
+        isBooting={isBooting}
+        onBootComplete={handleBootComplete}
+      />
       <AppleProjectDisplay 
-        isVisible={true}
+        isVisible={showProjects}
         projects={projects}
         className="fullscreen-display"
       />
