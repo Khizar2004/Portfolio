@@ -44,6 +44,19 @@ Feel free to explore the 3D space and learn more about my work and background!
 
 ---
 
+## Connect
+
+Got thoughts, feedback, or just want to say hey?  
+Shoot me an email at [khizaraamir2004@gmail.com](mailto:khizaraamir2004@gmail.com) — I’d love to hear from you!
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
 <p align="center">
   Built with ❤️ by <a href="https://github.com/Khizar2004">Khizar</a>
 </p>
