@@ -57,7 +57,7 @@ interface MonitorProps {
 const myProjects = [
   { 
     title: "Portfolio Website", 
-    repo: "https://github.com/khizaraamir/Portfolio",
+    repo: "https://github.com/Khizar2004/Portfolio",
     description: "Interactive 3D portfolio" 
   },
   { 
@@ -66,18 +66,18 @@ const myProjects = [
     description: "A task management system" 
   },
   { 
-    title: "Strike Den Website", 
-    repo: "https://github.com/khizaraamir/web-development",
+    title: "StrikeDen", 
+    repo: "https://github.com/Khizar2004/StrikeDen",
     description: "A gym management system used by a real gym" 
   },
   { 
-    title: "Re:member", 
-    repo: "https://github.com/khizaraamir",
+    title: "Remember", 
+    repo: "https://github.com/Khizar2004/Remember",
     description: "A fallout themed pixel art memory storage app" 
   },
   { 
     title: "Loreleaf", 
-    repo: "https://github.com/khizaraamir/Portfolio/blob/main/resume.pdf",
+    repo: "https://github.com/Khizar2004/Loreleaf",
     description: "A web app to form connections between ideas" 
   }
 ];
