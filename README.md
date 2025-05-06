@@ -51,12 +51,6 @@ Shoot me an email at [khizaraamir2004@gmail.com](mailto:khizaraamir2004@gmail.co
 
 ---
 
-## License
-
-This project is licensed under the MIT License.
-
----
-
 <p align="center">
   Built with ❤️ by <a href="https://github.com/Khizar2004">Khizar</a>
 </p>
