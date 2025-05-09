@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import AppleProjectDisplay from './AppleProjectDisplay';
 import AppleBootAnimation from './AppleBootAnimation';
 import { ThemeMode } from '../../context/ThemeContext';
+import { useSoundContext } from '../../context/SoundContext';
 
 interface FullscreenContainerProps {
   $isDarkMode: boolean;
@@ -52,6 +53,29 @@ const BackButton = styled.button`
   }
 `;
 
+const MusicButton = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
 interface MobileScreenViewProps {
   isVisible: boolean;
   onClose: () => void;
@@ -62,6 +86,7 @@ interface MobileScreenViewProps {
 const MobileScreenView: React.FC<MobileScreenViewProps> = ({ isVisible, onClose, theme, projects }) => {
   const [isBooting, setIsBooting] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
+  const { isMusicEnabled, toggleMusic, playClickSound } = useSoundContext();
   
   // Handle boot animation when component becomes visible
   useEffect(() => {
@@ -86,6 +111,12 @@ const MobileScreenView: React.FC<MobileScreenViewProps> = ({ isVisible, onClose,
     setShowProjects(true);
   };
   
+  const handleMusicToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    playClickSound();
+    toggleMusic();
+  };
+  
   if (!isVisible) return null;
   
   const isDarkMode = theme === 'dark';
@@ -104,6 +135,9 @@ const MobileScreenView: React.FC<MobileScreenViewProps> = ({ isVisible, onClose,
       <BackButton onClick={onClose}>
         ←
       </BackButton>
+      <MusicButton onClick={handleMusicToggle}>
+        {isMusicEnabled ? '🎵' : '🎵'}
+      </MusicButton>
     </FullscreenContainer>
   );
 };

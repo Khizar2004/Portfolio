@@ -282,8 +282,11 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
   }, [handleEscapeKey]); // Only re-run if handleEscapeKey changes
 
   const handleButtonClick = (action: () => void) => {
-    playClickSound();
-    action();
+    return (e: React.MouseEvent) => {
+      e.stopPropagation(); // Prevent event bubbling to fix the music toggle issue
+      playClickSound();
+      action();
+    };
   };
 
   const handleSocialLinkClick = (e: React.MouseEvent) => {
@@ -361,7 +364,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
         <ControlPanelContainer>
           {isMobile && activeObject && (
             <ControlButton 
-              onClick={() => handleButtonClick(resetCamera)}
+              onClick={handleButtonClick(resetCamera)}
               aria-label="Back to overview"
             >
               ↩️
@@ -369,21 +372,21 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
           )}
           
           <ControlButton 
-            onClick={() => handleButtonClick(toggleTheme)}
+            onClick={handleButtonClick(toggleTheme)}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {theme === 'dark' ? '☀️' : '🌙'}
           </ControlButton>
           
           <ControlButton 
-            onClick={() => handleButtonClick(toggleSound)}
+            onClick={handleButtonClick(toggleSound)}
             aria-label={`Turn ${isSoundEnabled ? 'off' : 'on'} sound effects`}
           >
             {isSoundEnabled ? '🔊' : '🔇'}
           </ControlButton>
           
           <ControlButton 
-            onClick={() => handleButtonClick(toggleMusic)}
+            onClick={handleButtonClick(toggleMusic)}
             aria-label={`Turn ${isMusicEnabled ? 'off' : 'on'} background music`}
           >
             {isMusicEnabled ? '🎵' : '🎵'}

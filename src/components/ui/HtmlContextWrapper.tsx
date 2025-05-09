@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { SoundProvider } from '../../context/SoundContext';
 import ThemeProvider, { ThemeMode } from '../../context/ThemeContext';
 
 interface HtmlContextWrapperProps {
@@ -10,9 +9,7 @@ interface HtmlContextWrapperProps {
 const HtmlContextWrapper: React.FC<HtmlContextWrapperProps> = ({ children, currentTheme = 'dark' }) => {
   return (
     <ThemeProvider initialTheme={currentTheme}>
-      <SoundProvider>
-        {children}
-      </SoundProvider>
+      {children}
     </ThemeProvider>
   );
 };
