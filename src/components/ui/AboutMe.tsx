@@ -234,7 +234,7 @@ const AboutMe: React.FC = () => {
         <TimelineContainer>
           <TimelineItem>
             <TimelineDate>Feb 2025 - May 2025</TimelineDate>
-            <TimelineTitle>Software Engineer (Freelance)</TimelineTitle>
+            <TimelineTitle>Software Engineer</TimelineTitle>
             <TimelineSubtitle>Strike Den - Built a full-stack gym management platform with JWT auth and RBAC, optimizing scheduling by 70%</TimelineSubtitle>
           </TimelineItem>
           

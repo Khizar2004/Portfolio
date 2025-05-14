@@ -28,6 +28,3 @@ yarn-error.log*
 *.pdf
 /resume.docx
 /resume.doc
-
-# Specific files
-/public/documents/Updated Resume.pdf
