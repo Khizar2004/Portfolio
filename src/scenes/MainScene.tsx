@@ -42,9 +42,9 @@ const myProjects = [
     description: "A gym management system used by a real gym" 
   },
   { 
-    title: "Remember", 
-    repo: "https://github.com/Khizar2004/Remember",
-    description: "A fallout themed pixel art memory storage app" 
+    title: "Shakescribe", 
+    repo: "https://github.com/Khizar2004/Shakescribe",
+    description: "NLP-powered API for Shakespeare-style text transformation" 
   },
   { 
     title: "Loreleaf", 
