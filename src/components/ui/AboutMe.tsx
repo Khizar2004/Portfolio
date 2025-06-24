@@ -260,9 +260,9 @@ const AboutMe: React.FC = () => {
           </TimelineItem>
           
           <TimelineItem>
-            <TimelineDate>Jan 2025 - Apr 2025</TimelineDate>
-            <TimelineTitle>Re:member</TimelineTitle>
-            <TimelineSubtitle>An artistic iOS journaling app using Metal shaders to simulate memory decay</TimelineSubtitle>
+            <TimelineDate>Dec 2024 - June 2025</TimelineDate>
+            <TimelineTitle>ShakeScribe</TimelineTitle>
+            <TimelineSubtitle>An AI-powered text translator using DeepSeek LLM, implementing semantic similarity engine with 25 curated Shakespeare quotes</TimelineSubtitle>
           </TimelineItem>
           
           <TimelineItem>
