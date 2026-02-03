@@ -66,6 +66,10 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
     e.stopPropagation();
   }, []);
 
+  const handleHtmlWheel = useCallback((e: any) => {
+    e.stopPropagation();
+  }, []);
+
   return (
     <>
       {/* Static keyboard */}
@@ -108,6 +112,7 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
                 transform
                 wrapperClass="html-content-wrapper"
                 onClick={handleHtmlClick}
+                onWheel={handleHtmlWheel}
               >
                 {/* Pass currentTheme prop to components through wrapper */}
                 <HtmlContextWrapper currentTheme={theme as ThemeMode}>

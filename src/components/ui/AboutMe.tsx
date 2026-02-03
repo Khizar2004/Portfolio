@@ -204,80 +204,78 @@ const AboutMe: React.FC = () => {
           
           <ProfileInfo>
             <Name>Khizar Aamir</Name>
-            <Title>Computer Science Student & Creative Developer</Title>
+            <Title>Software Engineer & Full-Stack Developer</Title>
             <Bio>
-              I'm a Computer Science student at UBC Okanagan with a passion for blending technology with artistry. 
-              I love creating applications that aren't just functional, but visually engaging and delightful to use. 
-              Whether it's crafting pixel-perfect UIs or building robust backend systems, I try to infuse creativity 
-              into every project I work on.
+              I'm a Computer Science student at UBC with a passion for building scalable, full-stack applications. 
+              From architecting AI-powered features with Django and React to developing real-time WebSocket systems, 
+              I thrive on solving complex problems. I combine strong backend fundamentals with creative frontend 
+              development to deliver exceptional user experiences.
             </Bio>
           </ProfileInfo>
         </ProfileSection>
         
         <SectionTitle>Skills</SectionTitle>
         <SkillsContainer>
-          <Skill>React</Skill>
           <Skill>TypeScript</Skill>
+          <Skill>React</Skill>
           <Skill>Node.js</Skill>
           <Skill>Python</Skill>
-          <Skill>Swift</Skill>
-          <Skill>Java</Skill>
-          <Skill>MongoDB</Skill>
-          <Skill>PostgreSQL</Skill>
-          <Skill>Docker</Skill>
+          <Skill>Django</Skill>
           <Skill>Next.js</Skill>
           <Skill>Three.js</Skill>
-          <Skill>SwiftUI</Skill>
+          <Skill>MongoDB</Skill>
+          <Skill>PostgreSQL</Skill>
+          <Skill>MySQL</Skill>
+          <Skill>Docker</Skill>
+          <Skill>AWS</Skill>
+          <Skill>Redis</Skill>
+          <Skill>Socket.io</Skill>
+          <Skill>Jest</Skill>
+          <Skill>Git</Skill>
         </SkillsContainer>
         
         <SectionTitle>Experience</SectionTitle>
         <TimelineContainer>
           <TimelineItem>
-            <TimelineDate>Feb 2025 - May 2025</TimelineDate>
-            <TimelineTitle>Software Engineer</TimelineTitle>
-            <TimelineSubtitle>Strike Den - Built a full-stack gym management platform with JWT auth and RBAC, optimizing scheduling by 70%</TimelineSubtitle>
+            <TimelineDate>Aug 2025 - Present</TimelineDate>
+            <TimelineTitle>Software Engineer Intern</TimelineTitle>
+            <TimelineSubtitle>Aucctos AI (Toronto, Remote) - Architecting full-stack AI features with Django REST, React/TypeScript, and WebSockets; building scalable backend services with Celery, Docker, and AWS</TimelineSubtitle>
           </TimelineItem>
           
           <TimelineItem>
-            <TimelineDate>Jan 2025 - May 2025</TimelineDate>
-            <TimelineTitle>Undergraduate Researcher</TimelineTitle>
-            <TimelineSubtitle>UBC Okanagan - Developed an OpenAI-driven simulation system for testing adaptive learning algorithms</TimelineSubtitle>
+            <TimelineDate>Jan 2025 - Present</TimelineDate>
+            <TimelineTitle>R&D Software Engineer</TimelineTitle>
+            <TimelineSubtitle>University of British Columbia - Designed a Generative AI simulation engine using GPT-4 for modeling student behavior; built production-ready TypeScript/Node.js pipeline with MySQL integration</TimelineSubtitle>
           </TimelineItem>
           
           <TimelineItem>
-            <TimelineDate>Jan 2024 - Present</TimelineDate>
-            <TimelineTitle>Teaching Assistant</TimelineTitle>
-            <TimelineSubtitle>UBC Okanagan - Supporting 300+ students in quantitative courses and creating instructional content</TimelineSubtitle>
+            <TimelineDate>Dec 2024 - May 2025</TimelineDate>
+            <TimelineTitle>Full-Stack Engineer Intern</TimelineTitle>
+            <TimelineSubtitle>Strike Den (Kelowna, Remote) - Built a full-stack gym management platform with Next.js, MongoDB, and Tailwind CSS; achieved 257ms median response times under 50 concurrent users</TimelineSubtitle>
           </TimelineItem>
         </TimelineContainer>
         
         <SectionTitle>Projects</SectionTitle>
         <TimelineContainer>
           <TimelineItem>
+            <TimelineDate>Dec 2024 - Mar 2025</TimelineDate>
+            <TimelineTitle>ShakeScribe</TimelineTitle>
+            <TimelineSubtitle>AI-Powered Translator using Python, React, Flask, Redis, and DeepSeek LLM with multi-model NLP pipeline and Shakespeare detection system</TimelineSubtitle>
+          </TimelineItem>
+          
+          <TimelineItem>
             <TimelineDate>Jan 2025 - Apr 2025</TimelineDate>
             <TimelineTitle>TSKFLO</TimelineTitle>
-            <TimelineSubtitle>A full-stack task manager with real-time messaging and Dockerized microservices</TimelineSubtitle>
-          </TimelineItem>
-          
-          <TimelineItem>
-            <TimelineDate>Dec 2024 - June 2025</TimelineDate>
-            <TimelineTitle>ShakeScribe</TimelineTitle>
-            <TimelineSubtitle>An AI-powered text translator using DeepSeek LLM, implementing semantic similarity engine with 25 curated Shakespeare quotes</TimelineSubtitle>
-          </TimelineItem>
-          
-          <TimelineItem>
-            <TimelineDate>Jan 2023 - May 2023</TimelineDate>
-            <TimelineTitle>Loreleaf</TimelineTitle>
-            <TimelineSubtitle>A Zettelkasten-style knowledge platform with Force Graph UI for dynamic note visualization</TimelineSubtitle>
+            <TimelineSubtitle>Full-Stack Task Manager with React, Redux, Node.js, Socket.io, and MongoDB featuring real-time messaging and Dockerized REST API with 15+ endpoints</TimelineSubtitle>
           </TimelineItem>
         </TimelineContainer>
         
         <SectionTitle>Education</SectionTitle>
         <TimelineContainer>
           <TimelineItem>
-            <TimelineDate>Sep 2022 - May 2026</TimelineDate>
-            <TimelineTitle>BSc in Computer Science (Minor in Economics)</TimelineTitle>
-            <TimelineSubtitle>University of British Columbia - Dean's List (2023-2025), Deputy Vice-Chancellor Scholarship (2023,2024)</TimelineSubtitle>
+            <TimelineDate>Sep 2022 - May 2027</TimelineDate>
+            <TimelineTitle>BSc in Computer Science (Minor in Economics), Co-op</TimelineTitle>
+            <TimelineSubtitle>University of British Columbia - GPA: 4.2/4.33, Dean's List (2023-2025), Deputy Vice-Chancellor Scholarship (2023-2025)</TimelineSubtitle>
           </TimelineItem>
         </TimelineContainer>
       </AboutContent>

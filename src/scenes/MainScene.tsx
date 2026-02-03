@@ -18,8 +18,6 @@ const CanvasContainer = styled.div`
   position: absolute;
 `;
 
-// Emergency back button removed - ESC key functionality only
-
 interface MainSceneProps {
   onLoadComplete?: () => void;
 }

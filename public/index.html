@@ -9,6 +9,12 @@
       name="description"
       content="Khizar Aamir's Portfolio - Software Engineer"
     />
+    <script>
+      // Polyfill for process which is required by some dependencies
+      window.process = {
+        env: { NODE_ENV: 'development' }
+      };
+    </script>
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
