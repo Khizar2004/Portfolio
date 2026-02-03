@@ -1,11 +1,10 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Stars, PerformanceMonitor, type PerformanceMonitorApi } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Stars, PerformanceMonitor } from '@react-three/drei';
 import styled from 'styled-components';
 import * as THREE from 'three';
 import { useTheme } from '../context/ThemeContext';
 import { useSoundContext } from '../context/SoundContext';
-import WorkspaceEnvironment from '../components/3d/WorkspaceEnvironment';
 import ControlPanel from '../components/ui/ControlPanel';
 import Tooltip from '../components/ui/Tooltip';
 import AmbientAnimation from '../components/3d/AmbientAnimation';
@@ -279,13 +278,13 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
   // Custom hint tooltip content
   const hintTooltipContent = (
     <HintContainer>
-      <HintTitle>✨ Interactive Objects ✨</HintTitle>
+      <HintTitle><span role="img" aria-label="sparkles">✨</span> Interactive Objects <span role="img" aria-label="sparkles">✨</span></HintTitle>
       <HintList>
-        <HintItem><HintIcon>💻</HintIcon> Monitor - Browse my projects!</HintItem>
-        <HintItem><HintIcon>📝</HintIcon> Resume - View my professional background</HintItem>
-        <HintItem><HintIcon>📱</HintIcon> Phone - Contact information and social links</HintItem>
-        <HintItem><HintIcon>📚</HintIcon> Book - Learn more about me</HintItem>
-        <HintItem><HintIcon>☕</HintIcon> Coffee - Take a coffee break!</HintItem>
+        <HintItem><HintIcon><span role="img" aria-label="computer">💻</span></HintIcon> Monitor - Browse my projects!</HintItem>
+        <HintItem><HintIcon><span role="img" aria-label="resume">📝</span></HintIcon> Resume - View my professional background</HintItem>
+        <HintItem><HintIcon><span role="img" aria-label="phone">📱</span></HintIcon> Phone - Contact information and social links</HintItem>
+        <HintItem><HintIcon><span role="img" aria-label="book">📚</span></HintIcon> Book - Learn more about me</HintItem>
+        <HintItem><HintIcon><span role="img" aria-label="coffee">☕</span></HintIcon> Coffee - Take a coffee break!</HintItem>
       </HintList>
     </HintContainer>
   );

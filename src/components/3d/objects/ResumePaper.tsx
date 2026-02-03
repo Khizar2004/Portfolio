@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useGLTF, Html } from '@react-three/drei';
+import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface ResumePaperProps {

@@ -157,21 +157,6 @@ const SocialLink = styled.a`
   }
 `;
 
-const CloseButton = styled.button`
-  background-color: ${({ theme }) => theme.surface};
-  color: ${({ theme }) => theme.text};
-  border: 1px solid ${({ theme }) => theme.borderColor};
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: ${({ theme }) => theme.borderColor};
-  }
-`;
-
 // SVG Icons
 const GitHubIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
@@ -295,12 +280,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
     playClickSound();
   };
 
-  const handleClosePhoneSocialTooltip = () => {
-    playClickSound();
-    setShowPhoneSocialTooltip(false);
-    resetCamera();
-  };
-
   const isMobile = deviceType === 'mobile';
 
   return (
@@ -367,7 +346,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
               onClick={handleButtonClick(resetCamera)}
               aria-label="Back to overview"
             >
-              ↩️
+              <span role="img" aria-label="back">↩️</span>
             </ControlButton>
           )}
           
@@ -375,21 +354,21 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ activeObject, resetCamera }
             onClick={handleButtonClick(toggleTheme)}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
-            {theme === 'dark' ? '☀️' : '🌙'}
+            <span role="img" aria-label="theme">{theme === 'dark' ? '☀️' : '🌙'}</span>
           </ControlButton>
           
           <ControlButton 
             onClick={handleButtonClick(toggleSound)}
             aria-label={`Turn ${isSoundEnabled ? 'off' : 'on'} sound effects`}
           >
-            {isSoundEnabled ? '🔊' : '🔇'}
+            <span role="img" aria-label="sound">{isSoundEnabled ? '🔊' : '🔇'}</span>
           </ControlButton>
           
           <ControlButton 
             onClick={handleButtonClick(toggleMusic)}
             aria-label={`Turn ${isMusicEnabled ? 'off' : 'on'} background music`}
           >
-            {isMusicEnabled ? '🎵' : '🎵'}
+            <span role="img" aria-label="music">{isMusicEnabled ? '🎵' : '🎵'}</span>
           </ControlButton>
         </ControlPanelContainer>
       )}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AppleProjectDisplay from './AppleProjectDisplay';
 import AppleBootAnimation from './AppleBootAnimation';
@@ -133,10 +133,10 @@ const MobileScreenView: React.FC<MobileScreenViewProps> = ({ isVisible, onClose,
         className="fullscreen-display"
       />
       <BackButton onClick={onClose}>
-        ←
+        <span role="img" aria-label="back">←</span>
       </BackButton>
       <MusicButton onClick={handleMusicToggle}>
-        {isMusicEnabled ? '🎵' : '🎵'}
+        <span role="img" aria-label="music">{isMusicEnabled ? '🎵' : '🎵'}</span>
       </MusicButton>
     </FullscreenContainer>
   );

@@ -10,7 +10,6 @@ import HtmlContextWrapper from '../ui/HtmlContextWrapper';
 import { ThemeMode } from '../../context/ThemeContext';
 import Keyboard from './objects/Keyboard';
 import Mouse from './objects/Mouse';
-import ResumePaper from './objects/ResumePaper';
 
 interface InteractiveObjectsProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;

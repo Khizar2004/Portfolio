@@ -69,22 +69,6 @@ const SocialLink = styled.a`
   }
 `;
 
-const EmailContainer = styled.div`
-  text-align: center;
-  margin-top: 1rem;
-  font-size: 1.2rem;
-`;
-
-const EmailLink = styled.a`
-  color: ${({ theme }) => theme.primary};
-  text-decoration: none;
-  transition: color 0.2s ease-in-out;
-  
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const Description = styled.p`
   text-align: center;
   margin-bottom: 2rem;
