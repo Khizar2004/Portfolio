@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Stars, PerformanceMonitor } from '@react-three/drei';
 import styled from 'styled-components';
@@ -119,6 +119,7 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
   
   // Add a state for tracking if controls are enabled
   const [controlsEnabled, setControlsEnabled] = useState(true);
+  const animationFrameRef = useRef<number | null>(null);
   
   useEffect(() => {
     if (onLoadComplete) {
@@ -148,103 +149,126 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     playClickSound();
     setActiveObject(objectName);
     setCameraTarget(position);
-    
+
+    // Cancel any existing animation
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+
     // Animate camera to new position with improved smoothness
     if (controlsRef.current) {
-      const duration = 800; 
+      const duration = 800;
       const startPosition = controlsRef.current.object.position.clone();
       const startTarget = controlsRef.current.target.clone();
-      
+
       const startTime = Date.now();
-      
+
       const animate = () => {
         const elapsedTime = Date.now() - startTime;
         const progress = Math.min(elapsedTime / duration, 1);
-        
+
         // Cubic ease out for smooth motion
         const easeProgress = 1 - Math.pow(1 - progress, 3);
-        
+
         // Update position and target
         controlsRef.current.object.position.lerpVectors(
           startPosition,
           cameraPos,
           easeProgress
         );
-        
+
         controlsRef.current.target.lerpVectors(
           startTarget,
           position,
           easeProgress
         );
-        
+
         // Force controls update
         controlsRef.current.update();
-        
+
         // Continue animation if not complete
         if (progress < 1) {
-          requestAnimationFrame(animate);
+          animationFrameRef.current = requestAnimationFrame(animate);
         } else {
+          animationFrameRef.current = null;
           // Re-enable controls when animation is complete
           setTimeout(() => setControlsEnabled(true), 100);
         }
       };
-      
+
       // Start animation
-      animate();
+      animationFrameRef.current = requestAnimationFrame(animate);
     }
   }, [playClickSound]);
 
   const resetCamera = useCallback(() => {
     // First clear the active object
     if (!activeObject) return; // Prevent unnecessary resets
-    
+
     setControlsEnabled(false);
     setActiveObject(null);
-    
+
+    // Cancel any existing animation
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+
     // Animate camera back to default
     if (controlsRef.current) {
-      const duration = 800; // ms - slightly shorter for better UX
+      const duration = 800;
       const startPosition = controlsRef.current.object.position.clone();
       const startTarget = controlsRef.current.target.clone();
       const defaultPosition = new THREE.Vector3(4, 3, 4);
       const defaultTarget = new THREE.Vector3(0, 0, 0);
-      
+
       const startTime = Date.now();
-      
+
       const animate = () => {
         const elapsedTime = Date.now() - startTime;
         const progress = Math.min(elapsedTime / duration, 1);
-        
+
         // Cubic ease out
         const easeProgress = 1 - Math.pow(1 - progress, 3);
-        
+
         // Update position and target in one operation
         controlsRef.current.object.position.lerpVectors(
           startPosition,
           defaultPosition,
           easeProgress
         );
-        
+
         controlsRef.current.target.lerpVectors(
           startTarget,
           defaultTarget,
           easeProgress
         );
-        
+
         // Force update
         controlsRef.current.update();
-        
+
         if (progress < 1) {
-          requestAnimationFrame(animate);
+          animationFrameRef.current = requestAnimationFrame(animate);
         } else {
+          animationFrameRef.current = null;
           // Re-enable controls when animation is complete
           setTimeout(() => setControlsEnabled(true), 100);
         }
       };
-      
-      animate();
+
+      animationFrameRef.current = requestAnimationFrame(animate);
     }
   }, [activeObject]);
+
+  // Clean up animation frame on unmount
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
 
   // Add a redundant keyboard event handler at the main scene level
   useEffect(() => {
@@ -289,8 +313,10 @@ const MainScene: React.FC<MainSceneProps> = ({ onLoadComplete }) => {
     </HintContainer>
   );
 
+  const mobileScreenContextValue = useMemo(() => ({ showMobileScreen, setShowMobileScreen }), [showMobileScreen]);
+
   return (
-    <MobileScreenContext.Provider value={{ showMobileScreen, setShowMobileScreen }}>
+    <MobileScreenContext.Provider value={mobileScreenContextValue}>
       <CanvasContainer>
         <Canvas
           gl={{ 

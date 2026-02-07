@@ -42,5 +42,4 @@ const Plant: React.FC<PlantProps> = ({ isDarkMode = false }) => {
   );
 };
 
-useGLTF.preload('/models/Plant.glb');
 export default Plant; 

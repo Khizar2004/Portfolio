@@ -57,5 +57,4 @@ const CeilingLight: React.FC<CeilingLightProps> = ({ isDarkMode = false }) => {
   );
 };
 
-useGLTF.preload('/models/CeilingLight.glb');
 export default CeilingLight; 

@@ -26,6 +26,5 @@ const DebrisPapers: React.FC<DebrisPapersProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/Papers.glb');
 
 export default DebrisPapers; 

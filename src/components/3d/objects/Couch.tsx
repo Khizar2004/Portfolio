@@ -35,5 +35,4 @@ const Couch: React.FC<CouchProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/Couch.glb');
 export default Couch;

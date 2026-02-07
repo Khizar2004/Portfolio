@@ -62,5 +62,4 @@ const CoffeeTable: React.FC<CoffeeTableProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/Table.glb');
 export default CoffeeTable; 

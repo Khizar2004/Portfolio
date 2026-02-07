@@ -34,5 +34,4 @@ const Coffee: React.FC<CoffeeProps> = ({ isDarkMode = false }) => {
   );
 };
 
-useGLTF.preload('/models/Coffee.glb');
 export default Coffee; 

@@ -19,6 +19,5 @@ const Pinboard: React.FC<PinboardProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/Pinboard.glb');
 
 export default Pinboard; 

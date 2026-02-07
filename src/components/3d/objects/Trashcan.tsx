@@ -26,6 +26,5 @@ const Trashcan: React.FC<TrashcanProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/Trashcan.glb');
 
 export default Trashcan; 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import * as THREE from 'three';
 
 interface WallsProps {
@@ -11,39 +11,37 @@ const Walls: React.FC<WallsProps> = ({ isDarkMode }) => {
   const sideWallColor = isDarkMode ? "#1a1510" : "#e8dcc0";
   const floorColor = isDarkMode ? 0x333333 : 0xBBBBBB;
   
-  // Create a subtle texture for the walls
-  const createWallTexture = () => {
+  // Create a subtle texture for the walls - memoized to avoid recreating on every render
+  const wallTexture = useMemo(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 512;
     canvas.height = 512;
     const ctx = canvas.getContext('2d');
-    
+
     if (ctx) {
       // Base color
       ctx.fillStyle = isDarkMode ? "#1c1812" : "#efe5d0";
       ctx.fillRect(0, 0, 512, 512);
-      
+
       // Add subtle noise texture
       ctx.globalAlpha = 0.1;
       for (let x = 0; x < 512; x += 4) {
         for (let y = 0; y < 512; y += 4) {
           const value = Math.random() * 40;
-          ctx.fillStyle = isDarkMode 
+          ctx.fillStyle = isDarkMode
             ? `rgb(${20 + value}, ${15 + value}, ${10 + value})`
             : `rgb(${240 - value}, ${230 - value}, ${215 - value})`;
           ctx.fillRect(x, y, 4, 4);
         }
       }
     }
-    
+
     const texture = new THREE.CanvasTexture(canvas);
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(4, 2);
     return texture;
-  };
-  
-  const wallTexture = createWallTexture();
+  }, [isDarkMode]);
   
   return (
     <group>

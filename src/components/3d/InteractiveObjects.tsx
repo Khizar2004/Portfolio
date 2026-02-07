@@ -1,15 +1,16 @@
-import React, { ComponentType, Suspense, useCallback } from 'react';
+import React, { ComponentType, Suspense, useCallback, useMemo } from 'react';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { ThreeEvent } from '@react-three/fiber';
 import InteractiveObject from './InteractiveObject';
-import AboutMe from '../ui/AboutMe';
-import Contact from '../ui/Contact';
-import Resume from '../ui/Resume';
 import HtmlContextWrapper from '../ui/HtmlContextWrapper';
 import { ThemeMode } from '../../context/ThemeContext';
 import Keyboard from './objects/Keyboard';
 import Mouse from './objects/Mouse';
+
+const AboutMe = React.lazy(() => import('../ui/AboutMe'));
+const Contact = React.lazy(() => import('../ui/Contact'));
+const Resume = React.lazy(() => import('../ui/Resume'));
 
 interface InteractiveObjectsProps {
   onObjectClick: (objectName: string, position: THREE.Vector3, cameraPos: THREE.Vector3) => void;
@@ -27,39 +28,39 @@ const InteractiveObjects: React.FC<InteractiveObjectsProps> = ({
   const isDarkMode = theme === 'dark';
 
   // Objects with intentional placement - with fixed positions
-  const objects = [
-    { 
-      name: 'book', 
+  const objects = useMemo(() => [
+    {
+      name: 'book',
       position: new THREE.Vector3(-0.9, 0.0, 0.1),
       rotation: new THREE.Euler(0, Math.PI * 0.15, 0),
       cameraPosition: new THREE.Vector3(1.5, 2.0, 3.5),
       component: AboutMe as ComponentType
     },
-    { 
-      name: 'phone', 
+    {
+      name: 'phone',
       position: new THREE.Vector3(0.8, 0.0, 0),
       rotation: new THREE.Euler(0, -Math.PI * 0.2, 0),
       cameraPosition: new THREE.Vector3(1.0, 2.5, 3.5),
       component: Contact as ComponentType
     },
-    { 
-      name: 'coffee', 
+    {
+      name: 'coffee',
       position: new THREE.Vector3(1.2, 0.0, -0.1),
       cameraPosition: new THREE.Vector3(1.5, 0.8, 0.8),
       component: null
     },
-    { 
-      name: 'resume', 
-      position: new THREE.Vector3(0, 1.5, -1.398), // Position aligned with the pinboard
-      rotation: new THREE.Euler(0, 0, 0), // Aligned with pinboard rotation
-      cameraPosition: new THREE.Vector3(0, 1.5, 3.0), 
+    {
+      name: 'resume',
+      position: new THREE.Vector3(0, 1.5, -1.398),
+      rotation: new THREE.Euler(0, 0, 0),
+      cameraPosition: new THREE.Vector3(0, 1.5, 3.0),
       component: Resume as ComponentType
     },
-  ];
+  ], []);
 
   // Static keyboard and mouse positions
-  const keyboardPosition = new THREE.Vector3(0, 0.0, 0.25);
-  const mousePosition = new THREE.Vector3(0.6, 0.0, 0.2);
+  const keyboardPosition = useMemo(() => new THREE.Vector3(0, 0.0, 0.25), []);
+  const mousePosition = useMemo(() => new THREE.Vector3(0.6, 0.0, 0.2), []);
 
   const handleHtmlClick = useCallback((e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();

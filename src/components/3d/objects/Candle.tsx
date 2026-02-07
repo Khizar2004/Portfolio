@@ -47,5 +47,4 @@ const Candle: React.FC<CandleProps> = ({ isDarkMode = false }) => {
   );
 };
 
-useGLTF.preload('/models/Candle.glb');
 export default Candle; 

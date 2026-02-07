@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, useCallback, useMemo, ReactNode } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
 export type ThemeMode = 'light' | 'dark';
@@ -51,14 +51,16 @@ interface ThemeProviderProps {
 const ThemeProvider = ({ children, initialTheme = 'light' }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<ThemeMode>(initialTheme);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
+  }, []);
 
   const themeObject = theme === 'light' ? lightTheme : darkTheme;
 
+  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       <StyledThemeProvider theme={themeObject}>
         {children}
       </StyledThemeProvider>

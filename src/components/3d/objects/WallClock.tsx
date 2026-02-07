@@ -10,8 +10,13 @@ const WallClock: React.FC<WallClockProps> = ({ isDarkMode }) => {
   const hourHandRef = useRef<THREE.Mesh>(null);
   const minuteHandRef = useRef<THREE.Mesh>(null);
   const secondHandRef = useRef<THREE.Mesh>(null);
+  const lastUpdateRef = useRef<number>(0);
 
   useFrame(() => {
+    const now = Date.now();
+    if (now - lastUpdateRef.current < 1000) return;
+    lastUpdateRef.current = now;
+
     if (hourHandRef.current && minuteHandRef.current && secondHandRef.current) {
       const time = new Date();
       const hours = time.getHours() % 12;

@@ -19,6 +19,5 @@ const Window: React.FC<WindowProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/Window.glb');
 
 export default Window; 

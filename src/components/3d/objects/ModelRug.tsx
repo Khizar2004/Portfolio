@@ -40,6 +40,5 @@ const ModelRug: React.FC<ModelRugProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/Rug.glb');
 
 export default ModelRug; 

@@ -34,5 +34,4 @@ const Fridge: React.FC<FridgeProps> = ({ isDarkMode = false }) => {
   );
 };
 
-useGLTF.preload('/models/Fridge.glb');
 export default Fridge; 

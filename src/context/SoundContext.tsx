@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode, useCallback, useEffect, useRef } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useCallback, useMemo, useEffect, useRef } from 'react';
 import useSound from 'use-sound';
 
 // Sound file paths
@@ -190,9 +190,9 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     }
   }, [isSoundEnabled, playShutdown]);
 
-  const toggleSound = () => {
+  const toggleSound = useCallback(() => {
     setIsSoundEnabled(prev => !prev);
-  };
+  }, []);
 
   const toggleMusic = useCallback(() => {
     setIsMusicEnabled(prev => {
@@ -203,7 +203,7 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     });
   }, []);
 
-  const value: SoundContextType = {
+  const value = useMemo<SoundContextType>(() => ({
     isSoundEnabled,
     isMusicEnabled,
     toggleSound,
@@ -212,7 +212,7 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     playHoverSound,
     playStartupSound,
     playShutdownSound
-  };
+  }), [isSoundEnabled, isMusicEnabled, toggleSound, toggleMusic, playClickSound, playHoverSound, playStartupSound, playShutdownSound]);
 
   return (
     <SoundContext.Provider value={value}>

@@ -30,5 +30,4 @@ const Phone: React.FC<PhoneProps> = ({ isDarkMode = false }) => {
   );
 };
 
-useGLTF.preload('/models/Phone.glb');
 export default Phone;

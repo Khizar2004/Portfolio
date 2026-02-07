@@ -19,6 +19,5 @@ const PictureFrame: React.FC<PictureFrameProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/Frame.glb');
 
 export default PictureFrame; 

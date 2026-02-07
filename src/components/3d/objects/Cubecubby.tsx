@@ -19,6 +19,5 @@ const Cubecubby: React.FC<CubecubbyProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/CubeCubby.glb');
 
 export default Cubecubby; 

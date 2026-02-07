@@ -27,5 +27,4 @@ const Book: React.FC<BookProps> = ({ isDarkMode = false }) => {
   );
 };
 
-useGLTF.preload('/models/Book.glb');
 export default Book; 

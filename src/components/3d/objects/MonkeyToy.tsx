@@ -19,6 +19,5 @@ const MonkeyToy: React.FC<MonkeyToyProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/Monkey.glb');
 
 export default MonkeyToy; 

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, ReactNode } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo, ReactNode } from 'react';
 import { ThreeEvent } from '@react-three/fiber';
 import { useSpring, animated } from '@react-spring/three';
 import * as THREE from 'three';
@@ -58,26 +58,26 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
     };
   }, [hovered, playHoverSound, isActive]);
   
-  const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
+  const handlePointerOver = useCallback((e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     if (!isActive) {
       setHovered(true);
     }
-  };
-  
-  const handlePointerOut = (e: ThreeEvent<PointerEvent>) => {
+  }, [isActive]);
+
+  const handlePointerOut = useCallback((e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     setHovered(false);
-  };
-  
-  const handleClick = (e: ThreeEvent<MouseEvent>) => {
+  }, []);
+
+  const handleClick = useCallback((e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     playClickSound();
     onObjectClick();
-  };
-  
+  }, [playClickSound, onObjectClick]);
+
   // Get the correct model based on name
-  const getObjectModel = (name: string) => {
+  const objectModel = useMemo(() => {
     switch (name) {
       case 'book': return <Book isDarkMode={isDarkMode} />;
       case 'phone': return <Phone isDarkMode={isDarkMode} />;
@@ -87,7 +87,7 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
       case 'resume': return <ResumePaper isDarkMode={isDarkMode} />;
       default: return <sphereGeometry args={[0.5, 32, 32]} />;
     }
-  };
+  }, [name, isDarkMode]);
 
   return (
     <animated.group
@@ -105,7 +105,7 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
       >
-        {getObjectModel(name)}
+        {objectModel}
       </mesh>
       
       {children}

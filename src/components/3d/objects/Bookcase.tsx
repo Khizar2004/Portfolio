@@ -19,6 +19,5 @@ const Bookcase: React.FC<BookcaseProps> = ({ isDarkMode }) => {
   );
 };
 
-useGLTF.preload('/models/Bookcase.glb');
 
 export default Bookcase; 
